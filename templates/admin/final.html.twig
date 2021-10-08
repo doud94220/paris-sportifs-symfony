@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="container-admin" class="bg-dark">
+		<h2>Admin Final</h2>
+
+		<ul class="list-group">
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_final_showdown') }}">Lets manage the final showdown</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_final_deadline') }}">Lets manage the final dead line (just after the showdowns)</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_final_result') }}">Lets manage the final result</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_final_points_attribution') }}">Lets manage the final points attribution</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block title %}
+	Admin Final
+{% endblock %}

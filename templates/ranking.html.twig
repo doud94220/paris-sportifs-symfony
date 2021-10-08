@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="global-container">
+		<div id="background-image-container"></div>
+		<div id="information-container">
+			<br>
+			<h2 class="ranking">Ranking</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Rank</th>
+						<th>Bettor</th>
+						<th>Points</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% set cptr = 1 %}
+					{% for oneUserPoints in usersPoints %}
+						<tr>
+							<td>{{ cptr }}</td>
+							<td>{{ oneUserPoints.nickName }}</td>
+							<td>{{ oneUserPoints.points }}</td>
+						</tr>
+						{% set cptr = cptr + 1 %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block title %}
+	Ranking
+{% endblock %}

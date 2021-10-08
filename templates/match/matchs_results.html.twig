@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<br>
+	<h2>Results for the
+		{{ round }}
+	</h2>
+	<br>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Showdown</th>
+				<th>Winner Name</th>
+				<th>Winner Picture</th>
+				<th>Result</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for oneMatchResult in allRoundResults %}
+				<tr>
+					<td>{{ oneMatchResult[0] }}</td>
+					<td>{{ oneMatchResult[1] }}</td>
+					<td><img width="auto" height="150" src="{{ oneMatchResult[2] }}" alt=""></td>
+					<td>{{ oneMatchResult[3] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
+
+{% block title %}
+	{{ round }}
+	Matchs Results
+{% endblock %}

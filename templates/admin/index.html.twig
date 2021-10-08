@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="container-admin" class="bg-dark">
+		<h2>Bets Administration</h2>
+
+		<ul class="list-group bg-dark">
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_fourthround') }}">Lets manage fourth round administration</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_quarterfinals', {'round': 'quaterfinals'}) }}">Lets manage the quarter finals administration</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_semifinals', {'round': 'semifinals'}) }}">Lets manage the semifinals administration</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_final', {'round': 'final'}) }}">Lets manage the final administration</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block title %}
+	Admin
+{% endblock %}

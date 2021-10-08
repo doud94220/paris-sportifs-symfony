@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<style>
+		td {
+			text-align: center;
+			vertical-align: middle;
+		}
+	</style>
+
+	<br class="hidden-when-little-cellphone-use">
+	<h2>Lets bets on
+		{{ round }}</h2>
+
+	<form method="POST" action="">
+		<table class="table">
+			{% set cptr = 1 %}
+			{% for m in tennisMatchs %}
+				<tr>
+					<td>
+						<img width="auto" height="150" src="{{ m.playerOne.picture }}" alt="">
+						{{ m.playerOne.firstName }}
+						{{ m.playerOne.familyName }}
+						<strong>VS</strong>
+						{{ m.playerTwo.firstName }}
+						{{ m.playerTwo.familyName }}
+						<img width="auto" height="150" src="{{ m.playerTwo.picture }}" alt="">
+						<input type="hidden" name="matchId_{{ cptr }}" value="{{ m.id }}">
+						<input type="hidden" name="userId__{{ cptr }}" value="{{ userId }}">
+					</td>
+					<td>
+						<select class="form-select" name="winnerBet_{{ cptr }}">
+							<option value="">--Please choose a winner--</option>
+							<option value="{{ m.playerOne.id }}">{{ m.playerOne.firstName }}
+								{{ m.playerOne.FamilyName }}</option>
+							<option value="{{ m.playerTwo.id }}">{{ m.playerTwo.firstName }}
+								{{ m.playerTwo.FamilyName }}</option>
+						</select>
+					</td>
+					<td>
+						<select class="form-select" name="numberSetsBet_{{ cptr }}">
+							<option value="">--Please choose a number of sets--</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</td>
+				</tr>
+				{% set cptr = cptr + 1 %}
+			{% endfor %}
+		</table>
+		<div class="text-center">
+			<button id="submit" class="btn btn-primary">
+				<span id="button-text">Valider vos paris</span>
+			</div>
+			<br>
+		</form>
+
+	{% endblock %}
+	{% block title %}
+		Lets' bet on
+		{{ round }}
+	{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="container-admin" class="bg-dark">
+		<h2>Admin fourthround</h2>
+
+		<ul class="list-group">
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_fourthround_showdowns', {'matchNumber': 1}) }}">Lets manage the fourth round showdonws</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_fourthround_deadline') }}">Lets manage the fourth round dead line (just after the showdowns)</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_fourthround_results', {'matchNumber': 1}) }}">Lets manage the fourth round matchs results</a>
+			</li>
+			{# Le li dessous (avec ONE SHOT) c'est une expérience #}
+			{# <li class="list-group-item d-flex justify-content-between align-items-center">
+																															<a href="{{ path('admin_fourthround_all_results') }}">Lets manage the fourth round matchs results - ONE SHOT</a>
+																														</li> #}
+
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_fourthround_points_attribution') }}">Lets manage the fourth round points attribution</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block title %}
+	Admin FourthRound
+{% endblock %}

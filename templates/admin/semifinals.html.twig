@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="container-admin" class="bg-dark">
+		<h2>Admin Semi Finals</h2>
+
+		<ul class="list-group">
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_semifinals_showdowns', {'matchNumber': 1}) }}">Lets manage the semi finals showdonws</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_semifinals_deadline') }}">Lets manage the semi finals dead line (just after the showdowns)</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_semifinals_results', {'matchNumber': 1}) }}">Lets manage the semi finals matchs results</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_semifinals_points_attribution') }}">Lets manage the semi finals points attribution</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block title %}
+	Admin Semi Finals
+{% endblock %}

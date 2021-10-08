@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+	<div id="global-container">
+		<div id="background-image-container"></div>
+		<div id="information-container">
+			<ul class="list-group">
+				<li class="d-flex justify-content-between align-items-center">
+					<a class="bigTitle" href="{{ path('matchs_results_show', {'round': 'fourthround'}) }}">Matchs results on the fourth round</a>
+				</li>
+				<br class="hidden-when-cellphone-use"><br>
+				<li class="d-flex justify-content-between align-items-center">
+					<a class="bigTitle" href="{{ path('matchs_results_show', {'round': 'quarterfinals'}) }}">Matchs results on the quarter finals</a>
+				</li>
+				<br class="hidden-when-cellphone-use"><br>
+				<li class="d-flex justify-content-between align-items-center">
+					<a class="bigTitle" href="{{ path('matchs_results_show', {'round': 'semifinals'}) }}">Matchs results on the semifinals</a>
+				</li>
+				<br class="hidden-when-cellphone-use"><br>
+				<li class="d-flex justify-content-between align-items-center">
+					<a class="bigTitle" href="{{ path('matchs_results_show', {'round': 'final'}) }}">Matchs results on the final</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}
+{% block title %}
+	HomeMatchsResults
+{% endblock %}

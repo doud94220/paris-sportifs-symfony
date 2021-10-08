@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="container-admin" class="bg-dark">
+		<h2>Admin Fourth Round ShowDowns</h2>
+		{{ form_start(formView) }}
+		{# LE SELECT DESSOUS N'EST PAS PRIS EN COMPTE LORS DE LA VALIDATION DU FORMULAIRE #}
+		{# <select name="round" id="round">
+														<option value="">---SelectRound---</option>
+														<option value="FourthRound">Fourth Round</option>
+														<option value="QuarterFinals">Quarter Finals</option>
+														<option value="SemiFinals">Semi Finals</option>
+														<option value="Final">Final</option>
+													</select> #}
+		<br>
+		{{ form_widget(formView) }}
+		<br>
+			<button type="submit" class="btn btn-success"> Validate Showdown</button>
+		{{ form_end(formView) }}
+	</div>
+{% endblock %}
+
+{% block title %}
+	Admin Fourth Round ShowDowns
+{% endblock %}

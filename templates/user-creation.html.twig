@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div class="form-group">
+		<br>
+		{{ form_start(formView) }}
+		{{ form_widget(formView) }}
+		<br>
+		<button type="submit" class="btn btn-success">Création</button>
+		{{ form_end(formView) }}
+	</div>
+{% endblock %}
+
+{% block title %}
+	User Creation
+{% endblock %}

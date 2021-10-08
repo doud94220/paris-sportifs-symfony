@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	{% if error %}
+		<div class="alert alert-danger">
+			{{ error.message }}
+		</div>
+	{% endif %}
+	<header id="tal" class="darkBackGround">
+		{{ form_start(formView) }}
+		{{ form_widget(formView) }}
+		{{ form_errors(formView) }}
+		<button type="submit" class="btn btn-success">Connexion</button>
+		{{ form_end(formView) }}
+	</header>
+	<style>
+		#tal {
+			text-align: left;
+		}
+		.darkBackGround {
+			background-color: rgb(0, 0, 0);
+			color: white;
+			text-align: center;
+		}
+	</style>
+	<div id="containerLogin"></div>
+	<footer class="darkBackGround">Autheur : Edouard ANTHONY</footer>
+{% endblock %}
+
+{% block title %}
+	Login
+{% endblock %}

@@ -1,0 +1,206 @@
+/* NAVBAR */
+
+/*
+CSS géré par Bootstrap
+*/
+
+
+/* PAGE DE LOGIN */
+
+#containerLogin {
+    background: url('https://simonandjoanna.files.wordpress.com/2014/09/p1000411-0.jpg') center center no-repeat scroll;
+    background-size: cover;
+    height: 100vh;
+}
+
+@media screen and (max-width: 1000px) {
+    #containerLogin {
+        height: 100vh;
+    }
+}
+
+
+/* PAGE D'ACCUEIL */
+
+#containerAcceuil {
+    background: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg') center center no-repeat scroll;
+    background-size: cover;
+    height: 670px;
+}
+
+@media screen and (max-width: 1000px) {
+    #containerAcceuil {
+        height: 100vh;
+    }
+}
+
+/* PAGE DES RESULTATS DES MATCHS (A MINIMA) */
+
+.bigTitle {
+    font-size: xx-large;
+}
+
+@media screen and (max-width: 400px) {
+    .bigTitle {
+        font-size: 3vh;
+    }
+
+    .alert-message{
+        font-size: 3vh;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .bigTitle {
+        font-size: 4vh;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .bigTitle {
+        font-size: 3vh;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .hidden-when-little-cellphone-use {
+        display: none;
+    }
+}
+
+/* PAGE AVEC LES NOMS DE TOUS LES JOUEURS */
+
+.bg-image
+{
+    background-image: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg');
+    height: 100vh;
+    width: 100vw;
+}
+
+.color-players
+{
+    color : yellow;
+}
+
+.tac
+{
+    text-align: center;
+}
+
+.no-padding
+{
+    padding-left: 0;
+}
+
+@media screen and (max-width: 1000px) {
+    .players-name-size
+    {
+        font-size: 2.5vh;
+    }
+}
+
+/* PAGES ADMIN */
+
+#container-admin
+{
+    height: 650px;
+}
+
+@media screen and (max-width: 1000px) {
+    #container-admin
+    {
+        height: 100vh;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #container-admin
+    {
+        height: 60vh;
+    }
+}
+
+/* COMMUN A PAS MAL DE PAGES (à confirmer) */
+
+#global-container {
+    margin: 0 auto;
+    width: 100%;
+    height: 650px;
+}
+
+#background-image-container {
+    background: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg') center center no-repeat scroll;
+    background-size: cover;
+    height: 650px;
+    opacity: 0.4;
+}
+
+#information-container {
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+*
+{
+	box-sizing:border-box; /* Declaration de box sizing */
+}
+
+@media screen and (max-width: 1000px) {
+    #global-container {
+        height: 100vh;
+    }
+
+    #background-image-container {
+        height: 100vh;
+    }
+
+    #information-container {
+        height: 100vh;
+    }
+
+    h2{
+        font-size: 4vh;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    #global-container {
+        height: auto;
+    }
+
+    #background-image-container {
+        height: auto;
+    }
+
+    #information-container {
+        position: absolute;
+        left: 0%;
+        top: 50%;
+        transform: none;
+        height: auto;
+        font-size: 3.5vw;
+    }
+
+    h2.ranking
+    {
+        display: none;
+    }
+    .hidden-when-cellphone-use
+    {
+        display: none
+    }
+}
+
+@media screen and (max-width: 350px) {
+    #information-container {
+        top: 55%;
+    }
+}

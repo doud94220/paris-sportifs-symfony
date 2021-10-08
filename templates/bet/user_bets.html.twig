@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<br>
+	<h2>Your bets on
+		{{ round }}</h2>
+	<br>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Match bet</th>
+				<th>Winner bet</th>
+				<th>Sets number bet</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for b in bets %}
+				<tr>
+					<td>{{ b.showDown }}</td>
+					<td>{{ b.winnerId.firstName }}
+						{{ b.winnerId.familyName}}</td>
+					<td>{{ b.setsNumber }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
+{% block title %}
+	{{ round }}
+	bets
+{% endblock %}

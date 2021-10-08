@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="container-admin" class="bg-dark">
+		<h2>Admin Quarter Finals</h2>
+
+		<ul class="list-group">
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_quarterfinals_showdowns', {'matchNumber': 1}) }}">Lets manage the quater finals showdonws</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_quarterfinals_deadline') }}">Lets manage the quarter finals dead line (just after the showdowns)</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_quarterfinals_results', {'matchNumber': 1}) }}">Lets manage the quarter finals matchs results</a>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+				<a href="{{ path('admin_quarterfinals_points_attribution') }}">Lets manage the quarter finals points attribution</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block title %}
+	Admin Quarter Finals
+{% endblock %}

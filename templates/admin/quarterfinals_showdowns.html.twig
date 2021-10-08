@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div id="container-admin" class="bg-dark">
+		<h2>Admin Quarter Finals ShowDowns</h2>
+		{{ form_start(formView) }}
+		<br>
+		{{ form_widget(formView) }}
+		<br>
+		<button type="submit" class="btn btn-success">
+			Validate Showdown</button>
+		{{ form_end(formView) }}
+	</div>
+{% endblock %}
+
+{% block title %}
+	Admin Quarter Finals ShowDowns
+{% endblock %}

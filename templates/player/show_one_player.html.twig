@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div class="card mb-3">
+		<h3 class="card-header">Player Information</h3>
+		<div class="card-body">
+			<h5 class="card-title">{{ tennisPlayer.firstName }}
+				{{ tennisPlayer.familyName }}</h5>
+			<h6 class="card-subtitle text-muted">{{ tennisPlayer.country }}</h6>
+			<img border='1' width="auto" height="60" src="{{ tennisPlayer.flag }}" alt="CountryFlag">
+		</div>
+		{# Pour historique, je vire le svg dessous parce que ca chie et je mets une img #}
+		<img src="{{ tennisPlayer.picture }}" alt="PlayerPicture" width="200" height="300">
+		<br>
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">Age :
+				{{ tennisPlayer.age }}
+			</li>
+			<li class="list-group-item">Atp Ranking :
+				{{ tennisPlayer.atpRanking }}
+			</li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block title %}
+	Player
+	{{ tennisPlayer.familyName }}
+{% endblock %}
