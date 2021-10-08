@@ -2,27 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\Bet;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+//je fais une modif
 
-//Pas sur de moi, assez expérimental tout ca...........................................................................................
-class BetType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('bet', EntityType::class, [
-                'class' => Bet::class
-            ]);
-    }
+// use App\Entity\Bet;
+// use Symfony\Component\Form\AbstractType;
+// use Symfony\Component\Form\FormBuilderInterface;
+// use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+// use Symfony\Component\OptionsResolver\OptionsResolver;
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            //'data_class' => Bet::class,
-        ]);
-    }
-}
+// //Pas sur de moi, assez expérimental tout ca...........................................................................................
+// class BetType extends AbstractType
+// {
+//     public function buildForm(FormBuilderInterface $builder, array $options)
+//     {
+//         $builder
+//             ->add('bet', EntityType::class, [
+//                 'class' => Bet::class
+//             ]);
+//     }
+
+//     public function configureOptions(OptionsResolver $resolver)
+//     {
+//         $resolver->setDefaults([
+//             //'data_class' => Bet::class,
+//         ]);
+//     }
+// }
