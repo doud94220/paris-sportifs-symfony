@@ -19,6 +19,15 @@ class DeadLineRepository extends ServiceEntityRepository
         parent::__construct($registry, DeadLine::class);
     }
 
+    public function findByRound($round) //Fonction fait maison
+    {
+        return $this->createQueryBuilder('d')
+            ->where('d.round = :val')
+            ->setParameter('val', $round)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return DeadLine[] Returns an array of DeadLine objects
     //  */

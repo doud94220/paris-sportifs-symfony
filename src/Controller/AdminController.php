@@ -9,6 +9,7 @@ use App\Form\DeadLineType;
 use App\Entity\TennisMatch;
 use App\Form\TennisMatchType;
 use App\Repository\BetRepository;
+use App\Repository\DeadLineRepository;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TennisMatchRepository;
@@ -83,13 +84,25 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/fourthround-deadline", name="admin_fourthround_deadline")
      */
-    public function fourthround_deadline(Request $request, EntityManagerInterface $em)
+    public function fourthround_deadline(Request $request, EntityManagerInterface $em, DeadLineRepository $deadLineRepository)
     {
         $deadLine = new DeadLine;
         $form = $this->createForm(DeadLineType::class, $deadLine);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DeadLine */
+            $deadLine = $form->getData();
+
+            /** @var DeadLine[] */
+            $deadLineDatabase = $deadLineRepository->findByRound($deadLine->getRound());
+
+            if (count($deadLineDatabase) > 0) {
+                $deadLineDatabase[0]->setDeadLine($deadLine->getDeadLine());
+                $deadLine = $deadLineDatabase[0];
+            }
+
             $em->persist($deadLine);
             $em->flush();
             $this->addFlash('success', 'The deadline has been registered !');
@@ -279,13 +292,24 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/quarterfinals-deadline", name="admin_quarterfinals_deadline")
      */
-    public function quarterfinals_deadline(Request $request, EntityManagerInterface $em)
+    public function quarterfinals_deadline(Request $request, EntityManagerInterface $em, DeadLineRepository $deadLineRepository)
     {
         $deadLine = new DeadLine;
         $form = $this->createForm(DeadLineType::class, $deadLine);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DeadLine */
+            $deadLine = $form->getData();
+
+            /** @var DeadLine[] */
+            $deadLineDatabase = $deadLineRepository->findByRound($deadLine->getRound());
+
+            if (count($deadLineDatabase) > 0) {
+                $deadLineDatabase[0]->setDeadLine($deadLine->getDeadLine());
+                $deadLine = $deadLineDatabase[0];
+            }
+
             $em->persist($deadLine);
             $em->flush();
             $this->addFlash('success', 'The deadline has been registered !');
@@ -461,13 +485,24 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/semifinals-deadline", name="admin_semifinals_deadline")
      */
-    public function semifinals_deadline(Request $request, EntityManagerInterface $em)
+    public function semifinals_deadline(Request $request, EntityManagerInterface $em, DeadLineRepository $deadLineRepository)
     {
         $deadLine = new DeadLine;
         $form = $this->createForm(DeadLineType::class, $deadLine);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DeadLine */
+            $deadLine = $form->getData();
+
+            /** @var DeadLine[] */
+            $deadLineDatabase = $deadLineRepository->findByRound($deadLine->getRound());
+
+            if (count($deadLineDatabase) > 0) {
+                $deadLineDatabase[0]->setDeadLine($deadLine->getDeadLine());
+                $deadLine = $deadLineDatabase[0];
+            }
+
             $em->persist($deadLine);
             $em->flush();
             $this->addFlash('success', 'The deadline has been registered !');
@@ -637,13 +672,24 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/final-deadline", name="admin_final_deadline")
      */
-    public function final_deadline(Request $request, EntityManagerInterface $em)
+    public function final_deadline(Request $request, EntityManagerInterface $em, DeadLineRepository $deadLineRepository)
     {
         $deadLine = new DeadLine;
         $form = $this->createForm(DeadLineType::class, $deadLine);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var DeadLine */
+            $deadLine = $form->getData();
+
+            /** @var DeadLine[] */
+            $deadLineDatabase = $deadLineRepository->findByRound($deadLine->getRound());
+
+            if (count($deadLineDatabase) > 0) {
+                $deadLineDatabase[0]->setDeadLine($deadLine->getDeadLine());
+                $deadLine = $deadLineDatabase[0];
+            }
+
             $em->persist($deadLine);
             $em->flush();
             $this->addFlash('success', 'The deadline has been registered !');

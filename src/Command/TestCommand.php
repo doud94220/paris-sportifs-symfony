@@ -16,7 +16,7 @@ class TestCommand extends Command
 
     public function __construct(MailerInterface $mailer)
     {
-        parent::__construct(null);
+        parent::__construct(null); //pas compris à quoi ca sert, mais faut ca
         $this->mailer = $mailer;
     }
 
@@ -35,6 +35,6 @@ class TestCommand extends Command
             ->subject("Test Command Symfony");
         $this->mailer->send($email);
 
-        return Command::SUCCESS;
+        return Command::SUCCESS; //pas sûr que utile
     }
 }
