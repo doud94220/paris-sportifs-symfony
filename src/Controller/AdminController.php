@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Bet;
 use App\Entity\DeadLine;
 use App\Form\ResultsType;
@@ -9,11 +10,11 @@ use App\Form\DeadLineType;
 use App\Entity\TennisMatch;
 use App\Form\TennisMatchType;
 use App\Repository\BetRepository;
-use App\Repository\DeadLineRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
+use App\Repository\DeadLineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TennisMatchRepository;
-use App\Repository\UserRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -66,7 +67,12 @@ class AdminController extends AbstractController
                             'round' => 'fourthround'
                         ])
                         ->subject("Go bet on the fourthround !");
-                    $mailer->send($email);
+
+                    try {
+                        $mailer->send($email);
+                    } catch (Exception $e) {
+                        $this->addFlash('warning', "L'envoi de l'email a échoué : " . $e->getMessage());
+                    }
                 }
 
                 return $this->redirectToRoute('admin_fourthround');
@@ -274,7 +280,12 @@ class AdminController extends AbstractController
                             'round' => 'quarterfinals'
                         ])
                         ->subject("Go bet on the quarterfinals !");
-                    $mailer->send($email);
+
+                    try {
+                        $mailer->send($email);
+                    } catch (Exception $e) {
+                        $this->addFlash('warning', "L'envoi de l'email a échoué : " . $e->getMessage());
+                    }
                 }
 
                 return $this->redirectToRoute('admin_quarterfinals');
@@ -467,7 +478,12 @@ class AdminController extends AbstractController
                             'round' => 'semifinals'
                         ])
                         ->subject("Go bet on the semifinals !");
-                    $mailer->send($email);
+
+                    try {
+                        $mailer->send($email);
+                    } catch (Exception $e) {
+                        $this->addFlash('warning', "L'envoi de l'email a échoué : " . $e->getMessage());
+                    }
                 }
 
                 return $this->redirectToRoute('admin_semifinals');
@@ -657,7 +673,12 @@ class AdminController extends AbstractController
                         'round' => 'final'
                     ])
                     ->subject("Go bet on the final !");
-                $mailer->send($email);
+
+                try {
+                    $mailer->send($email);
+                } catch (Exception $e) {
+                    $this->addFlash('warning', "L'envoi de l'email a échoué : " . $e->getMessage());
+                }
             }
 
             return $this->redirectToRoute('admin_final');

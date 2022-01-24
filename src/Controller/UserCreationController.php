@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -51,7 +52,13 @@ class UserCreationController extends AbstractController
                     'password' => $oldPassword
                 ])
                 ->subject("Account Creation");
-            $mailer->send($email);
+
+            try {
+                //throw new Exception("test mail KO");
+                $mailer->send($email);
+            } catch (Exception $e) {
+                $this->addFlash('warning', "L'envoi de l'email a échoué, veuillez contacter l'administrateur du site en lui précisant l'erreur suivante : " . $e->getMessage());
+            }
 
             return $this->redirectToRoute('homepage');
         }
