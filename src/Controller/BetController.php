@@ -54,10 +54,10 @@ class BetController extends AbstractController
         else {
             $idTennisMatchForTestingBet = $tennisMatchs[0]->getId();
 
-            $bets = $betRepository->findBy(['idMatch' => $idTennisMatchForTestingBet, 'userId' => $userId]);
+            $bet = $betRepository->findBy(['idMatch' => $idTennisMatchForTestingBet, 'userId' => $userId]);
 
             //If yes, show all the bets (for that user and that round)
-            if ($bets) {
+            if ($bet) {
                 $allBets = $betRepository->findByRoundAndByUser($round, $userId);
 
                 //Go search tennis show-down and set in $allBets
@@ -69,7 +69,7 @@ class BetController extends AbstractController
                     $matchShowDown = $playerOneName . " VS " . $playerTwoName;
                     $bet->setShowDown($matchShowDown);
                 }
-                //dd($allBets);
+
                 return $this->render('bet/user_bets.html.twig', [
                     'round' => $round,
                     'bets' => $allBets
@@ -154,7 +154,7 @@ class BetController extends AbstractController
         }
     }
 
-    //Je crée les 2fonctions dessous pour tester mon reponsive
+    //Je crée les 2 fonctions dessous pour tester mon reponsive
 
     /**
      * @Route("/bet_deadline_outdated/{round}", name="bet_deadline_outdated")

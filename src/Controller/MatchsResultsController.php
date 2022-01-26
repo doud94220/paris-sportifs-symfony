@@ -52,8 +52,6 @@ class MatchsResultsController extends AbstractController
                     array_push($arrayAllRoundResults, $oneMatchResult);
                 }
 
-                //dd($arrayAllRoundResults);
-
                 return $this->render('match/matchs_results.html.twig', [
                     'round' => $round,
                     'allRoundResults' => $arrayAllRoundResults
