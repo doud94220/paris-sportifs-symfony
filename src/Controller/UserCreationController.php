@@ -44,14 +44,14 @@ class UserCreationController extends AbstractController
 
             //Mail de confirmation de création de compte avec les identifiants
             $email = new TemplatedEmail();
-            $email->from(new Address("doud75@gmail.fr", "Confirmation Account Creation"))
+            $email->from(new Address("doud75@gmail.fr", "Account Creation"))
                 ->to($user->getEmail())
                 ->htmlTemplate("/emails/confirmationAccountCreation.html.twig")
                 ->context([
                     'emailAddress' => $user->getEmail(),
                     'password' => $oldPassword
                 ])
-                ->subject("Account Creation");
+                ->subject("Confirmation Account Creation");
 
             try {
                 //throw new Exception("test mail KO");

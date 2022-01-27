@@ -22,13 +22,10 @@ class TestCommandController extends AbstractController
     {
         //1. Voir en base s'il y a au moins une deadline de renseignée. Si non, on sort.
         $deadLineArray = $deadLineRepository->findAll();
-
-        //dd($deadLineArray);
-
         $round = "";
         $latestDeadLine = new DeadLine;
 
-        if (isset($deadLineArray)) {
+        if (count($deadLineArray) > 0) {
             //2. Si oui, aller sur la dernière deadline insérée, et récupérer sa valeur
             if (isset($deadLineArray[3])) {
                 $latestDeadLine = $deadLineArray[3];
@@ -41,42 +38,58 @@ class TestCommandController extends AbstractController
             }
 
             $round = $latestDeadLine->getRound();
+        } else {
+            dd("Pas de deadline !"); //Si on enlève ca, ca plante parce que y'a pas de return
         }
-
-        dd($latestDeadLine);
 
         //3. La comparer à la "current date"
         $currentDateTime = new DateTime();
         $interval = new DateInterval('PT1H');
         $currentDateTime->add($interval);
-        //dd($currentDateTime);
 
         $deadLineDateTime = $latestDeadLine->getDeadLine();
         $interval = $currentDateTime->diff($deadLineDateTime);
-        //dd($interval);
-        $gap = $interval->format('%h');
-        //dd($gap);
 
-        //3.1. Si l'écart est entre 3h et 4h => Mail de relance pour parier pour "le bon round"
-        if ($gap == 3) {
-            $usersArray = $userRepository->findAll();
+        if ($interval->invert == false) { //Si la deadline n'est pas passée
+            $daysGap = $interval->d;
+            $hoursGap = $interval->h;
 
-            foreach ($usersArray as $key => $user) {
-                $email = new TemplatedEmail();
-                $email->from(new Address("admin@friends-bet.fr", "Friends Bets Information"))
-                    ->to($user->getEmail())
-                    ->htmlTemplate("/emails/reminderBet.html.twig")
-                    ->context([
-                        'round' => $round
-                    ])
-                    ->subject("Reminder for betting on the " . $round . " !");
-                $mailer->send($email);
+            //3.1. Si l'écart est de 4h et x minutes => Mail de relance pour parier pour "le bon round"
+            if ($daysGap == 0 && $hoursGap == 4) {
+                $usersArray = $userRepository->findAll();
+
+                foreach ($usersArray as $key => $user) {
+                    $email = new TemplatedEmail();
+                    $email->from(new Address("admin@friends-bet.fr", "Friends Bets Reminder"))
+                        ->to($user->getEmail())
+                        ->htmlTemplate("/emails/reminderBet.html.twig")
+                        ->context([
+                            'round' => $round
+                        ])
+                        ->subject("Reminder for betting on the " . $round . " !");
+                    $mailer->send($email);
+                }
+                dd("Relance pour parier pour le " . $round);
+            }
+            //3.2 Si l'écart est inférieur à 1 heure (0h et x minutes) => Mail de dernière relance pour parier pour "le bon round"
+            elseif ($daysGap == 0 && $hoursGap == 0) {
+                $usersArray = $userRepository->findAll();
+
+                foreach ($usersArray as $key => $user) {
+                    $email = new TemplatedEmail();
+                    $email->from(new Address("admin@friends-bet.fr", "Friends Bets Last Reminder"))
+                        ->to($user->getEmail())
+                        ->htmlTemplate("/emails/lastReminderBet.html.twig")
+                        ->context([
+                            'round' => $round
+                        ])
+                        ->subject("Last reminder for betting on the " . $round . " !");
+                    $mailer->send($email);
+                }
+                dd("Dernière relance pour parier pour le " . $round);
             }
         }
 
-        dd("fin du programme");
-
-        //3.2 Si l'écart est entre 30 et 90 minutes (si possible 60 minutes ce serait bien) => Mail de dernière relance pour parier pour "le bon round"
-        // ON VERRA DEMAIN
+        dd("Pas de relance à faire sur la dernière deadine en base"); //Si on enlève ca, ca plante parce que y'a pas de return
     }
 }

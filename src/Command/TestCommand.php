@@ -35,6 +35,6 @@ class TestCommand extends Command
             ->subject("Test Command Symfony");
         $this->mailer->send($email);
 
-        return Command::SUCCESS; //pas sûr que utile
+        return Command::SUCCESS;
     }
 }
