@@ -4,6 +4,21 @@
 CSS géré par Bootstrap
 */
 
+/* NAVBAR */
+#centrer-le-surnom{
+    text-align: center;
+}
+
+@media screen and (min-width: 900px) and (max-width: 2000px) {
+    #centrer-le-surnom{
+        width: 50%;
+    }
+
+    .navbar-nav
+    {
+        width: 100%;
+    }
+}
 
 /* PAGE DE LOGIN */
 
