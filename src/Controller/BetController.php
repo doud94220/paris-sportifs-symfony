@@ -114,6 +114,7 @@ class BetController extends AbstractController
                     }
                 } else //We handle the request's data (because the bets form has been submited)
                 {
+                    //dd('stop');
                     $dataForm = $request->request->all();
                     $i = 1;
                     $tempoTennisMatch = new TennisMatch;

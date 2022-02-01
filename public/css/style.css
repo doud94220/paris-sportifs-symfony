@@ -4,6 +4,11 @@
 CSS géré par Bootstrap
 */
 
+/* BET PAGE */
+#error-msg{
+    padding-left: 5px;
+}
+
 /* NAVBAR */
 #centrer-le-surnom{
     text-align: center;
