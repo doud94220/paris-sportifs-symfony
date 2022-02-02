@@ -2,29 +2,7 @@
 
 {% block javascripts %}
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<script>
-		$(document).ready(function () {
-
-$("form").on('submit', function () {
-
-var error = false;
-
-$('form').find('select').each(function () {
-
-if ($(this).val() == '') {
-error = true;
-$(this).css("border", "1px solid red");
-}
-});
-
-if (error == true) {
-$("#error-msg").text("Some fields are not filled in. Please Check the red fields.");
-event.preventDefault(); // Ne pas valider le formulaire
-}
-}); // Fin du submit du form
-
-}); // Fin doc ready
-	</script>
+	<script type="text/javascript" src="/js/bets_invitation.js"></script>
 {% endblock %}
 
 {% block body %}

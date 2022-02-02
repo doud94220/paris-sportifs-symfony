@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserType extends AbstractType
 {
@@ -25,14 +27,14 @@ class UserType extends AbstractType
                 'label' => 'Surnom :',
                 'attr' => ['placeholder' => 'Renseignez votre petit surnom !']
             ])
-            ->add('email', TextType::class, [ //bon tyyyyyyyyyyyyyyyyyyyyyyyype ?
+            ->add('email', EmailType::class, [
                 'label' => 'Email :',
                 'attr' => [
                     'placeholder' => 'Tapez votre email (il sera votre identifiant)',
                     'size' => 35
                 ]
             ])
-            ->add('password', TextType::class, [ //bon tyyyyyyyyyyyyyyyyyyyyyyyype ?
+            ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe :',
                 'attr' => ['placeholder' => 'Tapez votre mot de passe']
             ]);

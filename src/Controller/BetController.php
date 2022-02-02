@@ -155,7 +155,7 @@ class BetController extends AbstractController
         }
     }
 
-    //Je crée les 2 fonctions dessous pour tester mon reponsive
+    //Je crée les 2 fonctions dessous pour tester mon responsive
 
     /**
      * @Route("/bet_deadline_outdated/{round}", name="bet_deadline_outdated")

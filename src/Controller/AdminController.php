@@ -147,7 +147,7 @@ class AdminController extends AbstractController
 
                 if ($idNextMatch == 9) {
                     $this->addFlash('success', 'All the fourthround results have been registered !');
-                    return $this->redirectToRoute('admin_home');
+                    return $this->redirectToRoute('admin_fourthround');
                 } else {
                     /* J'arrive pas à faire fonctionner le redirectToRoute() avec un paramètre donc je fais un redirect() tout court */
                     return $this->redirect('/admin/fourthround-results/' . $idNextMatch);
@@ -359,7 +359,7 @@ class AdminController extends AbstractController
 
                 if ($idNextMatch == 5) {
                     $this->addFlash('success', 'All the quarterfinals results have been registered !');
-                    return $this->redirectToRoute('admin_home');
+                    return $this->redirectToRoute('admin_quarterfinals');
                 } else {
                     /* J'arrive pas à faire fonctionner le redirectToRoute() avec un paramètre donc je fais un redirect() tout court */
                     return $this->redirect('/admin/quarterfinals-results/' . $idNextMatch);
@@ -557,7 +557,7 @@ class AdminController extends AbstractController
 
                 if ($idNextMatch == 3) {
                     $this->addFlash('success', 'All the semifinals results have been registered !');
-                    return $this->redirectToRoute('admin_home');
+                    return $this->redirectToRoute('admin_semifinals');
                 } else {
                     /* J'arrive pas à faire fonctionner le redirectToRoute() avec un paramètre donc je fais un redirect() tout court */
                     return $this->redirect('/admin/semifinals-results/' . $idNextMatch);
@@ -743,7 +743,7 @@ class AdminController extends AbstractController
                 $em->persist($tennisMatch);
                 $em->flush();
                 $this->addFlash('success', 'The match result has been registered !');
-                return $this->redirectToRoute('admin_home');
+                return $this->redirectToRoute('admin_final');
             } else {
                 return $this->render('admin/final_result.html.twig', [
                     'idMatch' => $idMatch,
