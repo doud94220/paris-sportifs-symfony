@@ -42,7 +42,7 @@ CSS géré par Bootstrap
 
 /* PAGE D'ACCUEIL */
 
-#containerAcceuil {
+#containerAcceuilLoggedIn {
     background: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg') center center no-repeat scroll;
     background-size: cover;
     height: 670px;
@@ -50,6 +50,18 @@ CSS géré par Bootstrap
 
 @media screen and (max-width: 1000px) {
     #containerAcceuil {
+        height: 100vh;
+    }
+}
+
+#containerAcceuilNotLogged {
+    background: url('https://simonandjoanna.files.wordpress.com/2014/09/p1000411-0.jpg') center center no-repeat scroll;
+    background-size: cover;
+    height: 670px;
+}
+
+@media screen and (max-width: 1000px) {
+    #containerAcceuilNotLogged {
         height: 100vh;
     }
 }
