@@ -64,6 +64,7 @@ class ReminderBetEmailCommand extends Command
         $currentDateTime->add($interval);
 
         $deadLineDateTime = $latestDeadLine->getDeadLine();
+        $deadLineTimeStringFormat = $deadLineDateTime->format('Y-m-d H:i');
         $interval = $currentDateTime->diff($deadLineDateTime);
 
         if ($interval->invert == false) { //Si la deadline n'est pas passée
@@ -80,7 +81,8 @@ class ReminderBetEmailCommand extends Command
                         ->to($user->getEmail())
                         ->htmlTemplate("/emails/reminderBet.html.twig")
                         ->context([
-                            'round' => $round
+                            'round' => $round,
+                            'deadline' => $deadLineTimeStringFormat
                         ])
                         ->subject("Reminder for betting on the " . $round . " !");
                     $this->mailer->send($email);
@@ -96,7 +98,8 @@ class ReminderBetEmailCommand extends Command
                         ->to($user->getEmail())
                         ->htmlTemplate("/emails/lastReminderBet.html.twig")
                         ->context([
-                            'round' => $round
+                            'round' => $round,
+                            'deadline' => $deadLineTimeStringFormat
                         ])
                         ->subject("Last reminder for betting on the " . $round . " !");
                     $this->mailer->send($email);
