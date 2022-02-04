@@ -1,7 +1,32 @@
-<h1>This is the last reminder for betting on
-	{{ round }}
-	before
-	{{ deadline }}
-</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			{% block title %}Je sais pas quoi mettre !!!
+			{% endblock %}
+		</title>
+		{# Run `composer require symfony/webpack-encore-bundle`
+																																																																																																																						           and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			<link rel="stylesheet" href="https://bootswatch.com/5/lumen/bootstrap.min.css">
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+			<link rel="stylesheet" href="/css/style.css">
+		{% endblock %}
 
-<a href="https://paris-sportifs-symfony.herokuapp.com/">Pour parier c'est ici !</a>
+		{% block javascripts %}{% endblock %}
+	</head>
+	<body>
+		<div style="background: url('https://media.gqmagazine.fr/photos/5cee9fb8ef06210b4747a14c/master/pass/Balles-tenis.jpg') center center no-repeat scroll;background-size: cover;height: 25vh;">
+			<br>
+			<h1 style="color: red">This is the last reminder for betting on
+				{{ round }}
+				before
+				{{ deadline }}
+			</h1>
+			<br>
+			<a href="https://paris-sportifs-symfony.herokuapp.com/">Pour parier c'est ici</a>
+		</div>
+	</body>
+</html>

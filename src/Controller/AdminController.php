@@ -21,7 +21,6 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-//commentaire en carton
 class AdminController extends AbstractController
 {
     /**

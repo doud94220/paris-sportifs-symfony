@@ -1,17 +1,41 @@
-<h2>Congratulations, your account has been created !</h2>
-<br>
-<h4>Identifiers reminder :</h4>
-<ul>
-	<li>Email :
-		{{ emailAddress }}</li>
-	<li>Password :
-		{{ password }}</li>
-</ul>
-<br>
-<h4>Keep that mail, nobody can give you back the password. It's encrypted in database.</h4>
-<br>
-<h4>This are the points attribution rules. They're the same for each round :</h4>
-<p>If you have the good winner : 2 points.</p>
-<p>If you have (in addition of the good winner) the good set numbers : 2 points more.</p>
-<p>If you have (in addition of the good winner) almost the good sets number (one unity error) : 1 point more</p>
-<p>If you have the wrong winner, but you bet on a 5 sets match, and it's indeed a 5 sets match : 2 points (because you were close to the exact result)</p>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>
+			{% block title %}Je sais pas quoi mettre !!!
+			{% endblock %}
+		</title>
+		{# Run `composer require symfony/webpack-encore-bundle`
+																																																																																																																																				           and uncomment the following Encore helpers to start using Symfony UX #}
+		{% block stylesheets %}
+			<link rel="stylesheet" href="https://bootswatch.com/5/lumen/bootstrap.min.css">
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+			<link rel="stylesheet" href="/css/style.css">
+		{% endblock %}
+
+		{% block javascripts %}{% endblock %}
+	</head>
+	<body>
+		<div style="background: url('https://media.gqmagazine.fr/photos/5cee9fb8ef06210b4747a14c/master/pass/Balles-tenis.jpg') center center no-repeat scroll;background-size: cover;height: 100vh;">
+			<h2 style="color: green">Congratulations, your account has been created !</h2>
+			<br>
+			<h4>Identifiers reminder :</h4>
+			<ul>
+				<li>Email :
+					{{ emailAddress }}</li>
+				<li>Password :
+					{{ password }}</li>
+			</ul>
+			<br>
+			<h4 style="color: orange">Keep that mail, nobody can give you back the password. It's encrypted in database.</h4>
+			<br>
+			<h4 style="color: blue">This are the points attribution rules. They're the same for each round :</h4>
+			<p style="color: blue">If you have the good winner : 2 points.</p>
+			<p style="color: blue">If you have (in addition of the good winner) the good set numbers : 2 points more.</p>
+			<p style="color: blue">If you have (in addition of the good winner) almost the good sets number (one unity error) : 1 point more</p>
+			<p style="color: blue">If you have the wrong winner, but you bet on a 5 sets match, and it's indeed a 5 sets match : 2 points (because you were close to the exact result)</p>
+		</div>
+	</body>
+</html>

@@ -14,4 +14,15 @@ class HomeController extends AbstractController
     {
         return $this->render('home.html.twig');
     }
+
+    /**
+     * @Route("/test-mail", name="home_test_mail")
+     */
+    public function testTemplateMails()
+    {
+        return $this->render('/emails/confirmationAccountCreation.html.twig', [
+            'emailAddress' => "aaa@aaa.fr",
+            'password' => "the_password"
+        ]);
+    }
 }
