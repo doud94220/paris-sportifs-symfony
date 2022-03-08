@@ -36,7 +36,8 @@ CSS géré par Bootstrap
 /* PAGE DE LOGIN */
 
 #containerLogin {
-    background: url('https://simonandjoanna.files.wordpress.com/2014/09/p1000411-0.jpg') center center no-repeat scroll;
+    /* background: url('https://simonandjoanna.files.wordpress.com/2014/09/p1000411-0.jpg') center center no-repeat scroll; */
+    background: url('../img/ExterieurStade.jpg') center center no-repeat scroll;
     background-size: cover;
     height: 100vh;
 }
@@ -51,7 +52,8 @@ CSS géré par Bootstrap
 /* PAGE D'ACCUEIL */
 
 #containerAcceuilLoggedIn {
-    background: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg') center center no-repeat scroll;
+    /* background: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg') center center no-repeat scroll; */
+    background: url('../img/InterieurStade.jpg') center center no-repeat scroll;
     background-size: cover;
     height: 670px;
 }
@@ -63,7 +65,8 @@ CSS géré par Bootstrap
 }
 
 #containerAcceuilNotLogged {
-    background: url('https://simonandjoanna.files.wordpress.com/2014/09/p1000411-0.jpg') center center no-repeat scroll;
+    /* background: url('https://simonandjoanna.files.wordpress.com/2014/09/p1000411-0.jpg') center center no-repeat scroll; */
+    background: url('../img/ExterieurStade.jpg') center center no-repeat scroll;
     background-size: cover;
     height: 670px;
 }
@@ -112,9 +115,10 @@ CSS géré par Bootstrap
 
 .bg-image
 {
-    background-image: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg');
-    height: 100vh;
-    width: 100vw;
+    /* background-image: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg'); */
+    background: url('../img/InterieurStade.jpg') center center no-repeat scroll;
+    background-size: cover;
+    height: 670px;
 }
 
 .color-players
@@ -136,6 +140,12 @@ CSS géré par Bootstrap
     .players-name-size
     {
         font-size: 2.5vh;
+    }
+
+    .bg-image
+    {
+        height: 100vh;
+        width: 100vw;
     }
 }
 
@@ -169,7 +179,8 @@ CSS géré par Bootstrap
 }
 
 #background-image-container {
-    background: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg') center center no-repeat scroll;
+    /* background: url('https://imgresizer.eurosport.com/unsafe/1200x0/filters:format(jpeg):focal(1232x777:1234x775)/origin-imgresizer.eurosport.com/2019/08/26/2662606-55074430-2560-1440.jpg') center center no-repeat scroll; */
+    background: url('../img/InterieurStade.jpg') center center no-repeat scroll;
     background-size: cover;
     height: 650px;
     opacity: 0.4;
@@ -187,10 +198,26 @@ CSS géré par Bootstrap
     justify-content: center;
 }
 
+.background-balles-tennis-container
+{
+    background: url('../img/BallesTennis.jpg') center center no-repeat scroll;
+    background-size: cover;
+    height: 650px;
+}
+
+.background-mail-balles-tennis-container
+{
+    background: url('../img/BallesTennis.jpg') center center no-repeat scroll;
+    /* background-size: cover; */
+    height: 25vw;
+}
+
 *
 {
 	box-sizing:border-box; /* Declaration de box sizing */
 }
+
+/* -----------------------------------  RESPONSIVE ----------------------------------- */
 
 @media screen and (max-width: 1000px) {
     #global-container {
@@ -202,6 +229,11 @@ CSS géré par Bootstrap
     }
 
     #information-container {
+        height: 100vh;
+    }
+
+    .background-balles-tennis-container
+    {
         height: 100vh;
     }
 
@@ -223,7 +255,7 @@ CSS géré par Bootstrap
     #information-container {
         position: absolute;
         left: 0%;
-        top: 50%;
+        top: 60%;
         transform: none;
         height: auto;
         font-size: 3.5vw;
@@ -241,6 +273,6 @@ CSS géré par Bootstrap
 
 @media screen and (max-width: 350px) {
     #information-container {
-        top: 55%;
+        top: 70%;
     }
 }
