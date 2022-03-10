@@ -23,13 +23,13 @@
 			{% for m in tennisMatchs %}
 				<tr>
 					<td>
-						<img width="auto" height="150" src="{{ m.playerOne.picture }}" alt="">
+						<img width="auto" height="150" src="{{ asset(m.playerOne.picture) }}" alt="">
 						{{ m.playerOne.firstName }}
 						{{ m.playerOne.familyName }}
 						<strong>VS</strong>
 						{{ m.playerTwo.firstName }}
 						{{ m.playerTwo.familyName }}
-						<img width="auto" height="150" src="{{ m.playerTwo.picture }}" alt="">
+						<img width="auto" height="150" src="{{ asset(m.playerTwo.picture) }}" alt="">
 						<input type="hidden" name="matchId_{{ cptr }}" value="{{ m.id }}">
 						<input type="hidden" name="userId__{{ cptr }}" value="{{ userId }}">
 					</td>

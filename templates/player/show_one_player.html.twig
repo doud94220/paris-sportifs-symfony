@@ -7,10 +7,10 @@
 			<h5 class="card-title">{{ tennisPlayer.firstName }}
 				{{ tennisPlayer.familyName }}</h5>
 			<h6 class="card-subtitle text-muted">{{ tennisPlayer.country }}</h6>
-			<img border='1' width="auto" height="60" src="{{ tennisPlayer.flag }}" alt="CountryFlag">
+			<img border='1' width="auto" height="60" src="{{ asset(tennisPlayer.flag) }}" alt="CountryFlag">
 		</div>
 		{# Pour historique, je vire le svg dessous parce que ca chie et je mets une img #}
-		<img src="{{ tennisPlayer.picture }}" alt="PlayerPicture" width="200" height="300">
+		<img src="{{ asset(tennisPlayer.picture) }}" alt="PlayerPicture" width="200" height="300">
 		<br>
 		<ul class="list-group list-group-flush">
 			<li class="list-group-item">Age :
