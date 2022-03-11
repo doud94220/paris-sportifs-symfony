@@ -1,18 +1,18 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-
-	<div class="bg-image">
-		<ul class="no-padding list-group">
-			{% for tp in tennisPlayers %}
-				<li class="tac">
+	<div id="global-container">
+		<div id="background-image-container"></div>
+		<div id="information-container">
+			<ul class="no-padding list-group">
+				{% for tp in tennisPlayers %}
 					<a class="color-players players-name-size" href="{{ path('show_one_player', {'id' : tp.id}) }}">
-						{{ tp.familyName }}
-						{{ tp.firstName }}
+						<b>{{ tp.familyName }}
+							{{ tp.firstName }}</b>
 					</a>
-				</li>
-			{% endfor %}
-		</ul>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}
 
