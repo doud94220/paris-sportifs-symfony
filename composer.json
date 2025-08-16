@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
+        "laminas/laminas-code": "4.13",
         "php-webdriver/webdriver": "^1.12",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",
@@ -41,6 +42,9 @@
         "sort-packages": true,
         "allow-plugins": {
             "symfony/flex": true
+        },
+        "platform": {
+            "php": "8.2.0"
         }
     },
     "autoload": {

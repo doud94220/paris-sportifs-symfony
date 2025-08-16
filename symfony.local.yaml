@@ -1,0 +1,3 @@
+php:
+    #version: "8.2.29",
+    path: "C:\\Users\\doud7\\scoop\\apps\\php82\\8.2.29\\php.exe"
