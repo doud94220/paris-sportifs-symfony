@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version202531081021 extends AbstractMigration
+final class Version20250831132300 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -52,22 +52,22 @@ final class Version202531081021 extends AbstractMigration
                     SET `id`='8',`family_name`='RUBLEV',`first_name`='Andrey',`picture`='img/Rublev.png',`country`='Russia',`flag`='img/RussiaFlag.png',`age`=23,`atp_ranking`=7
                     WHERE `id` = 8");
         $this->addSql("UPDATE `tennis_player`
-                    SET `id`='9',`family_name`='STRUFF',`first_name`='Jan-Lennard',`picture`='img/Struff.png',`country`='Germany',`flag`='img/Germany.png',`age`=35,`atp_ranking`=144
+                    SET `id`='9',`family_name`='STRUFF',`first_name`='Jan-Lennard',`picture`='img/Struff.png',`country`='Germany',`flag`='img/GermanyFlag.png',`age`=35,`atp_ranking`=144
                     WHERE `id` = 9");
         $this->addSql("UPDATE `tennis_player`
                     SET `id`='10',`family_name`='DE MINAUR',`first_name`='Alex',`picture`='img/DeMinaur.png',`country`='Australia',`flag`='img/AustraliaFlag.png',`age`=26,`atp_ranking`=8
                     WHERE `id` = 10");
         $this->addSql("UPDATE `tennis_player`
-                    SET `id`='11',`family_name`='RIEDI',`first_name`='Leandro',`picture`='img/Riedi.png',`country`='Switzerland',`flag`='img/SwissFlag.png',`age`=23,`atp_ranking`=435
+                    SET `id`='11',`family_name`='RIEDI',`first_name`='Leandro',`picture`='img/Riedi.png',`country`='Switzerland',`flag`='img/SwissFlag.svg',`age`=23,`atp_ranking`=435
                     WHERE `id` = 11");
         $this->addSql("UPDATE `tennis_player`
-                    SET `id`='12',`family_name`='MUNAR',`first_name`='Jaume',`picture`='img/Munar.png',`country`='Spain',`flag`='img/SpainFlag.png',`age`=28,`atp_ranking`=44
+                    SET `id`='12',`family_name`='MUNAR',`first_name`='Jaume',`picture`='img/Munar.png',`country`='Spain',`flag`='img/SpainFlag.svg',`age`=28,`atp_ranking`=44
                     WHERE `id` = 12");
         $this->addSql("UPDATE `tennis_player`
-                    SET `id`='13',`family_name`='MUSETTI',`first_name`='Lorenzo',`picture`='img/Musetti.png',`country`='Italia',`flag`='img/ItaliaFlag.png',`age`=23,`atp_ranking`=10
+                    SET `id`='13',`family_name`='MUSETTI',`first_name`='Lorenzo',`picture`='img/Musetti.png',`country`='Italia',`flag`='img/ItaliaFlag.svg',`age`=23,`atp_ranking`=10
                     WHERE `id` = 13");
         $this->addSql("UPDATE `tennis_player`
-                    SET `id`='14',`family_name`='BUBLIK',`first_name`='Alexander',`picture`='img/Bublik.png',`country`='Kazakhstan',`flag`='img/Kazakhstan.png',`age`=29,`atp_ranking`=24
+                    SET `id`='14',`family_name`='BUBLIK',`first_name`='Alexander',`picture`='img/Bublik.png',`country`='Kazakhstan',`flag`='img/KazakhstanFlag.png',`age`=29,`atp_ranking`=24
                     WHERE `id` = 14");
         $this->addSql("UPDATE `tennis_player`
                     SET `id`='15',`family_name`='AUGER-ALIASSIME',`first_name`='Felix',`picture`='img/AugerAliassime.png',`country`='Canada',`flag`='img/CanadaFlag.svg',`age`=27,`atp_ranking`=25
