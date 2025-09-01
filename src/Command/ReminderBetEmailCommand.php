@@ -60,6 +60,11 @@ class ReminderBetEmailCommand extends Command
 
         //3. La comparer à la "current date"
         $currentDateTime = new DateTime();
+
+        if ($_ENV['APP_ENV'] === 'prod') {
+            $currentDateTime->modify('+2 hours');
+        }
+
         $interval = new DateInterval('PT1H');
         $currentDateTime->add($interval);
 
@@ -71,8 +76,8 @@ class ReminderBetEmailCommand extends Command
             $daysGap = $interval->d;
             $hoursGap = $interval->h;
 
-            //3.1. Si l'écart est de 4h et x minutes => Mail de relance pour parier pour "le bon round"
-            if ($daysGap == 0 && $hoursGap == 4) {
+            //3.1. Si l'écart est de 2h et x minutes => Mail de relance pour parier pour "le bon round"
+            if ($daysGap == 0 && $hoursGap == 2) {
                 $usersArray = $this->userRepository->findAll();
 
                 foreach ($usersArray as $key => $user) {
