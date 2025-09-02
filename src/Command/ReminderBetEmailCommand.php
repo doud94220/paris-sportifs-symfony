@@ -63,11 +63,10 @@ class ReminderBetEmailCommand extends Command
         // dd($currentDateTime);
 
         // -----------  J'ai défini la date et l'heure dans le fichier .ini : date.timezone = Europe/Paris -----------
-        // if ($_ENV['APP_ENV'] === 'prod') {
-        //     $currentDateTime->modify('+2 hours');
-        // } elseif ($_ENV['APP_ENV'] === 'dev') {
-        //     $currentDateTime->modify('+1 hours');
-        // }
+        // ----------- Mais ca ne marche qu'en LOCAL
+        if ($_ENV['APP_ENV'] === 'prod') {
+            $currentDateTime->modify('+2 hours');
+        }
 
         // ----------- Là je rajoutais 1h avant.... -----------
         // $interval = new DateInterval('PT1H');
