@@ -93,15 +93,15 @@ final class Version20250902092233 extends AbstractMigration
             UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
           ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
 
-    $this->addSql('ALTER TABLE `bet`
-        ADD CONSTRAINT `FK_FBF0EC9B7A654043` FOREIGN KEY (`id_match_id`) REFERENCES `tennis_match` (`id`),
-        ADD CONSTRAINT `FK_FBF0EC9B9D86650F` FOREIGN KEY (`user_id_id`) REFERENCES `user` (`id`),
-        ADD CONSTRAINT `FK_FBF0EC9BFC53D4E9` FOREIGN KEY (`winner_id_id`) REFERENCES `tennis_player` (`id`)');
+    // $this->addSql('ALTER TABLE `bet`
+    //     ADD CONSTRAINT `FK_FBF0EC9B7A654043` FOREIGN KEY (`id_match_id`) REFERENCES `tennis_match` (`id`),
+    //     ADD CONSTRAINT `FK_FBF0EC9B9D86650F` FOREIGN KEY (`user_id_id`) REFERENCES `user` (`id`),
+    //     ADD CONSTRAINT `FK_FBF0EC9BFC53D4E9` FOREIGN KEY (`winner_id_id`) REFERENCES `tennis_player` (`id`)');
 
-    $this->addSql('ALTER TABLE `tennis_match`
-        ADD CONSTRAINT `FK_7510D1775DFCD4B8` FOREIGN KEY (`winner_id`) REFERENCES `tennis_player` (`id`),
-        ADD CONSTRAINT `FK_7510D177649A58CD` FOREIGN KEY (`player_one_id`) REFERENCES `tennis_player` (`id`),
-        ADD CONSTRAINT `FK_7510D177FC6BF02` FOREIGN KEY (`player_two_id`) REFERENCES `tennis_player` (`id`)');
+    // $this->addSql('ALTER TABLE `tennis_match`
+    //     ADD CONSTRAINT `FK_7510D1775DFCD4B8` FOREIGN KEY (`winner_id`) REFERENCES `tennis_player` (`id`),
+    //     ADD CONSTRAINT `FK_7510D177649A58CD` FOREIGN KEY (`player_one_id`) REFERENCES `tennis_player` (`id`),
+    //     ADD CONSTRAINT `FK_7510D177FC6BF02` FOREIGN KEY (`player_two_id`) REFERENCES `tennis_player` (`id`)');
 
     // $this->addSql("INSERT INTO `tennis_player` (`id`, `family_name`, `first_name`, `picture`, `country`, `flag`, `age`, `atp_ranking`) VALUES
     // (1, 'DJOKOVIC', 'Novak', 'img/Djokovic.png', 'Serbia', 'img/SerbiaFlag.svg', 34, 1),
