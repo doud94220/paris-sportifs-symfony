@@ -60,17 +60,25 @@ class ReminderBetEmailCommand extends Command
 
         //3. La comparer à la "current date"
         $currentDateTime = new DateTime();
+        // dd($currentDateTime);
 
-        if ($_ENV['APP_ENV'] === 'prod') {
-            $currentDateTime->modify('+2 hours');
-        }
+        // -----------  J'ai défini la date et l'heure dans le fichier .ini : date.timezone = Europe/Paris -----------
+        // if ($_ENV['APP_ENV'] === 'prod') {
+        //     $currentDateTime->modify('+2 hours');
+        // } elseif ($_ENV['APP_ENV'] === 'dev') {
+        //     $currentDateTime->modify('+1 hours');
+        // }
 
-        $interval = new DateInterval('PT1H');
-        $currentDateTime->add($interval);
+        // ----------- Là je rajoutais 1h avant.... -----------
+        // $interval = new DateInterval('PT1H');
+        //dd($interval);
+        // $currentDateTime->add($interval);
+        // dd($currentDateTime);
 
         $deadLineDateTime = $latestDeadLine->getDeadLine();
         $deadLineTimeStringFormat = $deadLineDateTime->format('Y-m-d H:i');
         $interval = $currentDateTime->diff($deadLineDateTime);
+        ($interval);
 
         if ($interval->invert == false) { //Si la deadline n'est pas passée
             $daysGap = $interval->d;

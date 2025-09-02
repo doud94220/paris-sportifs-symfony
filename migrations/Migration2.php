@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version202531081021 extends AbstractMigration
+final class Migration2 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -67,7 +67,7 @@ final class Version202531081021 extends AbstractMigration
                     SET `id`='13',`family_name`='MUSETTI',`first_name`='Lorenzo',`picture`='img/Musetti.png',`country`='Italia',`flag`='img/ItaliaFlag.svg',`age`=23,`atp_ranking`=10
                     WHERE `id` = 13");
         $this->addSql("UPDATE `tennis_player`
-                    SET `id`='14',`family_name`='BUBLIK',`first_name`='Alexander',`picture`='img/Bublik.png',`country`='Kazakhstan',`flag`='img/Kazakhstan.png',`age`=29,`atp_ranking`=24
+                    SET `id`='14',`family_name`='BUBLIK',`first_name`='Alexander',`picture`='img/Bublik.png',`country`='Kazakhstan',`flag`='img/KazakhstanFlag.png',`age`=29,`atp_ranking`=24
                     WHERE `id` = 14");
         $this->addSql("UPDATE `tennis_player`
                     SET `id`='15',`family_name`='AUGER-ALIASSIME',`first_name`='Felix',`picture`='img/AugerAliassime.png',`country`='Canada',`flag`='img/CanadaFlag.svg',`age`=27,`atp_ranking`=25
