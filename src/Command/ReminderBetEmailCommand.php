@@ -62,8 +62,6 @@ class ReminderBetEmailCommand extends Command
         $currentDateTime = new DateTime();
         // dd($currentDateTime);
 
-        // -----------  J'ai défini la date et l'heure dans le fichier .ini : date.timezone = Europe/Paris -----------
-        // ----------- Mais ca ne marche qu'en LOCAL
         // Y'a 2h de moins sur la PROD, donc je rajoute 2h
         // A noter, y'a d'autres façons de récupérer les VE mais on commence avec ça
         if ($_ENV['APP_ENV'] === 'prod') {
@@ -75,6 +73,8 @@ class ReminderBetEmailCommand extends Command
         //dd($interval);
         // $currentDateTime->add($interval);
         // dd($currentDateTime);
+        // -----------  Mais j'ai réussi a définir la date et l'heure dans le fichier .ini : date.timezone = Europe/Paris -----------
+        // ----------- A noter que ca ne marche qu'en local
 
         $deadLineDateTime = $latestDeadLine->getDeadLine();
         $deadLineTimeStringFormat = $deadLineDateTime->format('Y-m-d H:i');
