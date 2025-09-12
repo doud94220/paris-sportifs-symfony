@@ -1,16 +1,19 @@
 pipeline {
     // agent any
+
     // Use a Windows agent
     // This is a more explicit way to tell Jenkins to use a Windows shell.
-    label 'windows' // Or the label you've set for your Windows machine
+    agent {
+        label 'windows' // Or the label you've set for your Windows machine
+    }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Récupère le code depuis le dépôt Git
-                git branch: 'main', url: 'https://github.com/doud94220/paris-sportifs-symfony'
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         // Récupère le code depuis le dépôt Git
+        //         git branch: 'main', url: 'https://github.com/doud94220/paris-sportifs-symfony'
+        //     }
+        // }
 
         stage('Setup') {
             steps {
