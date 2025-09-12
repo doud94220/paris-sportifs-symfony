@@ -29,6 +29,10 @@ pipeline {
                 // Lance le serveur Selenium (si nécessaire) et exécute les tests Selenium Web Driver
                 // bat 'java -jar selenium-server-4.35.0.jar standalone'
                 bat 'start "" java -jar selenium-server-4.35.0.jar standalone'
+
+                // Wait for a few seconds to let the server start
+                bat 'ping -n 10 127.0.0.1 > nul' 
+
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 bat 'node tests\\LOCAL-PourJenkis\\S1.js'
             }
