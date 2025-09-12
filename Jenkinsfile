@@ -59,7 +59,8 @@ pipeline {
 
                  // Starts the Symfony web server in the background
                 // bat 'start "Symfony Server" php bin/console server:start -d public -v'
-                bat 'start "Symfony Server" php bin/console server:start'
+                // bat 'start "Symfony Server" php bin/console server:start'
+                bat 'start "Symfony Server" php bin/console server:start --no-tls -d public'
 
                 // Wait for the Symfony server to be ready (e.g., on port 8000)
                 script {
