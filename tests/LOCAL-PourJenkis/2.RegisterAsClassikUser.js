@@ -7,7 +7,7 @@ async function runTest2(driver) {
 
     try {
         // await driver.get('http://127.0.0.1:8000/');
-        console.log("1");
+        console.log("1 - Driver :" + driver);
 
         const InscriptionLink = await driver.wait(until.elementLocated(By.css('ul > li:nth-child(2) > a.nav-link')), 3000);
         console.log("2");
