@@ -19,7 +19,8 @@ pipeline {
             steps {
                 // Installe les dépendances PHP et JavaScript
                 bat 'composer install --no-interaction --prefer-dist'
-                bat 'npm install'
+                // bat 'npm install'
+                bat 'cd tests\\LOCAL-PourJenkis && npm install'
             }
         }
 
