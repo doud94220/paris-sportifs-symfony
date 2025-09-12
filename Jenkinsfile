@@ -1,11 +1,11 @@
 pipeline {
-    // agent any
+    agent any
 
     // Use a Windows agent
     // This is a more explicit way to tell Jenkins to use a Windows shell.
-    agent {
-        label 'windows' // Or the label you've set for your Windows machine
-    }
+    // agent {
+    //     label 'windows' // Or the label you've set for your Windows machine
+    // }
 
     stages {
         // stage('Checkout') {
