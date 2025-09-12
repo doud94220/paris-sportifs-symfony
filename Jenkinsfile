@@ -1,5 +1,8 @@
 pipeline {
-    agent any
+    // agent any
+    // Use a Windows agent
+    // This is a more explicit way to tell Jenkins to use a Windows shell.
+    label 'windows' // Or the label you've set for your Windows machine
 
     stages {
         stage('Checkout') {
@@ -12,17 +15,18 @@ pipeline {
         stage('Setup') {
             steps {
                 // Installe les dépendances PHP et JavaScript
-                sh 'composer install --no-interaction --prefer-dist'
-                sh 'npm install'
+                bat 'composer install --no-interaction --prefer-dist'
+                bat 'npm install'
             }
         }
 
         stage('Run Test 1') {
             steps {
                 // Lance le serveur Selenium (si nécessaire) et exécute les tests Selenium Web Driver
-                sh 'java -jar selenium-server-4.35.0.jar standalone'
+                // bat 'java -jar selenium-server-4.35.0.jar standalone'
+                bat 'start "" java -jar selenium-server-4.35.0.jar standalone'
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
-                sh 'node tests\\LOCAL-PourJenkis\\S1.js'
+                bat 'node tests\\LOCAL-PourJenkis\\S1.js'
             }
         }
 
