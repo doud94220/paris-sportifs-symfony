@@ -28,10 +28,32 @@ pipeline {
             steps {
                 // Lance le serveur Selenium (si nécessaire) et exécute les tests Selenium Web Driver
                 // bat 'java -jar selenium-server-4.35.0.jar standalone'
-                bat 'start "" java -jar selenium-server-4.35.0.jar standalone'
+                // bat 'start "" java -jar selenium-server-4.35.0.jar standalone'
+                bat 'start "Selenium Server" java -jar selenium-server-4.35.0.jar standalone > selenium.log 2>&1'
 
-                // Wait for a few seconds to let the server start
-                bat 'ping -n 10 127.0.0.1 > nul' 
+                // Wait for the Selenium server to be ready
+                script {
+                    def maxAttempts = 60
+                    def attempts = 0
+                    def isReady = false
+
+                    while (attempts < maxAttempts && !isReady) {
+                        try {
+                            // Check if the server is listening on port 4444
+                            bat 'netstat -an | findstr ":4444.*LISTENING"'
+                            println("Selenium server is up!")
+                            isReady = true
+                        } catch (Exception e) {
+                            println("Waiting for Selenium server... Attempt ${attempts + 1}/${maxAttempts}")
+                            sleep(2) // Wait for 2 seconds before retrying
+                            attempts++
+                        }
+                    }
+
+                    if (!isReady) {
+                        error("Selenium server did not start within the given time. Check selenium.log for details.")
+                    }
+                }
 
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 bat 'node tests\\LOCAL-PourJenkis\\S1.js'
