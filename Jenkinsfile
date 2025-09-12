@@ -29,7 +29,9 @@ pipeline {
                 // Lance le serveur Selenium (si nécessaire) et exécute les tests Selenium Web Driver
                 // bat 'java -jar selenium-server-4.35.0.jar standalone'
                 // bat 'start "" java -jar selenium-server-4.35.0.jar standalone'
-                bat 'start "Selenium Server" java -jar selenium-server-4.35.0.jar standalone > selenium.log 2>&1'
+                // bat 'start "Selenium Server" java -jar selenium-server-4.35.0.jar standalone > selenium.log 2>&1'
+                bat 'start "Selenium Server" java -jar "C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar" standalone'
+
 
                 // Wait for the Selenium server to be ready
                 script {
