@@ -6,7 +6,7 @@ async function runTest2(driver) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     try {
-        // await driver.get('http://127.0.0.1:8000/');
+        await driver.get('http://127.0.0.1:8000/');
         console.log("1 - Driver :" + driver);
 
         const InscriptionLink = await driver.wait(until.elementLocated(By.css('ul > li:nth-child(2) > a.nav-link')), 3000);
