@@ -18,7 +18,7 @@ pipeline {
         stage('Setup') {
             steps {
                 // Installe les dépendances PHP et JavaScript
-                bat 'composer install --no-interaction --prefer-dist --no-verify'
+                bat 'composer install --no-interaction --prefer-dist'
                 bat 'npm install'
             }
         }
