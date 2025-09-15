@@ -16,26 +16,27 @@ describe('S1', function () {
 
     before(async function () {
         driver = await new Builder().forBrowser('chrome').usingServer(serverUrl).build();
-
-        it('should successfully register a new user', async function () {
-            await runTest2(driver);
-        });
-
-        it('should successfully register a new user', async function () {
-            await runTest4(driver);
-        });
-
-        it('should successfully register a new user', async function () {
-            await runTest7_2(driver);
-        });
-
-        it('should successfully register a new user', async function () {
-            await runTest47(driver);
-        });
     });
 
-    after(async function () {
-        // This runs after all tests and cleans up the driver
-        await driver.quit();
+    it('should successfully register a new user', async function () {
+        await runTest2(driver);
     });
+
+    it('should successfully register a new user', async function () {
+        await runTest4(driver);
+    });
+
+    it('should successfully register a new user', async function () {
+        await runTest7_2(driver);
+    });
+
+    it('should successfully register a new user', async function () {
+        await runTest47(driver);
+    });
+});
+
+after(async function () {
+    // This runs after all tests and cleans up the driver
+    await driver.quit();
+});
 });
