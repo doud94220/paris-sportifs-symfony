@@ -8,7 +8,7 @@ async function runTest7_2(driver) {
 
     try {
         //Accéder à la page du joueur Federer
-        await driver.get('http://127.0.0.1:8000/');
+        await driver.get('http://127.0.0.1:8000/tennis-players/');
         const playerRogerFederer = await driver.findElement(By.css('.color-players:nth-child(5) > b'));
         await playerRogerFederer.click();
         console.log("0");
