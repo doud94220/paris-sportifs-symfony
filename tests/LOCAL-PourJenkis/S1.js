@@ -22,7 +22,7 @@ async function main() {
         console.log("Erreur - Catch - S1 has a problem...");
         console.error('Test failed. Error details:', error);
     } finally {
-        //await driver.quit();
+        await driver.quit();
     }
 }
 
