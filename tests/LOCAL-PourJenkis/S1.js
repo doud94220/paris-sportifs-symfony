@@ -33,10 +33,10 @@ describe('S1', function () {
     it('should successfully register a new user', async function () {
         await runTest47(driver);
     });
+
+    after(async function () {
+        // This runs after all tests and cleans up the driver
+        await driver.quit();
+    });
 });
 
-after(async function () {
-    // This runs after all tests and cleans up the driver
-    await driver.quit();
-});
-});
