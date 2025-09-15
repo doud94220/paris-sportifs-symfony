@@ -28,8 +28,8 @@ async function runTest47(driver) {
         // -------------------------------------------------------------------------------------------------------------
 
         // ----------------------------------------------- DISconnect as CLASSIK USER ----------------------------------
-        // await driver.get('http://127.0.0.1:8000/');
-        // console.log("7");
+        await driver.get('http://127.0.0.1:8000/');
+        console.log("7");
 
         //Verify that admin is loggued
         const disconnectionButton = await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(6) > a.btn')), 3000);
