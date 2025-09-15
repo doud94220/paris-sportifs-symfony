@@ -14,7 +14,7 @@ let driver;
 describe('S1', function () {
     this.timeout(20000); // Set a global timeout for the suite
 
-    before(async function main() {
+    before(async function () {
         driver = await new Builder().forBrowser('chrome').usingServer(serverUrl).build();
 
         it('should successfully register a new user', async function () {
