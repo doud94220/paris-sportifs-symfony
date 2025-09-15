@@ -57,7 +57,7 @@ pipeline {
                     }
                 }
 
-                 // Starts the Symfony web server in the background
+                // Starts the Symfony web server in the background
                 // bat 'start "Symfony Server" php bin/console server:start -d public -v'
                 // bat 'start "Symfony Server" php bin/console server:start'
                 // bat 'start "Symfony Server" php bin/console server:start --no-tls -d public'
@@ -88,7 +88,8 @@ pipeline {
                 // bat 'cd tests\\LOCAL-PourJenkis && wait_for_server.bat'
 
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
-                bat 'node tests\\LOCAL-PourJenkis\\S1.js'
+                // bat 'node tests\\LOCAL-PourJenkis\\S1.js'
+                bat 'cd tests\\LOCAL-PourJenkis && npm test'
             }
         }
 
@@ -97,6 +98,16 @@ pipeline {
                 // Publie les résultats des tests JUnit (si vos tests génèrent un rapport XML)
                 junit 'reports/junit.xml'
             }
+        }
+    }
+
+    post {
+        always {
+            // This step runs at the end of the pipeline, regardless of success or failure.
+            // It ensures the servers are killed.
+            echo 'Stopping servers...'
+            bat 'taskkill /F /IM java.exe'
+            bat 'taskkill /F /IM symfony.exe'
         }
     }
 }
