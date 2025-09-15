@@ -6,7 +6,7 @@ async function runTest4(driver) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     try {
-        // await driver.get('http://127.0.0.1:8000/');
+        await driver.get('http://127.0.0.1:8000/');
         console.log("1");
 
         const connectionButton = await driver.wait(until.elementLocated(By.css('ul > li:nth-child(3) > a')), 3000);
