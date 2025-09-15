@@ -60,31 +60,32 @@ pipeline {
                  // Starts the Symfony web server in the background
                 // bat 'start "Symfony Server" php bin/console server:start -d public -v'
                 // bat 'start "Symfony Server" php bin/console server:start'
-                bat 'start "Symfony Server" php bin/console server:start --no-tls -d public'
+                // bat 'start "Symfony Server" php bin/console server:start --no-tls -d public'
+                bat 'start "Symfony Server" symfony serve'
 
                 // Wait for the Symfony server to be ready (e.g., on port 8000)
-                // script {
-                //     def maxAttempts = 30
-                //     def attempts = 0
-                //     def isReady = false
-                //     while (attempts < maxAttempts && !isReady) {
-                //         try {
-                //             bat 'netstat -an | findstr ":8000.*LISTENING"'
-                //             println("Symfony server is up!")
-                //             isReady = true
-                //         } catch (Exception e) {
-                //             println("Waiting for Symfony server... Attempt ${attempts + 1}/${maxAttempts}")
-                //             sleep(2)
-                //             attempts++
-                //         }
-                //     }
-                //     if (!isReady) {
-                //         error("Symfony server did not start within the given time.")
-                //     }
-                // }
+                script {
+                    def maxAttempts = 30
+                    def attempts = 0
+                    def isReady = false
+                    while (attempts < maxAttempts && !isReady) {
+                        try {
+                            bat 'netstat -an | findstr ":8000.*LISTENING"'
+                            println("Symfony server is up!")
+                            isReady = true
+                        } catch (Exception e) {
+                            println("Waiting for Symfony server... Attempt ${attempts + 1}/${maxAttempts}")
+                            sleep(2)
+                            attempts++
+                        }
+                    }
+                    if (!isReady) {
+                        error("Symfony server did not start within the given time.")
+                    }
+                }
 
                 // Utiliser le nouveau script pour attendre le serveur
-                bat 'cd tests\\LOCAL-PourJenkis && wait_for_server.bat'
+                // bat 'cd tests\\LOCAL-PourJenkis && wait_for_server.bat'
 
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 bat 'node tests\\LOCAL-PourJenkis\\S1.js'
