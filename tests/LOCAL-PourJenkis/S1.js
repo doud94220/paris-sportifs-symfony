@@ -36,7 +36,9 @@ describe('S1', function () {
 
     after(async function () {
         // This runs after all tests and cleans up the driver
-        await driver.quit();
+        if (driver) {
+            await driver.quit();
+        }
     });
 });
 
