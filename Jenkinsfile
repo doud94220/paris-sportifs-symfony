@@ -30,7 +30,8 @@ pipeline {
                 // bat 'java -jar selenium-server-4.35.0.jar standalone'
                 // bat 'start "" java -jar selenium-server-4.35.0.jar standalone'
                 // bat 'start "Selenium Server" java -jar selenium-server-4.35.0.jar standalone > selenium.log 2>&1'
-                bat 'start "Selenium Server" java -jar "C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar" standalone'
+                // bat 'start "Selenium Server" java -jar "C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar" standalone'
+                bat 'start "Selenium Server" /B java -jar "C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar" standalone'
 
                 // Wait for the Selenium server to be ready
                 script {
@@ -60,7 +61,8 @@ pipeline {
                 // bat 'start "Symfony Server" php bin/console server:start -d public -v'
                 // bat 'start "Symfony Server" php bin/console server:start'
                 // bat 'start "Symfony Server" php bin/console server:start --no-tls -d public'
-                bat 'start "Symfony Server" symfony serve'
+                // bat 'start "Symfony Server" symfony serve'
+                bat 'start "Symfony Server" /B symfony serve'
 
                 // Wait for the Symfony server to be ready (e.g., on port 8000)
                 script {
@@ -101,6 +103,7 @@ pipeline {
 
         stage('Report') {
             steps {
+                bat 'dir reports' // Add this line
                 // Publie les résultats des tests JUnit (si vos tests génèrent un rapport XML)
                 junit 'reports/junit.xml'
             }
