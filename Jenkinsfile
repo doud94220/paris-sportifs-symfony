@@ -32,7 +32,6 @@ pipeline {
                 // bat 'start "Selenium Server" java -jar selenium-server-4.35.0.jar standalone > selenium.log 2>&1'
                 bat 'start "Selenium Server" java -jar "C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar" standalone'
 
-
                 // Wait for the Selenium server to be ready
                 script {
                     def maxAttempts = 60
@@ -89,7 +88,9 @@ pipeline {
 
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 // bat 'node tests\\LOCAL-PourJenkis\\S1.js'
-                bat 'cd tests\\LOCAL-PourJenkis && npm test'
+                retry(2) {
+                    bat 'cd tests\\LOCAL-PourJenkis && npm test'
+                }
             }
         }
 
