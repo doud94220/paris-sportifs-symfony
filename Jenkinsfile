@@ -93,6 +93,8 @@ pipeline {
 
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 // bat 'node tests\\LOCAL-PourJenkis\\S1.js'
+                bat 'mkdir reports'
+
                 retry(2) {
                     timeout(time: 600, unit: 'SECONDS') { // Add a timeout here
                         bat 'cd tests\\LOCAL-PourJenkis && npm test'
@@ -105,9 +107,9 @@ pipeline {
             steps {
                 // bat 'dir reports' // Add this line
                 // Publie les résultats des tests JUnit (si vos tests génèrent un rapport XML)
-                // junit 'reports/junit.xml'
+                junit 'reports/junit.xml'
                 // junit allowEmptyResults: true, testResults: 'reports/junit.xml'
-                junit allowEmptyResults: true, testResults: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\reports\\junit.xml'
+                // junit allowEmptyResults: true, testResults: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\reports\\junit.xml'
             }
         }
     }
