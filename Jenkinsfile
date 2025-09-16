@@ -112,6 +112,7 @@ pipeline {
             echo 'Stopping servers...'
             bat 'taskkill /F /IM java.exe'
             bat 'taskkill /F /IM symfony.exe'
+            bat 'taskkill /F /IM node.exe'
         }
     }
 }
