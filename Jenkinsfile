@@ -93,7 +93,8 @@ pipeline {
                 // bat 'node tests\\LOCAL-PourJenkis\\S1.js'
                 retry(2) {
                     timeout(time: 600, unit: 'SECONDS') { // Add a timeout here
-                    bat 'cd tests\\LOCAL-PourJenkis && npm test'
+                        bat 'cd tests\\LOCAL-PourJenkis && npm test'
+                     }
                 }
             }
         }
