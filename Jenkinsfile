@@ -70,7 +70,8 @@ pipeline {
                     while (attempts < maxAttempts && !isReady) {
                         try {
                             // bat 'netstat -an | findstr ":8000.*LISTENING"'
-                            bat 'curl --fail http://localhost:8000'
+                            // bat 'curl --fail http://localhost:8000'
+                            powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
                             println("Symfony server is up and responsive!")
                             isReady = true
                         } catch (Exception e) {
