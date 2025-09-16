@@ -69,8 +69,9 @@ pipeline {
                     def isReady = false
                     while (attempts < maxAttempts && !isReady) {
                         try {
-                            bat 'netstat -an | findstr ":8000.*LISTENING"'
-                            println("Symfony server is up!")
+                            // bat 'netstat -an | findstr ":8000.*LISTENING"'
+                            bat 'curl --fail http://localhost:8000'
+                            println("Symfony server is up and responsive!")
                             isReady = true
                         } catch (Exception e) {
                             println("Waiting for Symfony server... Attempt ${attempts + 1}/${maxAttempts}")
