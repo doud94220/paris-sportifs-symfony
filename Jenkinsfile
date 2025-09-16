@@ -72,7 +72,7 @@ pipeline {
                             bat 'netstat -an | findstr ":8000.*LISTENING"'
                             // bat 'curl --fail http://localhost:8000'
                             // powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
-                            println("Selenium server is up!")
+                            println("Symfony server is up!")
                             // println("Symfony server is up and responsive!")
                             isReady = true
                         } catch (Exception e) {
@@ -92,6 +92,7 @@ pipeline {
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 // bat 'node tests\\LOCAL-PourJenkis\\S1.js'
                 retry(2) {
+                    timeout(time: 600, unit: 'SECONDS') { // Add a timeout here
                     bat 'cd tests\\LOCAL-PourJenkis && npm test'
                 }
             }
