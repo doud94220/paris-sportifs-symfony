@@ -120,7 +120,7 @@ pipeline {
             bat 'taskkill /F /IM java.exe'
             bat 'taskkill /F /IM symfony.exe'
             // bat 'taskkill /F /IM node.exe'
-            bat 'taskkill /F /IM node.xe || exit 0' // Add `|| exit 0` to prevent failure
+            bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
 
         }
     }
