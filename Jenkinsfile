@@ -103,11 +103,11 @@ pipeline {
 
         stage('Report') {
             steps {
-                bat 'dir reports' // Add this line
+                // bat 'dir reports' // Add this line
                 // Publie les résultats des tests JUnit (si vos tests génèrent un rapport XML)
                 // junit 'reports/junit.xml'
-                junit allowEmptyResults: true, testResults: 'reports/junit.xml'
-
+                // junit allowEmptyResults: true, testResults: 'reports/junit.xml'
+                junit allowEmptyResults: true, testResults: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\reports\\junit.xml'
             }
         }
     }
