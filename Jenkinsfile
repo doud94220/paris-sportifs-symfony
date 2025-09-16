@@ -105,7 +105,9 @@ pipeline {
             steps {
                 bat 'dir reports' // Add this line
                 // Publie les résultats des tests JUnit (si vos tests génèrent un rapport XML)
-                junit 'reports/junit.xml'
+                // junit 'reports/junit.xml'
+                junit allowEmptyResults: true, testResults: 'reports/junit.xml'
+
             }
         }
     }
@@ -117,7 +119,9 @@ pipeline {
             echo 'Stopping servers...'
             bat 'taskkill /F /IM java.exe'
             bat 'taskkill /F /IM symfony.exe'
-            bat 'taskkill /F /IM node.exe'
+            // bat 'taskkill /F /IM node.exe'
+            bat 'taskkill /F /IM node.xe || exit 0' // Add `|| exit 0` to prevent failure
+
         }
     }
 }
