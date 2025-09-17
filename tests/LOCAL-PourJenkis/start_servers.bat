@@ -1,2 +1,2 @@
-powershell.exe -NoProfile -WindowStyle Hidden -Command "Start-Process java -ArgumentList '-jar', 'C:\SeleniumServerGrid\selenium-server-4.35.0.jar', 'standalone'"
-powershell.exe -NoProfile -WindowStyle Hidden -Command "Start-Process php -ArgumentList 'C:\ProgramData\Jenkins\.jenkins\workspace\JobDoud1\bin\console', 'serve'"
+cmd /k start "Selenium Server" java -jar "C:\SeleniumServerGrid\selenium-server-4.35.0.jar" standalone
+cmd /k start "Symfony Server" php -S 127.0.0.1:8000 -t public
