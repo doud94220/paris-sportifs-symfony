@@ -25,19 +25,19 @@ describe('S1', function () {
         }
     });
 
-    it('should successfully register a new user', async function () {
+    it('should run Test 2 - Register a new user', async function () {
         await runTest2(driver);
     });
 
-    it('should successfully register a new user', async function () {
+    it('should run Test 4 - Connect as a new user', async function () {
         await runTest4(driver);
     });
 
-    it('should successfully register a new user', async function () {
+    it('should run Test 7.2 - Consult one tennis player info', async function () {
         await runTest7_2(driver);
     });
 
-    it('should successfully register a new user', async function () {
+    it('should run Test 47 - Classik user logout', async function () {
         await runTest47(driver);
     });
 });

@@ -31,15 +31,20 @@ async function runTest47(driver) {
     console.log("7");
 
     //Verify that admin is loggued
-    const disconnectionButton = await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(6) > a.btn')), 3000);
+    // const disconnectionButton = await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(6) > a.btn')), 3000);
+    await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(6) > a.btn')), 5000); // Waits up to 5 seconds
     console.log("8");
 
-    await disconnectionButton.click();
-    console.log("9 - Logout button clicked");
+    const logoutButton = await driver.findElement(By.css('nav > ul > li:nth-child(6) > a.btn'));
+    console.log("9");
+
+    // await disconnectionButton.click();
+    await logoutButton.click();
+    console.log("10 - Logout button clicked");
 
     // Verify that log button is displayed
-    await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(3) > a')), 3000);
-    console.log("10 - On n'est PLUS loggué en CLASSIK USER !");
+    await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(3) > a')), 5000);
+    console.log("11 - On n'est PLUS loggué en CLASSIK USER !");
     // -------------------------------------------------------------------------------------------------------------
 };
 
