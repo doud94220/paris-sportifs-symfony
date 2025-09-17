@@ -20,6 +20,8 @@ pipeline {
                 // Installe les dépendances PHP et JavaScript
                 bat 'composer install --no-interaction --prefer-dist'
                 // bat 'npm install'
+                echo 'Clearing npm cache...'
+                bat 'npm cache clean --force'
                 bat 'cd tests\\LOCAL-PourJenkis && npm install'
             }
         }
