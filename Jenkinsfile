@@ -30,7 +30,8 @@ pipeline {
             steps {
                 echo 'Starting servers...'
                 // bat 'start_servers.bat'
-                bat "\"${pwd()}\\start_servers.bat\""
+                // bat "\"${pwd()}\\start_servers.bat\""
+                bat 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\tests\\LOCAL-PourJenkis\\start_servers.bat'
 
                 // Lance le serveur Selenium (si nécessaire) et exécute les tests Selenium Web Driver
                 // bat 'java -jar selenium-server-4.35.0.jar standalone'
