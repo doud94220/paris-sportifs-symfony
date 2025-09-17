@@ -44,8 +44,9 @@ pipeline {
                 script {
                     def maxAttempts = 60
                     def attempts = 0
+                    def serverIsUp = false
 
-                    while (attempts < maxAttempts) {
+                    while (attempts < maxAttempts && !serverIsUp) {
                             // Check if the server is listening on port 4444
                             // bat 'netstat -an | findstr ":4444.*LISTENING"'
                             def output = bat(script: 'netstat -an | findstr ":4444.*LISTENING"', returnStdout: true, ignoreExitStatus: true)
@@ -59,7 +60,11 @@ pipeline {
                     }
 
                     if (attempt > maxAttempts) {
-                    error('Selenium server did not start in time.')
+                        error('Selenium server did not start in time.')
+                    }
+
+                    if (!serverIsUp) {
+                        error('Selenium server did not start in time.')
                     }
                 }
 
@@ -74,8 +79,9 @@ pipeline {
                 script {
                     def maxAttempts = 30
                     def attempts = 0
+                    def serverIsUp = false
 
-                    while (attempts < maxAttempts) {
+                    while (attempts < maxAttempts && !serverIsUp) {
                             // bat 'netstat -an | findstr ":8000.*LISTENING"'
                             def output = bat(script: 'netstat -an | findstr ":8000.*LISTENING"', returnStdout: true, ignoreExitStatus: true)
                             // bat 'curl --fail http://localhost:8000'
@@ -93,6 +99,10 @@ pipeline {
                     }
 
                     if (attempt > maxAttempts) {
+                        error('Symfony server did not start in time.')
+                    }
+
+                    if (!serverIsUp) {
                         error('Symfony server did not start in time.')
                     }
                 }
