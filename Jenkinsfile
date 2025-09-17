@@ -146,11 +146,11 @@ pipeline {
                 echo 'Running tests...'
 
                 retry(2) {
-                    // timeout(time: 60, unit: 'SECONDS') { // Add a timeout here
+                    // Add a timeout for the npm test command
+                    timeout(time: 120, unit: 'SECONDS') {
                         bat 'cd tests\\LOCAL-PourJenkis && npm test'
-                     }
+                    }
                 }
-            }
 
         stage('Report') {
             steps {
