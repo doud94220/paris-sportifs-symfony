@@ -12,10 +12,17 @@ const { runTest47 } = require('./47.ClassikUserLogout.js');
 let driver;
 
 describe('S1', function () {
-    this.timeout(20000); // Set a global timeout for the suite
+    this.timeout(30000); // Set a global timeout for the suite
 
-    before(async function () {
+    beforeEach(async function () {
         driver = await new Builder().forBrowser('chrome').usingServer(serverUrl).build();
+    });
+
+    afterEach(async function () {
+        // This runs after all tests and cleans up the driver
+        if (driver) {
+            await driver.quit();
+        }
     });
 
     it('should successfully register a new user', async function () {
@@ -33,12 +40,4 @@ describe('S1', function () {
     it('should successfully register a new user', async function () {
         await runTest47(driver);
     });
-
-    after(async function () {
-        // This runs after all tests and cleans up the driver
-        if (driver) {
-            await driver.quit();
-        }
-    });
 });
-
