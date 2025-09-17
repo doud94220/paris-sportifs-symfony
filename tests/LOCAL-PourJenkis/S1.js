@@ -20,8 +20,12 @@ describe('S1', function () {
 
     afterEach(async function () {
         // This runs after all tests and cleans up the driver
-        if (driver) {
-            await driver.quit();
+        try {
+            if (driver) {
+                await driver.quit();
+            }
+        } catch (e) {
+            console.error("Error quitting the WebDriver:", e);
         }
     });
 
