@@ -27,7 +27,8 @@ pipeline {
         stage('Run Test 1') {
             steps {
                 echo 'Starting servers...'
-                bat 'start_servers.bat'
+                // bat 'start_servers.bat'
+                bat "\"${pwd()}\\start_servers.bat\""
 
                 // Lance le serveur Selenium (si nécessaire) et exécute les tests Selenium Web Driver
                 // bat 'java -jar selenium-server-4.35.0.jar standalone'
