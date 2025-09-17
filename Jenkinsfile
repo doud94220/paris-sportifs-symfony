@@ -49,7 +49,7 @@ pipeline {
                     while (attempts < maxAttempts && !serverIsUp) {
                             // Check if the server is listening on port 4444
                             // bat 'netstat -an | findstr ":4444.*LISTENING"'
-                            def output = bat(script: 'netstat -an | findstr ":4444.*LISTENING"', returnStdout: true, ignoreExitStatus: true)
+                            def output = bat(script: 'netstat -an | findstr ":4444.*LISTENING"', returnStdout: true)
                             if (output.trim().contains(':4444')) {
                                 echo 'Selenium server is up!'
                                 serverIsUp = true
@@ -83,7 +83,7 @@ pipeline {
 
                     while (attempts < maxAttempts && !serverIsUp) {
                             // bat 'netstat -an | findstr ":8000.*LISTENING"'
-                            def output = bat(script: 'netstat -an | findstr ":8000.*LISTENING"', returnStdout: true, ignoreExitStatus: true)
+                            def output = bat(script: 'netstat -an | findstr ":8000.*LISTENING"', returnStdout: true)
                             // bat 'curl --fail http://localhost:8000'
                             // powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
                             // println("Symfony server is up!")
