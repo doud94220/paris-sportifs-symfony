@@ -2,6 +2,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
 require('chromedriver');
+const chrome = require('selenium-webdriver/chrome');
 const serverUrl = 'http://localhost:4444/wd/hub';
 
 const { runTest2 } = require('./2.RegisterAsClassikUser.js');
