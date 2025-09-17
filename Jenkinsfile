@@ -173,7 +173,7 @@ pipeline {
             // It ensures the servers are killed.
             echo 'Stopping servers...'
             echo 'Stop java server...'
-            bat 'taskkill /F /IM java.exe'
+            bat 'taskkill /F /IM java.exe || exit 0'
             // bat 'taskkill /F /IM symfony.exe'
             echo 'Stop PHP server...'
             bat 'taskkill /F /IM php.exe'

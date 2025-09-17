@@ -38,7 +38,7 @@ async function runTest2(driver) {
     // console.log("10");
 
     const successRegistrationMsg = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    console.log("Classik user is registered !");
+    console.log("10 - Classik user is registered !");
 };
 
 module.exports = { runTest2 };
