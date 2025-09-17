@@ -41,33 +41,33 @@ pipeline {
                 // bat 'start "Selenium Server" /B java -jar "C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar" standalone'
 
                 // Wait for the Selenium server to be ready
-                script {
-                    def maxAttempts = 60
-                    def attempts = 1
-                    // def serverIsUp = false
+                // script {
+                //     def maxAttempts = 60
+                //     def attempts = 1
+                //     // def serverIsUp = false
 
-                    while (attempts < maxAttempts) {
+                //     while (attempts < maxAttempts) {
 
-                            try{
-                                // Check if the server is listening on port 4444
-                                // bat 'netstat -an | findstr ":4444.*LISTENING"'
-                                bat 'netstat -an | findstr ":4444.*LISTENING"'
-                                echo 'Selenium server is up!'
-                                // serverIsUp = true
-                                break
-                                }
-                                catch(Exception e)
-                                {
-                                    echo "Waiting for Selenium server... Attempt ${attempt}/${maxAttempts}"
-                                    sleep 2
-                                    attempt++
-                                } 
-                    }
+                //             try{
+                //                 // Check if the server is listening on port 4444
+                //                 // bat 'netstat -an | findstr ":4444.*LISTENING"'
+                //                 bat 'netstat -an | findstr ":4444.*LISTENING"'
+                //                 echo 'Selenium server is up!'
+                //                 // serverIsUp = true
+                //                 break
+                //                 }
+                //                 catch(Exception e)
+                //                 {
+                //                     echo "Waiting for Selenium server... Attempt ${attempt}/${maxAttempts}"
+                //                     sleep 2
+                //                     attempt++
+                //                 } 
+                //     }
 
-                    if (attempt > maxAttempts) {
-                        error('Selenium server did not start in time.')
-                    }
-                }
+                //     if (attempt > maxAttempts) {
+                //         error('Selenium server did not start in time.')
+                //     }
+                // }
 
                 // Starts the Symfony web server in the background
                 // bat 'start "Symfony Server" php bin/console server:start -d public -v'
@@ -77,39 +77,39 @@ pipeline {
                 // bat 'start "Symfony Server" /B symfony serve'
 
                 // Wait for the Symfony server to be ready (e.g., on port 8000)
-                script {
-                    def maxAttempts = 30
-                    def attempts = 1
-                    // def serverIsUp = false
+                // script {
+                //     def maxAttempts = 30
+                //     def attempts = 1
+                //     // def serverIsUp = false
 
-                    while (attempts < maxAttempts) {
-                            // bat 'netstat -an | findstr ":8000.*LISTENING"'
-                            try{
-                                bat 'netstat -an | findstr ":8000.*LISTENING"'
-                                // bat 'curl --fail http://localhost:8000'
-                                // powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
-                                // println("Symfony server is up!")
-                                // println("Symfony server is up and responsive!")
-                                echo 'Symfony server is up!'
-                                // serverIsUp = true
-                                break
-                                }
-                                catch (Exception e) {
-                                    echo "Waiting for Symfony server... Attempt ${attempt}/${maxAttempts}"
-                                    sleep 2
-                                    attempt++
-                                }
-                    }
+                //     while (attempts < maxAttempts) {
+                //             // bat 'netstat -an | findstr ":8000.*LISTENING"'
+                //             try{
+                //                 bat 'netstat -an | findstr ":8000.*LISTENING"'
+                //                 // bat 'curl --fail http://localhost:8000'
+                //                 // powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
+                //                 // println("Symfony server is up!")
+                //                 // println("Symfony server is up and responsive!")
+                //                 echo 'Symfony server is up!'
+                //                 // serverIsUp = true
+                //                 break
+                //                 }
+                //                 catch (Exception e) {
+                //                     echo "Waiting for Symfony server... Attempt ${attempt}/${maxAttempts}"
+                //                     sleep 2
+                //                     attempt++
+                //                 }
+                //     }
 
-                    if (attempt > maxAttempts) {
-                        error('Symfony server did not start in time.')
-                    }
+                //     if (attempt > maxAttempts) {
+                //         error('Symfony server did not start in time.')
+                //     }
 
-                    // if (!serverIsUp) {
-                    //     error('Symfony server did not start in time.')
-                    // }
+                //     // if (!serverIsUp) {
+                //     //     error('Symfony server did not start in time.')
+                //     // }
                
-                }
+                // }
 
                 // Utiliser le nouveau script pour attendre le serveur
                 // bat 'cd tests\\LOCAL-PourJenkis && wait_for_server.bat'
@@ -117,6 +117,31 @@ pipeline {
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 // bat 'node tests\\LOCAL-PourJenkis\\S1.js'
                 // bat 'mkdir reports'
+
+                echo 'Waiting for servers to be up...'
+                timeout(time: 120, unit: 'SECONDS') {
+                    waitUntil {
+                        script {
+                            def seleniumIsUp = false
+                            try {
+                                bat 'netstat -an | findstr ":4444.*LISTENING"'
+                                seleniumIsUp = true
+                            } catch (e) {
+                                echo 'Selenium server not ready yet.'
+                            }
+                            
+                            def symfonyIsUp = false
+                            try {
+                                bat 'netstat -an | findstr ":8000.*LISTENING"'
+                                symfonyIsUp = true
+                            } catch (e) {
+                                echo 'Symfony server not ready yet.'
+                            }
+                            
+                            return seleniumIsUp && symfonyIsUp
+                        }
+                    }
+                }
 
                 echo 'Running tests...'
 
@@ -126,7 +151,7 @@ pipeline {
                      }
                 }
             }
-            
+
         stage('Report') {
             steps {
                 echo 'Publishing test report...'
