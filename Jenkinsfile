@@ -61,11 +61,11 @@ pipeline {
                                     echo "Waiting for Selenium server... Attempt ${attempt}/${maxAttempts}"
                                     sleep 2
                                     attempt++
-                                }
+                                } 
+                    }
 
-                            if (attempt > maxAttempts) {
-                                error('Selenium server did not start in time.')
-                            }
+                    if (attempt > maxAttempts) {
+                        error('Selenium server did not start in time.')
                     }
                 }
 
@@ -85,14 +85,14 @@ pipeline {
                     while (attempts < maxAttempts) {
                             // bat 'netstat -an | findstr ":8000.*LISTENING"'
                             try{
-                                    bat 'netstat -an | findstr ":8000.*LISTENING"'
-                                    // bat 'curl --fail http://localhost:8000'
-                                    // powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
-                                    // println("Symfony server is up!")
-                                    // println("Symfony server is up and responsive!")
-                                    echo 'Symfony server is up!'
-                                    // serverIsUp = true
-                                    break
+                                bat 'netstat -an | findstr ":8000.*LISTENING"'
+                                // bat 'curl --fail http://localhost:8000'
+                                // powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
+                                // println("Symfony server is up!")
+                                // println("Symfony server is up and responsive!")
+                                echo 'Symfony server is up!'
+                                // serverIsUp = true
+                                break
                                 }
                                 catch (Exception e) {
                                     echo "Waiting for Symfony server... Attempt ${attempt}/${maxAttempts}"
