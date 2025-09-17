@@ -61,6 +61,7 @@ pipeline {
                     if (attempt > maxAttempts) {
                     error('Selenium server did not start in time.')
                     }
+                }
 
                 // Starts the Symfony web server in the background
                 // bat 'start "Symfony Server" php bin/console server:start -d public -v'
