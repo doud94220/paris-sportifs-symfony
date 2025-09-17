@@ -126,8 +126,7 @@ pipeline {
                      }
                 }
             }
-        }
-
+            
         stage('Report') {
             steps {
                 echo 'Publishing test report...'
