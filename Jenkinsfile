@@ -93,7 +93,7 @@ pipeline {
 
                 // sh 'npm install' // ou la commande qui lance vos tests (ex: npx mocha)
                 // bat 'node tests\\LOCAL-PourJenkis\\S1.js'
-                bat 'mkdir reports'
+                // bat 'mkdir reports'
 
                 retry(2) {
                     timeout(time: 600, unit: 'SECONDS') { // Add a timeout here
