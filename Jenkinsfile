@@ -151,6 +151,8 @@ pipeline {
                         bat 'cd tests\\LOCAL-PourJenkis && npm test'
                     }
                 }
+            }
+        }
 
         stage('Report') {
             steps {
