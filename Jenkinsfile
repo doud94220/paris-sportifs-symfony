@@ -44,28 +44,29 @@ pipeline {
                 script {
                     def maxAttempts = 60
                     def attempts = 1
-                    def serverIsUp = false
+                    // def serverIsUp = false
 
-                    while (attempts < maxAttempts && !serverIsUp) {
+                    while (attempts < maxAttempts) {
                             // Check if the server is listening on port 4444
                             // bat 'netstat -an | findstr ":4444.*LISTENING"'
-                            def output = bat(script: 'netstat -an | findstr ":4444.*LISTENING"', returnStdout: true)
+                            def output = bat(script: 'netstat -an | findstr ":4444.*LISTENING"', returnStdout: true, ignoreExitStatus: true)
                             if (output.trim().contains(':4444')) {
                                 echo 'Selenium server is up!'
-                                serverIsUp = true
+                                // serverIsUp = true
+                                break
                             }
                             echo "Waiting for Selenium server... Attempt ${attempt}/${maxAttempts}"
                             sleep 2
                             attempt++
                     }
 
-                    // if (attempt > maxAttempts) {
-                    //     error('Selenium server did not start in time.')
-                    // }
-
-                    if (!serverIsUp) {
+                    if (attempt > maxAttempts) {
                         error('Selenium server did not start in time.')
                     }
+
+                    // if (!serverIsUp) {
+                    //     error('Selenium server did not start in time.')
+                    // }
                 }
 
                 // Starts the Symfony web server in the background
@@ -79,18 +80,19 @@ pipeline {
                 script {
                     def maxAttempts = 30
                     def attempts = 1
-                    def serverIsUp = false
+                    // def serverIsUp = false
 
-                    while (attempts < maxAttempts && !serverIsUp) {
+                    while (attempts < maxAttempts) {
                             // bat 'netstat -an | findstr ":8000.*LISTENING"'
-                            def output = bat(script: 'netstat -an | findstr ":8000.*LISTENING"', returnStdout: true)
+                            def output = bat(script: 'netstat -an | findstr ":8000.*LISTENING"', returnStdout: true, ignoreExitStatus: true)
                             // bat 'curl --fail http://localhost:8000'
                             // powershell 'Invoke-WebRequest -Uri http://localhost:8000 -UseBasicParsing'
                             // println("Symfony server is up!")
                             // println("Symfony server is up and responsive!")
                             if (output.trim().contains(':8000')) {
                                 echo 'Symfony server is up!'
-                                serverIsUp = true
+                                // serverIsUp = true
+                                break
                             }
 
                             echo "Waiting for Symfony server... Attempt ${attempt}/${maxAttempts}"
@@ -98,13 +100,13 @@ pipeline {
                             attempt++
                     }
 
-                    // if (attempt > maxAttempts) {
-                    //     error('Symfony server did not start in time.')
-                    // }
-
-                    if (!serverIsUp) {
+                    if (attempt > maxAttempts) {
                         error('Symfony server did not start in time.')
                     }
+
+                    // if (!serverIsUp) {
+                    //     error('Symfony server did not start in time.')
+                    // }
                
                 }
 
