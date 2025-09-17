@@ -1,2 +1,2 @@
 powershell.exe -NoProfile -WindowStyle Hidden -Command "Start-Process java -ArgumentList '-jar', 'C:\SeleniumServerGrid\selenium-server-4.35.0.jar', 'standalone'"
-powershell.exe -NoProfile -WindowStyle Hidden -Command "Start-Process symfony -ArgumentList 'serve'"
+powershell.exe -NoProfile -WindowStyle Hidden -Command "Start-Process php -ArgumentList 'bin/console', 'serve'"
