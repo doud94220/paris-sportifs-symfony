@@ -43,7 +43,7 @@ pipeline {
                 // Wait for the Selenium server to be ready
                 script {
                     def maxAttempts = 60
-                    def attempts = 0
+                    def attempts = 1
                     def serverIsUp = false
 
                     while (attempts < maxAttempts && !serverIsUp) {
@@ -52,16 +52,16 @@ pipeline {
                             def output = bat(script: 'netstat -an | findstr ":4444.*LISTENING"', returnStdout: true, ignoreExitStatus: true)
                             if (output.trim().contains(':4444')) {
                                 echo 'Selenium server is up!'
-                                break
+                                serverIsUp = true
                             }
                             echo "Waiting for Selenium server... Attempt ${attempt}/${maxAttempts}"
                             sleep 2
                             attempt++
                     }
 
-                    if (attempt > maxAttempts) {
-                        error('Selenium server did not start in time.')
-                    }
+                    // if (attempt > maxAttempts) {
+                    //     error('Selenium server did not start in time.')
+                    // }
 
                     if (!serverIsUp) {
                         error('Selenium server did not start in time.')
@@ -78,7 +78,7 @@ pipeline {
                 // Wait for the Symfony server to be ready (e.g., on port 8000)
                 script {
                     def maxAttempts = 30
-                    def attempts = 0
+                    def attempts = 1
                     def serverIsUp = false
 
                     while (attempts < maxAttempts && !serverIsUp) {
@@ -90,7 +90,7 @@ pipeline {
                             // println("Symfony server is up and responsive!")
                             if (output.trim().contains(':8000')) {
                                 echo 'Symfony server is up!'
-                                break
+                                serverIsUp = true
                             }
 
                             echo "Waiting for Symfony server... Attempt ${attempt}/${maxAttempts}"
@@ -98,13 +98,14 @@ pipeline {
                             attempt++
                     }
 
-                    if (attempt > maxAttempts) {
-                        error('Symfony server did not start in time.')
-                    }
+                    // if (attempt > maxAttempts) {
+                    //     error('Symfony server did not start in time.')
+                    // }
 
                     if (!serverIsUp) {
                         error('Symfony server did not start in time.')
                     }
+               
                 }
 
                 // Utiliser le nouveau script pour attendre le serveur
