@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha S1.js"
+    "test": "mocha --reporter spec S1.js"
   },
   "keywords": [],
   "author": "",
