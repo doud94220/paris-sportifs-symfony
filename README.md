@@ -12,4 +12,4 @@ L'administrateur peut :
 - insérer le résultat des matchs
 - lancer le programme d'attribution des points suite aux résultats parus
 
-Un job sur Heroku (l’hébergeur) envoie un premier mail de relance (entre 3 et 4h) avant la deadline, et un dernier mail de relance (entre 0 et 1h) avant la deadline.
+Un job sur Heroku (l’hébergeur) envoie un premier mail de relance (entre 2 et 3h) avant la deadline, et un dernier mail de relance (entre 0 et 1h) avant la deadline.

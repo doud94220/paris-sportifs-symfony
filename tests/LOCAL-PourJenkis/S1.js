@@ -30,7 +30,7 @@ describe('S1', function () {
     beforeEach(async function () {
         // Initialisation du pilote avec des options pour le mode non-headless
         let options = new chrome.Options();
-        options.headless = false; // Désactive le mode headless
+        // options.headless = false; // Désactive le mode headless
 
         driver = await new Builder().forBrowser('chrome')
             .usingServer(serverUrl)
