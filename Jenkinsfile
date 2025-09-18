@@ -124,7 +124,8 @@ pipeline {
                         script {
                             def seleniumIsUp = false
                             try {
-                                bat 'netstat -an | findstr ":4444.*LISTENING"'
+                                // bat 'netstat -an | findstr ":4444.*LISTENING"'
+                                bat 'curl --fail http://localhost:4444/status'
                                 seleniumIsUp = true
                             } catch (e) {
                                 echo 'Selenium server not ready yet.'

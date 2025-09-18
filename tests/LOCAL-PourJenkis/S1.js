@@ -1,9 +1,9 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
-require('chromedriver');
-const chrome = require('selenium-webdriver/chrome');
-const serverUrl = 'http://localhost:4444/wd/hub';
+// require('chromedriver');
+// const chrome = require('selenium-webdriver/chrome');
+// const serverUrl = 'http://localhost:4444/wd/hub';
 
 const { runTest2 } = require('./2.RegisterAsClassikUser.js');
 const { runTest4 } = require('./4.ConnectionAsClassikUser.js');
@@ -13,19 +13,19 @@ const { runTest47 } = require('./47.ClassikUserLogout.js');
 let driver;
 
 // Function to add a timeout to a promise
-function withTimeout(promise, ms) {
-    return Promise.race([
-        promise,
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Promise timed out')), ms))
-    ]);
-}
+// function withTimeout(promise, ms) {
+//     return Promise.race([
+//         promise,
+//         new Promise((_, reject) => setTimeout(() => reject(new Error('Promise timed out')), ms))
+//     ]);
+// }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 describe('S1', function () {
-    this.timeout(60000); // Set a global timeout for the suite
+    this.timeout(120000); // Set a global timeout for the suite
 
     // beforeEach(async function () {
     //     driver = await new Builder().forBrowser('chrome').usingServer(serverUrl).build();
@@ -36,19 +36,37 @@ describe('S1', function () {
         // let options = new chrome.Options();
         // options.headless = false; // Désactive le mode headless
 
-        driver = await new Builder().forBrowser('chrome')
-            .usingServer(serverUrl)
-            // .setChromeOptions(options) // Applique les options
-            .build();
+        let retries = 5;
+        while (retries > 0) {
+            try {
+                driver = await new Builder().forBrowser('chrome')
+                    .usingServer('http://localhost:4444/wd/hub')
+                    .build();
+                console.log("Driver successfully initialized!");
+                return; // Exit the loop on success
+                // driver = await new Builder().forBrowser('chrome')
+                // .usingServer(serverUrl)
+                // .setChromeOptions(options) // Applique les options
+                // .build();
+            }
+            catch (e) {
+                console.error(`Failed to connect to Selenium server. Retries left: ${retries}`);
+                retries--;
+                await sleep(5000); // Wait 5 seconds before retrying
+                if (retries === 0) {
+                    throw new Error("Could not connect to Selenium server after multiple retries.");
+                }
+            }
+        }
     });
 
     after(async function () {
         // This runs after all tests and cleans up the driver
         try {
             if (driver) {
-                // await driver.quit();
+                await driver.quit();
                 // This line is what solves the problem
-                await withTimeout(driver.quit(), 10000);
+                // await withTimeout(driver.quit(), 10000);
             }
         } catch (e) {
             console.error("Error quitting the WebDriver:", e);
@@ -57,21 +75,21 @@ describe('S1', function () {
 
     it('should run Test 2 - Register a new user', async function () {
         await runTest2(driver);
-        await sleep(2000); // Ajoute un délai de 2 secondes
+        // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 4 - Connect as a new user', async function () {
         await runTest4(driver);
-        await sleep(2000); // Ajoute un délai de 2 secondes
+        // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 7.2 - Consult one tennis player info', async function () {
         await runTest7_2(driver);
-        await sleep(2000); // Ajoute un délai de 2 secondes
+        // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 47 - Classik user logout', async function () {
         await runTest47(driver);
-        await sleep(2000); // Ajoute un délai de 2 secondes
+        // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 });
