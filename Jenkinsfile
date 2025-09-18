@@ -206,6 +206,20 @@ pipeline {
         // }
     }
 
+        // Ajout de la section post
+    post {
+        always {
+            echo 'Stopping all background servers...'
+            timeout(time: 30, unit: 'SECONDS') {
+                bat 'taskkill /F /IM java.exe || exit 0'
+                bat 'taskkill /F /IM php.exe || exit 0'
+                bat 'taskkill /F /IM node.exe || exit 0'
+            }
+            
+            echo 'Publishing test report...'
+            junit testResults: 'reports/junit.xml', skipPublishingChecks: true
+        }
+    }
     // post {
     //     always {
     //         // This step runs at the end of the pipeline, regardless of success or failure.
