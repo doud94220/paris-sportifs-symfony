@@ -169,13 +169,27 @@ pipeline {
 
         stage('Cleanup and Reporting') {
             steps {
-                echo 'Stopping servers...'
-                // Tuer le processus PHP
-                bat 'taskkill /f /im php.exe'
-                // Tuer le processus Selenium
-                bat 'taskkill /f /im java.exe'
-                echo 'Publishing test reports...'
-                junit '**/reports/junit.xml'
+                echo 'Stopping 3 servers...'
+
+                echo 'Stop java server...'
+                timeout(time: 30, unit: 'SECONDS') {
+                    bat 'taskkill /F /IM java.exe || exit 0'
+                }
+
+                // bat 'taskkill /F /IM symfony.exe'
+                echo 'Stop PHP server...'
+                timeout(time: 30, unit: 'SECONDS') {
+                    bat 'taskkill /F /IM php.exe || exit 0'
+                }
+
+                // bat 'taskkill /F /IM node.exe'
+                echo 'Stop Node server...'
+                timeout(time: 30, unit: 'SECONDS') {
+                    bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
+                }
+
+                echo 'Publishing test report...'
+                junit testResults: 'reports/junit.xml', skipPublishingChecks: true
             }
         }
 
