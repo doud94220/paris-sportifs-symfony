@@ -173,11 +173,14 @@ pipeline {
             // This step runs at the end of the pipeline, regardless of success or failure.
             // It ensures the servers are killed.
             echo 'Stopping servers...'
+
             echo 'Stop java server...'
             bat 'taskkill /F /IM java.exe || exit 0'
+
             // bat 'taskkill /F /IM symfony.exe'
             echo 'Stop PHP server...'
-            bat 'taskkill /F /IM php.exe'
+            bat 'taskkill /F /IM php.exe || exit 0'
+
             // bat 'taskkill /F /IM node.exe'
             echo 'Stop Node server...'
             bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
