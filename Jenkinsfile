@@ -167,31 +167,31 @@ pipeline {
             }
         }
 
-        stage('Cleanup and Reporting') {
-            steps {
-                echo 'Stopping 3 servers...'
+        // stage('Cleanup and Reporting') {
+        //     steps {
+        //         echo 'Stopping 3 servers...'
 
-                echo 'Stop java server...'
-                timeout(time: 30, unit: 'SECONDS') {
-                    bat 'taskkill /F /IM java.exe || exit 0'
-                }
+        //         echo 'Stop java server...'
+        //         timeout(time: 30, unit: 'SECONDS') {
+        //             bat 'taskkill /F /IM java.exe || exit 0'
+        //         }
 
-                // bat 'taskkill /F /IM symfony.exe'
-                echo 'Stop PHP server...'
-                timeout(time: 30, unit: 'SECONDS') {
-                    bat 'taskkill /F /IM php.exe || exit 0'
-                }
+        //         // bat 'taskkill /F /IM symfony.exe'
+        //         echo 'Stop PHP server...'
+        //         timeout(time: 30, unit: 'SECONDS') {
+        //             bat 'taskkill /F /IM php.exe || exit 0'
+        //         }
 
-                // bat 'taskkill /F /IM node.exe'
-                echo 'Stop Node server...'
-                timeout(time: 30, unit: 'SECONDS') {
-                    bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
-                }
+        //         // bat 'taskkill /F /IM node.exe'
+        //         echo 'Stop Node server...'
+        //         timeout(time: 30, unit: 'SECONDS') {
+        //             bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
+        //         }
 
-                echo 'Publishing test report...'
-                junit testResults: 'reports/junit.xml', skipPublishingChecks: true
-            }
-        }
+        //         echo 'Publishing test report...'
+        //         junit testResults: 'reports/junit.xml', skipPublishingChecks: true
+        //     }
+        // }
 
         // stage('Report') {
         //     steps {
@@ -210,8 +210,24 @@ pipeline {
     post {
         always {
             echo 'Stopping all background servers...'
+
+            echo 'Stop java server...'
             timeout(time: 30, unit: 'SECONDS') {
-                bat 'taskkill /F /IM java.exe || exit 0'
+                @echo off
+                for /f "tokens=5" %%a in ('netstat -aon ^| findstr "4444"') do (
+                    set "pid=%%a"
+                )
+
+                if defined pid (
+                    echo Killing process with PID: %pid%
+                    taskkill /F /PID %pid%
+                ) else (
+                    echo No process found on port 4444.
+                )
+            }
+
+            echo 'Stop PHP server... and Stop Node server...'
+            timeout(time: 30, unit: 'SECONDS') {
                 bat 'taskkill /F /IM php.exe || exit 0'
                 bat 'taskkill /F /IM node.exe || exit 0'
             }
