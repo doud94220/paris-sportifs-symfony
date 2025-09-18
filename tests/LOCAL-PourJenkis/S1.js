@@ -13,12 +13,20 @@ const { runTest47 } = require('./47.ClassikUserLogout.js');
 let driver;
 
 // Function to add a timeout to a promise
-// function withTimeout(promise, ms) {
-//     return Promise.race([
-//         promise,
-//         new Promise((_, reject) => setTimeout(() => reject(new Error('Promise timed out')), ms))
-//     ]);
-// }
+async function withTimeout(promise, ms) {
+    let timeoutId;
+    const timeoutPromise = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+            reject(new Error(`Timeout after ${ms}ms`));
+        }, ms);
+    });
+
+    try {
+        await Promise.race([promise, timeoutPromise]);
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -64,9 +72,9 @@ describe('S1', function () {
         // This runs after all tests and cleans up the driver
         try {
             if (driver) {
-                await driver.quit();
+                // await driver.quit();
                 // This line is what solves the problem
-                // await withTimeout(driver.quit(), 10000);
+                await withTimeout(driver.quit(), 10000);
             }
         } catch (e) {
             console.error("Error quitting the WebDriver:", e);
