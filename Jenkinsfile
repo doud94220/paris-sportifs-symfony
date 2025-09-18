@@ -178,16 +178,21 @@ pipeline {
             echo 'Stopping servers...'
 
             echo 'Stop java server...'
-            bat 'taskkill /F /IM java.exe || exit 0'
+            timeout(time: 30, unit: 'SECONDS') {
+                bat 'taskkill /F /IM java.exe || exit 0'
+            }
 
             // bat 'taskkill /F /IM symfony.exe'
             echo 'Stop PHP server...'
-            bat 'taskkill /F /IM php.exe || exit 0'
+            timeout(time: 30, unit: 'SECONDS') {
+                bat 'taskkill /F /IM php.exe || exit 0'
+            }
 
             // bat 'taskkill /F /IM node.exe'
             echo 'Stop Node server...'
-            bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
-
+            timeout(time: 30, unit: 'SECONDS') {
+                bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
+            }
         }
     }
 }
