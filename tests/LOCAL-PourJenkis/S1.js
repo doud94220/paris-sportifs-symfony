@@ -20,6 +20,10 @@ function withTimeout(promise, ms) {
     ]);
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('S1', function () {
     this.timeout(60000); // Set a global timeout for the suite
 
@@ -53,17 +57,21 @@ describe('S1', function () {
 
     it('should run Test 2 - Register a new user', async function () {
         await runTest2(driver);
+        await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 4 - Connect as a new user', async function () {
         await runTest4(driver);
+        await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 7.2 - Consult one tennis player info', async function () {
         await runTest7_2(driver);
+        await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 47 - Classik user logout', async function () {
         await runTest47(driver);
+        await sleep(2000); // Ajoute un délai de 2 secondes
     });
 });
