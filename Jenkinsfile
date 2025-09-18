@@ -14,6 +14,11 @@ pipeline {
         //         git branch: 'main', url: 'https://github.com/doud94220/paris-sportifs-symfony'
         //     }
         // }
+        stage('Declarative: Checkout SCM') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Setup') {
             steps {
@@ -122,27 +127,31 @@ pipeline {
                 // bat 'mkdir reports'
 
                 echo 'Waiting for servers to be up...'
-                timeout(time: 120, unit: 'SECONDS') {
+                timeout(time: 2, unit: 'MINUTES') {
                     waitUntil {
                         script {
-                            def seleniumIsUp = false
+                            // def seleniumIsUp = false
                             try {
                                 // bat 'netstat -an | findstr ":4444.*LISTENING"'
                                 bat 'curl --fail http://localhost:4444/status'
-                                seleniumIsUp = true
-                            } catch (e) {
-                                echo 'Selenium server not ready yet.'
-                            }
+                                // seleniumIsUp = true
+                            // } catch (e) {
+                            //     echo 'Selenium server not ready yet.'
+                            // }
                             
-                            def symfonyIsUp = false
-                            try {
+                            // def symfonyIsUp = false
+                          
                                 bat 'netstat -an | findstr ":8000.*LISTENING"'
-                                symfonyIsUp = true
-                            } catch (e) {
-                                echo 'Symfony server not ready yet.'
+                                // symfonyIsUp = true
+                            // } catch (e) {
+                            //     echo 'Symfony server not ready yet.'
+                            // }
+                                return true
                             }
-                            
-                            return seleniumIsUp && symfonyIsUp
+                            catch (Exception e) {
+                                return false
+                            }
+                            // return seleniumIsUp && symfonyIsUp
                         }
                     }
                 }
@@ -151,48 +160,60 @@ pipeline {
 
                 // retry(2) {
                     // Add a timeout for the npm test command
-                    timeout(time: 120, unit: 'SECONDS') {
+                    timeout(time: 2, unit: 'MINUTES') {
                         bat 'cd tests\\LOCAL-PourJenkis && npm test'
                     }
                 // }
             }
         }
 
-        stage('Report') {
+        stage('Cleanup and Reporting') {
             steps {
-                echo 'Publishing test report...'
-                // bat 'dir reports' // Add this line
-                // Publie les résultats des tests JUnit (si vos tests génèrent un rapport XML)
-                // junit 'reports/junit.xml'
-                junit testResults: 'reports/junit.xml', skipPublishingChecks: true
-                // junit allowEmptyResults: true, testResults: 'reports/junit.xml'
-                // junit allowEmptyResults: true, testResults: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\reports\\junit.xml'
+                echo 'Stopping servers...'
+                // Tuer le processus PHP
+                bat 'taskkill /f /im php.exe'
+                // Tuer le processus Selenium
+                bat 'taskkill /f /im java.exe'
+                echo 'Publishing test reports...'
+                junit '**/reports/junit.xml'
             }
         }
+
+        // stage('Report') {
+        //     steps {
+        //         echo 'Publishing test report...'
+        //         // bat 'dir reports' // Add this line
+        //         // Publie les résultats des tests JUnit (si vos tests génèrent un rapport XML)
+        //         // junit 'reports/junit.xml'
+        //         junit testResults: 'reports/junit.xml', skipPublishingChecks: true
+        //         // junit allowEmptyResults: true, testResults: 'reports/junit.xml'
+        //         // junit allowEmptyResults: true, testResults: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\reports\\junit.xml'
+        //     }
+        // }
     }
 
-    post {
-        always {
-            // This step runs at the end of the pipeline, regardless of success or failure.
-            // It ensures the servers are killed.
-            echo 'Stopping servers...'
+    // post {
+    //     always {
+    //         // This step runs at the end of the pipeline, regardless of success or failure.
+    //         // It ensures the servers are killed.
+    //         echo 'Stopping servers...'
 
-            echo 'Stop java server...'
-            timeout(time: 30, unit: 'SECONDS') {
-                bat 'taskkill /F /IM java.exe || exit 0'
-            }
+    //         echo 'Stop java server...'
+    //         timeout(time: 30, unit: 'SECONDS') {
+    //             bat 'taskkill /F /IM java.exe || exit 0'
+    //         }
 
-            // bat 'taskkill /F /IM symfony.exe'
-            echo 'Stop PHP server...'
-            timeout(time: 30, unit: 'SECONDS') {
-                bat 'taskkill /F /IM php.exe || exit 0'
-            }
+    //         // bat 'taskkill /F /IM symfony.exe'
+    //         echo 'Stop PHP server...'
+    //         timeout(time: 30, unit: 'SECONDS') {
+    //             bat 'taskkill /F /IM php.exe || exit 0'
+    //         }
 
-            // bat 'taskkill /F /IM node.exe'
-            echo 'Stop Node server...'
-            timeout(time: 30, unit: 'SECONDS') {
-                bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
-            }
-        }
-    }
+    //         // bat 'taskkill /F /IM node.exe'
+    //         echo 'Stop Node server...'
+    //         timeout(time: 30, unit: 'SECONDS') {
+    //             bat 'taskkill /F /IM node.exe || exit 0' // Add `|| exit 0` to prevent failure
+    //         }
+    //     }
+    // }
 }
