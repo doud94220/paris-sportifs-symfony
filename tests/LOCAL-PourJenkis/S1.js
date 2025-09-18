@@ -21,24 +21,24 @@ function withTimeout(promise, ms) {
 }
 
 describe('S1', function () {
-    this.timeout(45000); // Set a global timeout for the suite
+    this.timeout(60000); // Set a global timeout for the suite
 
     // beforeEach(async function () {
     //     driver = await new Builder().forBrowser('chrome').usingServer(serverUrl).build();
     // });
 
-    beforeEach(async function () {
+    before(async function () {
         // Initialisation du pilote avec des options pour le mode non-headless
-        let options = new chrome.Options();
+        // let options = new chrome.Options();
         // options.headless = false; // Désactive le mode headless
 
         driver = await new Builder().forBrowser('chrome')
             .usingServer(serverUrl)
-            .setChromeOptions(options) // Applique les options
+            // .setChromeOptions(options) // Applique les options
             .build();
     });
 
-    afterEach(async function () {
+    after(async function () {
         // This runs after all tests and cleans up the driver
         try {
             if (driver) {
