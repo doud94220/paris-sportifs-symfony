@@ -227,9 +227,8 @@ pipeline {
 
                     withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
                         powershell """
-                            \$env:HEROKU_API_KEY="${HEROKU_API_KEY}"
-                            heroku git:remote -a tests-symfony-bets
-                            git push heroku main -f
+                        & 'C:/Program Files/heroku/bin/heroku.cmd' git:remote -a tests-symfony-bets
+                        & 'C:/Program Files/heroku/bin/heroku.cmd' auth:token
                         """
                     }
                 }
