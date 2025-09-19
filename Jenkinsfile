@@ -224,11 +224,10 @@ pipeline {
             steps {
                 script {
                     echo 'Déploiement en cours sur Heroku...'
-                    withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
-                        // Utiliser la commande 'bat' et la syntaxe Groovy pour l'interpolation
-                        // On spécifie HEAD:main pour résoudre l'erreur "detached HEAD"
-                        // bat "git push https://heroku-login:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:main"
-                        bat "git push https://heroku-login:****@[git.heroku.com/tests-symfony-bets.git](https://git.heroku.com/tests-symfony-bets.git) HEAD:refs/heads/main"
+                    withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                        bat """
+                            git push https://heroku-login:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:main
+                        """
                     }
                 }
             }
