@@ -210,11 +210,23 @@ pipeline {
         //     }
         // }
 
+        // stage('Deploy to Heroku') {
+        //     steps {
+        //         echo 'Déploiement en cours sur Heroku...'
+        //         withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
+        //             bat 'git push https://heroku-login:%HEROKU_API_KEY%@[git.heroku.com/your-app-name.git](https://git.heroku.com/tests-symfony-bets.git)'
+        //         }
+        //     }
+        // }
+
         stage('Deploy to Heroku') {
             steps {
-                echo 'Déploiement en cours sur Heroku...'
-                withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
-                    bat 'git push https://heroku-login:%HEROKU_API_KEY%@[git.heroku.com/your-app-name.git](https://git.heroku.com/tests-symfony-bets.git)'
+                script {
+                    echo 'Déploiement en cours sur Heroku...'
+                    withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
+                        // Utiliser la syntaxe Groovy pour l'interpolation de chaînes
+                        bat "git push https://heroku-login:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
+                    }
                 }
             }
         }
