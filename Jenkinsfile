@@ -224,11 +224,13 @@ pipeline {
             steps {
                 script {
                     echo "Déploiement en cours sur Heroku..."
+
                     withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                        // Configurer Heroku CLI
                         bat """
-                            git remote remove heroku || true
-                            git remote add heroku https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git
-                            git push heroku HEAD:main -f
+                            set HEROKU_API_KEY=%HEROKU_API_KEY%
+                            heroku git:remote -a tests-symfony-bets
+                            git push heroku main -f
                         """
                     }
                 }
@@ -272,7 +274,8 @@ pipeline {
         //         // junit allowEmptyResults: true, testResults: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\reports\\junit.xml'
         //     }
         // }
-    }
+
+    } //Fin des stages
 
         // Ajout de la section post
     post {
