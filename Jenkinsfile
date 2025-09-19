@@ -169,24 +169,15 @@ pipeline {
 
         stage('Deploy to Heroku') {
             when {
-                // Ce stage ne s'exécutera que si le statut de la build est SUCCESS
-                expression { return currentBuild.result == 'SUCCESS' }
+                // Ce stage ne s'exécutera que si le stage 'Run Test 1' a réussi.
+                // Cela est plus fiable que de vérifier le résultat final de la build.
+                expression { return currentBuild.currentResult == 'SUCCESS' }
             }
             steps {
-                echo 'Déploiement sur Heroku en cours sur appli tests-symfony-bets ...'
-                script {
-                    // Utilisation sécurisée du jeton d'API Heroku stocké dans Jenkins
-                    withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
-                        // Configuration du remote Heroku
-                        bat 'git remote remove heroku || echo "Aucun remote Heroku existant à supprimer."'
-                        // Assurez-vous de remplacer mondoud-tests par le nom de votre nouvelle application Heroku
-                        bat 'git remote add heroku https://heroku:%HEROKU_API_KEY%@git.heroku.com/tests-symfony-bets.git'
-                        
-                        // Pousser le code vers Heroku, ce qui déclenche le build et le déploiement
-                        bat 'git push heroku HEAD:main'
-                    }
+                echo 'Déploiement en cours sur Heroku...'
+                withCredentials([usernamePassword(credentialsId: 'HEROKU_API_KEY', passwordVariable: 'HEROKU_API_KEY', usernameVariable: 'NOT_USED')]) {
+                    bat 'git push https://heroku:%HEROKU_API_KEY%@git.heroku.com/tests-symfony-bets.git main'
                 }
-                echo 'Déploiement sur Heroku réussi !'
             }
         }
 
