@@ -167,15 +167,26 @@ pipeline {
             }
         }
 
+        // stage('Deploy to Heroku') {
+        //     steps {
+        //         echo 'Déploiement en cours sur Heroku...'
+        //         withCredentials([usernamePassword(credentialsId: 'heroku-login', usernameVariable: 'HEROKU_USERNAME', passwordVariable: 'HEROKU_API_KEY')]) {
+        //             bat '''
+        //                 echo "Déploiement avec l'utilisateur ${HEROKU_USERNAME}"
+        //                 echo "Poussée vers Heroku..."
+        //                 git push https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git main
+        //             '''
+        //         }
+        //     }
+        // }
+
         stage('Deploy to Heroku') {
             steps {
                 echo 'Déploiement en cours sur Heroku...'
-                withCredentials([usernamePassword(credentialsId: 'heroku-login', usernameVariable: 'HEROKU_USERNAME', passwordVariable: 'HEROKU_API_KEY')]) {
-                    bat '''
-                        echo "Déploiement avec l'utilisateur ${HEROKU_USERNAME}"
-                        echo "Poussée vers Heroku..."
-                        git push https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git main
-                    '''
+                withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
+                    echo "Déploiement avec l'utilisateur ${HEROKU_USERNAME}"
+                    echo "Poussée vers Heroku..."
+                    bat "git push https://heroku:${HEROKU_API_KEY}@[git.heroku.com/tests-symfony-bets.git](https://git.heroku.com/tests-symfony-bets.git) HEAD:main"
                 }
             }
         }
