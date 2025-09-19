@@ -28,6 +28,7 @@ pipeline {
                 echo 'Clearing npm cache...'
                 bat 'npm cache clean --force'
                 bat 'cd tests\\LOCAL-PourJenkis && npm install'
+                bat 'npm audit fix'
             }
         }
 
@@ -226,7 +227,8 @@ pipeline {
                     withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
                         // Utiliser la commande 'bat' et la syntaxe Groovy pour l'interpolation
                         // On spécifie HEAD:main pour résoudre l'erreur "detached HEAD"
-                        bat "git push https://heroku-login:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:main"
+                        // bat "git push https://heroku-login:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:main"
+                        bat "git push https://heroku-login:****@[git.heroku.com/tests-symfony-bets.git](https://git.heroku.com/tests-symfony-bets.git) HEAD:refs/heads/main"
                     }
                 }
             }
