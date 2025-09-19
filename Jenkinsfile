@@ -28,7 +28,7 @@ pipeline {
                 echo 'Clearing npm cache...'
                 bat 'npm cache clean --force'
                 bat 'cd tests\\LOCAL-PourJenkis && npm install'
-                bat 'npm audit fix'
+                bat 'cd tests\\LOCAL-PourJenkis && npm audit fix'
             }
         }
 
