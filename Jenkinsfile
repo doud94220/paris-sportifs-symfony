@@ -171,7 +171,7 @@ pipeline {
             steps {
                 echo 'Déploiement en cours sur Heroku...'
                 withCredentials([usernamePassword(credentialsId: 'heroku-login', usernameVariable: 'HEROKU_USERNAME', passwordVariable: 'HEROKU_API_KEY')]) {
-                    sh '''
+                    bat '''
                         echo "Déploiement avec l'utilisateur ${HEROKU_USERNAME}"
                         echo "Poussée vers Heroku..."
                         git push https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git main
