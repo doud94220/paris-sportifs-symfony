@@ -226,9 +226,8 @@ pipeline {
                     echo "Déploiement en cours sur Heroku..."
 
                     withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
-                        // Configurer Heroku CLI
-                        bat """
-                            set HEROKU_API_KEY=%HEROKU_API_KEY%
+                        powershell """
+                            \$env:HEROKU_API_KEY="${HEROKU_API_KEY}"
                             heroku git:remote -a tests-symfony-bets
                             git push heroku main -f
                         """
