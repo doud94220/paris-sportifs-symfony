@@ -168,15 +168,14 @@ pipeline {
         }
 
         stage('Deploy to Heroku') {
-            when {
-                // Ce stage ne s'exécutera que si le stage 'Run Test 1' a réussi.
-                // Cela est plus fiable que de vérifier le résultat final de la build.
-                expression { return currentBuild.currentResult == 'SUCCESS' }
-            }
             steps {
-                echo 'Deploiement en cours sur Heroku...'
-                withCredentials([usernamePassword(credentialsId: 'HEROKU_API_KEY', passwordVariable: 'HEROKU_API_KEY', usernameVariable: 'NOT_USED')]) {
-                    bat 'git push https://heroku:%HEROKU_API_KEY%@git.heroku.com/tests-symfony-bets.git main'
+                echo 'Déploiement en cours sur Heroku...'
+                withCredentials([usernamePassword(credentialsId: 'heroku-login', usernameVariable: 'HEROKU_USERNAME', passwordVariable: 'HEROKU_API_KEY')]) {
+                    sh '''
+                        echo "Déploiement avec l'utilisateur ${HEROKU_USERNAME}"
+                        echo "Poussée vers Heroku..."
+                        git push https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git main
+                    '''
                 }
             }
         }
