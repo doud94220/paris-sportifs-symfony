@@ -174,7 +174,7 @@ pipeline {
                 expression { return currentBuild.currentResult == 'SUCCESS' }
             }
             steps {
-                echo 'Déploiement en cours sur Heroku...'
+                echo 'Deploiement en cours sur Heroku...'
                 withCredentials([usernamePassword(credentialsId: 'HEROKU_API_KEY', passwordVariable: 'HEROKU_API_KEY', usernameVariable: 'NOT_USED')]) {
                     bat 'git push https://heroku:%HEROKU_API_KEY%@git.heroku.com/tests-symfony-bets.git main'
                 }
