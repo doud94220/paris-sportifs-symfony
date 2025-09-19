@@ -167,6 +167,29 @@ pipeline {
             }
         }
 
+        stage('Deploy to Heroku') {
+            when {
+                // Ce stage ne s'exécutera que si le statut de la build est SUCCESS
+                expression { return currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                echo 'Déploiement sur Heroku en cours sur appli tests-symfony-bets ...'
+                script {
+                    // Utilisation sécurisée du jeton d'API Heroku stocké dans Jenkins
+                    withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                        // Configuration du remote Heroku
+                        bat 'git remote remove heroku || echo "Aucun remote Heroku existant à supprimer."'
+                        // Assurez-vous de remplacer mondoud-tests par le nom de votre nouvelle application Heroku
+                        bat 'git remote add heroku https://heroku:%HEROKU_API_KEY%@git.heroku.com/tests-symfony-bets.git'
+                        
+                        // Pousser le code vers Heroku, ce qui déclenche le build et le déploiement
+                        bat 'git push heroku HEAD:main'
+                    }
+                }
+                echo 'Déploiement sur Heroku réussi !'
+            }
+        }
+
         // stage('Cleanup and Reporting') {
         //     steps {
         //         echo 'Stopping 3 servers...'
