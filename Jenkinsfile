@@ -223,10 +223,12 @@ pipeline {
         stage('Deploy to Heroku') {
             steps {
                 script {
-                    echo 'Déploiement en cours sur Heroku...'
-                    withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                    echo "Déploiement en cours sur Heroku..."
+                    withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
                         bat """
-                            git push https://heroku-login:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:main
+                            git remote remove heroku || true
+                            git remote add heroku https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git
+                            git push heroku HEAD:main -f
                         """
                     }
                 }
