@@ -180,13 +180,41 @@ pipeline {
         //     }
         // }
 
+        // stage('Deploy to Heroku') {
+        //     steps {
+        //         echo 'Déploiement en cours sur Heroku...'
+        //         withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
+        //             echo "Déploiement avec l'utilisateur ${HEROKU_USERNAME}"
+        //             echo "Poussée vers Heroku..."
+        //             bat "git push https://heroku:${HEROKU_API_KEY}@[git.heroku.com/tests-symfony-bets.git](https://git.heroku.com/tests-symfony-bets.git) HEAD:main"
+        //         }
+        //     }
+        // }
+
+        // stage('Deploy to Heroku') {
+        //     steps {
+        //         echo 'Déploiement en cours sur Heroku...'
+        //         withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
+        //             // Check if Heroku CLI is installed and configured
+        //             sh 'heroku --version'
+
+        //             // Add Heroku remote
+        //             sh "heroku git:remote -a tests-symfony-bets"
+
+        //             // Push to Heroku to trigger the deployment
+        //             sh 'git push heroku main'
+
+        //             // You can also add more steps here, like running migrations
+        //             sh "heroku run php bin/console doctrine:migrations:migrate --app your-heroku-app-name"
+        //         }
+        //     }
+        // }
+
         stage('Deploy to Heroku') {
             steps {
                 echo 'Déploiement en cours sur Heroku...'
-                withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
-                    echo "Déploiement avec l'utilisateur ${HEROKU_USERNAME}"
-                    echo "Poussée vers Heroku..."
-                    bat "git push https://heroku:${HEROKU_API_KEY}@[git.heroku.com/tests-symfony-bets.git](https://git.heroku.com/tests-symfony-bets.git) HEAD:main"
+                withCredentials([string(credentialsId: 'heroku-login', variable: 'HEROKU_API_KEY')]) {
+                    bat 'git push https://heroku-login:%HEROKU_API_KEY%@[git.heroku.com/your-app-name.git](https://git.heroku.com/tests-symfony-bets.git)'
                 }
             }
         }
