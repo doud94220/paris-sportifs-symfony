@@ -213,6 +213,7 @@ pipeline {
 
             echo 'Stop java server...'
             timeout(time: 30, unit: 'SECONDS') {
+                bat '''
                 @echo off
                 for /f "tokens=5" %%a in ('netstat -aon ^| findstr "4444"') do (
                     set "pid=%%a"
@@ -224,6 +225,7 @@ pipeline {
                 ) else (
                     echo No process found on port 4444.
                 )
+                '''
             }
 
             echo 'Stop PHP server... and Stop Node server...'
