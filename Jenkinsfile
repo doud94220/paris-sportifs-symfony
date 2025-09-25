@@ -194,6 +194,7 @@ pipeline {
                         }
                 // }
                     }
+            }
         }
 
         // stage('Deploy to Heroku') {
@@ -262,9 +263,11 @@ pipeline {
 
                     withCredentials([usernamePassword(credentialsId: 'herok_api_key_and_login', passwordVariable: 'HEROKU_API_KEY', usernameVariable: 'HEROKU_LOGIN')]) {
                         sh 'git push https://${HEROKU_LOGIN}:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:refs/heads/main'
+                    }
                 }
             }
         }
+    } //Fin des stages
 
         // stage('Cleanup and Reporting') {
         //     steps {
@@ -303,9 +306,6 @@ pipeline {
         //         // junit allowEmptyResults: true, testResults: 'C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\JobDoud1\\reports\\junit.xml'
         //     }
         // }
-
-    } //Fin des stages
-
         // Ajout de la section post
     post {
         always {
@@ -379,4 +379,4 @@ pipeline {
     //         }
     //     }
     // }
-}
+} //Fin du pipeline
