@@ -143,8 +143,8 @@ pipeline {
                 // Démarrer les serveurs en arrière-plan et capturer leur PID pour un arrêt propre.
                     // On utilise le "start-process" de PowerShell car on peut capturer le PID.
                     // On n'a pas besoin de l'option "-B" puisque on ne gère pas la console.
-                sh 'powershell "Start-Process -NoNewWindow -FilePath \\"java.exe\\" -ArgumentList \\"-jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone\\" -PassThru -OutVariable javaProcess | Write-Output \\"Java PID: ${javaProcess.Id}\\""'
-                sh 'powershell "Start-Process -NoNewWindow -FilePath \\"php.exe\\" -ArgumentList \\"-S 127.0.0.1:8000 -t public\\" -PassThru -OutVariable phpProcess | Write-Output \\"PHP PID: ${phpProcess.Id}\\""'
+                bat 'powershell "Start-Process -NoNewWindow -FilePath \\"java.exe\\" -ArgumentList \\"-jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone\\" -PassThru -OutVariable javaProcess | Write-Output \\"Java PID: ${javaProcess.Id}\\""'
+                bat 'powershell "Start-Process -NoNewWindow -FilePath \\"php.exe\\" -ArgumentList \\"-S 127.0.0.1:8000 -t public\\" -PassThru -OutVariable phpProcess | Write-Output \\"PHP PID: ${phpProcess.Id}\\""'
                 echo 'Attente de la mise en service des serveurs...'
 
                 echo 'Waiting for servers to be up...'
@@ -262,7 +262,7 @@ pipeline {
                     // }
 
                     withCredentials([usernamePassword(credentialsId: 'herok_api_key_and_login', passwordVariable: 'HEROKU_API_KEY', usernameVariable: 'HEROKU_LOGIN')]) {
-                        sh 'git push https://${HEROKU_LOGIN}:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:refs/heads/main'
+                        bat 'git push https://${HEROKU_LOGIN}:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:refs/heads/main'
                     }
                 }
             }
