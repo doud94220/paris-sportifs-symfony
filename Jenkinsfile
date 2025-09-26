@@ -24,7 +24,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                echo 'Démarrage du serveur Symfony...'
-                bat 'start /B php bin/console server:run'
+                bat 'start /B php -S 127.0.0.1:8000 -t public'
 
                 echo 'Vérification du démarrage de Symfony...'
                 powershell '''
