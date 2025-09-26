@@ -83,47 +83,54 @@ pipeline {
         }
 
         stage('Deploy to Heroku') {
+            when {
+                branch 'main'
+            }
             steps {
                 script {
                     echo "=== Début du déploiement sur Heroku ==="
-
                     try {
                         withCredentials([usernamePassword(
                             credentialsId: 'herok_api_key_and_login',
                             passwordVariable: 'HEROKU_API_KEY',
                             usernameVariable: 'HEROKU_LOGIN'
                         )]) {
-                                // 1. Afficher les variables (pour le debug)
                                 echo "Heroku Login : ${HEROKU_LOGIN}"
                                 echo "Heroku API Key : ${HEROKU_API_KEY}"
                                 echo "Heroku API Key And Login : ${herok_api_key_and_login}" 
-                                echo "URL du dépôt Heroku : git.heroku.com/tests-symfony-bets.git"
-
-                                // 2. Vérifier la connexion au dépôt Heroku
+                                
                                 def herokuUrl = "https://${HEROKU_LOGIN}:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
-                                echo "Test de connexion à Heroku..."
-                                bat "git ls-remote ${herokuUrl}"  // Vérifie que le dépôt est accessible
 
-                                // 3. Déploiement avec logs détaillés
-                                echo "Déploiement en cours..."
-                                bat "git push ${herokuUrl} HEAD:refs/heads/main --verbose"
+                                // 1. Tester la connexion avec un timeout de 30 secondes
+                                echo "Test de connexion à Heroku (timeout: 30s)..."
+                                bat returnStatus: true, script: "git ls-remote ${herokuUrl} --timeout=30"
+                                def gitExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
+                                if (gitExitCode != '0') {
+                                    error("Échec de la connexion à Heroku (timeout ou erreur d'authentification).")
+                                }
 
-                                // 4. Vérifier le statut du déploiement (optionnel)
+                                // 2. Déploiement avec timeout de 2 minutes
+                                echo "Déploiement en cours (timeout: 2min)..."
+                                bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
+                                def pushExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
+                                if (pushExitCode != '0') {
+                                    error("Échec du déploiement (timeout ou erreur de push).")
+                                }
+
+                                // 3. Vérifier le statut de l'application
                                 echo "Vérification du statut de l'application Heroku..."
-                                bat "heroku ps:scale web=1 --app tests-symfony-bets"  // Démarre une instance web
-                                bat "heroku logs --tail --app tests-symfony-bets"      // Affiche les logs en temps réel (optionnel)
+                                bat "heroku ps:scale web=1 --app tests-symfony-bets"
                             }
-                        }
-                        catch (Exception e) {
-                            // 5. Capture et affichage de l'erreur
-                            echo "❌ ERREUR lors du déploiement : ${e.getMessage()}"
-                            echo "Type d'erreur : ${e.getClass()}"
-                            currentBuild.result = 'FAILURE'  // Marque le build comme échoué
-                            error("Le déploiement sur Heroku a échoué. Voir les logs ci-dessus.")
-                        }
+                    }
+                    catch (Exception e) {
+                        echo "❌ ERREUR : ${e.getMessage()}"
+                        currentBuild.result = 'FAILURE'
+                        error("Le déploiement a échoué. Voir les logs ci-dessus.")
+                    }
                 }
             }
-        }//Fin du stage deploy
+        }
+
     } //Fin des stages
 
     post {
