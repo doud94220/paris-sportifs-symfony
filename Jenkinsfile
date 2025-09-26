@@ -35,9 +35,9 @@ pipeline {
                 echo 'Attente de 10 secondes pour le dÃ©marrage des serveurs...'
                 bat 'ping localhost -n 10 > nul'
 
-                echo 'Lancement des tests PHPUnit...'
+                echo 'Lancement des tests...'
                 dir('tests/LOCAL-PourJenkis') {
-                    bat 'php ../../bin/phpunit --log-junit reports/junit.xml --no-interaction --colors'
+                    bat 'npm test'
                 }
             }
         }
