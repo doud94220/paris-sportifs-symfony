@@ -23,10 +23,31 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                // Démarrage du serveur Symfony en arrière-plan
-                echo 'Démarrage du serveur Symfony...'
+               echo 'Démarrage du serveur Symfony...'
                 bat 'start /B php bin/console server:run'
-                
+
+                echo 'Vérification du démarrage de Symfony...'
+                powershell '''
+                    $maxRetries = 10
+                    $retries = 0
+                    do {
+                        try {
+                            $status = Invoke-WebRequest -Uri http://127.0.0.1:8000 -UseBasicParsing
+                            if ($status.StatusCode -eq 200) {
+                                Write-Output "Symfony est prêt !"
+                                exit 0
+                            }
+                        } catch {
+                            Write-Output "Symfony pas encore prêt... ($retries/$maxRetries)"
+                        }
+                        Start-Sleep -Seconds 3
+                        $retries++
+                    } while ($retries -lt $maxRetries)
+
+                    Write-Error "Symfony n'est pas prêt après $maxRetries tentatives"
+                    exit 1
+                '''
+
                 // Démarrage du serveur Selenium Grid en arrière-plan
                 echo 'Démarrage du serveur Selenium Grid...'
                 bat 'start /B powershell "Start-Process -NoNewWindow -FilePath \'java.exe\' -ArgumentList \'-jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone\'"'
