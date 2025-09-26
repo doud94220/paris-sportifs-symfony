@@ -85,14 +85,45 @@ pipeline {
         stage('Deploy to Heroku') {
             steps {
                 script {
-                    echo "Déploiement en cours sur Heroku..."
+                    echo "=== Début du déploiement sur Heroku ==="
 
-                    withCredentials([usernamePassword(credentialsId: 'herok_api_key_and_login', passwordVariable: 'HEROKU_API_KEY', usernameVariable: 'HEROKU_LOGIN')]) {
-                        bat 'git push https://${HEROKU_LOGIN}:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git HEAD:refs/heads/main'
-                    }
+                    try {
+                        withCredentials([usernamePassword(
+                            credentialsId: 'herok_api_key_and_login',
+                            passwordVariable: 'HEROKU_API_KEY',
+                            usernameVariable: 'HEROKU_LOGIN'
+                        )]) {
+                                // 1. Afficher les variables (pour le debug)
+                                echo "Heroku Login : ${HEROKU_LOGIN}"
+                                echo "Heroku API Key : ${HEROKU_API_KEY}"
+                                echo "Heroku API Key And Login : ${herok_api_key_and_login}" 
+                                echo "URL du dépôt Heroku : git.heroku.com/tests-symfony-bets.git"
+
+                                // 2. Vérifier la connexion au dépôt Heroku
+                                def herokuUrl = "https://${HEROKU_LOGIN}:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
+                                echo "Test de connexion à Heroku..."
+                                bat "git ls-remote ${herokuUrl}"  // Vérifie que le dépôt est accessible
+
+                                // 3. Déploiement avec logs détaillés
+                                echo "Déploiement en cours..."
+                                bat "git push ${herokuUrl} HEAD:refs/heads/main --verbose"
+
+                                // 4. Vérifier le statut du déploiement (optionnel)
+                                echo "Vérification du statut de l'application Heroku..."
+                                bat "heroku ps:scale web=1 --app tests-symfony-bets"  // Démarre une instance web
+                                bat "heroku logs --tail --app tests-symfony-bets"      // Affiche les logs en temps réel (optionnel)
+                            }
+                        }
+                        catch (Exception e) {
+                            // 5. Capture et affichage de l'erreur
+                            echo "❌ ERREUR lors du déploiement : ${e.getMessage()}"
+                            echo "Type d'erreur : ${e.getClass()}"
+                            currentBuild.result = 'FAILURE'  // Marque le build comme échoué
+                            error("Le déploiement sur Heroku a échoué. Voir les logs ci-dessus.")
+                        }
                 }
             }
-        }
+        }//Fin du stage deploy
     } //Fin des stages
 
     post {
