@@ -31,9 +31,28 @@ pipeline {
                 echo 'Démarrage du serveur Selenium Grid...'
                 bat 'start /B powershell "Start-Process -NoNewWindow -FilePath \'java.exe\' -ArgumentList \'-jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone\'"'
                 
-                // On patiente pour laisser les serveurs démarrer
-                echo 'Attente de 10 secondes pour le dÃ©marrage des serveurs...'
-                bat 'ping localhost -n 10 > nul'
+                echo 'Vérification du démarrage de Selenium...'
+                // On boucle jusqu’à ce que Selenium réponde "ready": true
+                powershell '''
+                    $maxRetries = 10
+                    $retries = 0
+                    do {
+                        try {
+                            $status = Invoke-RestMethod -Uri http://localhost:4444/status -UseBasicParsing
+                            if ($status.value.ready -eq $true) {
+                                Write-Output "Selenium est prêt !"
+                                exit 0
+                            }
+                        } catch {
+                            Write-Output "Selenium pas encore prêt... ($retries/$maxRetries)"
+                        }
+                        Start-Sleep -Seconds 3
+                        $retries++
+                    } while ($retries -lt $maxRetries)
+
+                    Write-Error "Selenium n'est pas prêt après $maxRetries tentatives"
+                    exit 1
+                '''
 
                 echo 'Lancement des tests...'
                 dir('tests/LOCAL-PourJenkis') {

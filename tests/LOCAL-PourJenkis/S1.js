@@ -48,7 +48,7 @@ describe('S1', function () {
         while (retries > 0) {
             try {
                 driver = await new Builder().forBrowser('chrome')
-                    .usingServer('http://localhost:4444/wd/hub')
+                    .usingServer('http://localhost:4444')
                     .build();
                 console.log("Driver successfully initialized!");
                 return; // Exit the loop on success

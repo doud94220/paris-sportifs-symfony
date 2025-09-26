@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="14.396" tests="4" failures="4">
+  <testsuite name="Root Suite" timestamp="2025-09-26T10:39:33" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="S1" timestamp="2025-09-26T10:39:33" tests="4" file="C:\PERSO\DEV\paris-sportifs-symfony\tests\LOCAL-PourJenkis\S1.js" time="14.394" failures="4">
+    <testcase name="S1 should run Test 2 - Register a new user" time="4.215" classname="should run Test 2 - Register a new user">
+      <failure message="unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)" type="WebDriverError"><![CDATA[WebDriverError: unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)
+    at Object.throwDecodedError (node_modules\selenium-webdriver\lib\error.js:523:15)
+    at parseHttpResponse (node_modules\selenium-webdriver\lib\http.js:524:13)
+    at Executor.execute (node_modules\selenium-webdriver\lib\http.js:456:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Driver.execute (node_modules\selenium-webdriver\lib\webdriver.js:745:17)
+    at async runTest2 (2.RegisterAsClassikUser.js:8:5)
+    at async Context.<anonymous> (S1.js:85:9)]]></failure>
+    </testcase>
+    <testcase name="S1 should run Test 4 - Connect as a new user" time="2.232" classname="should run Test 4 - Connect as a new user">
+      <failure message="unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)" type="WebDriverError"><![CDATA[WebDriverError: unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)
+    at Object.throwDecodedError (node_modules\selenium-webdriver\lib\error.js:523:15)
+    at parseHttpResponse (node_modules\selenium-webdriver\lib\http.js:524:13)
+    at Executor.execute (node_modules\selenium-webdriver\lib\http.js:456:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Driver.execute (node_modules\selenium-webdriver\lib\webdriver.js:745:17)
+    at async runTest4 (4.ConnectionAsClassikUser.js:8:5)
+    at async Context.<anonymous> (S1.js:90:9)]]></failure>
+    </testcase>
+    <testcase name="S1 should run Test 7.2 - Consult one tennis player info" time="4.057" classname="should run Test 7.2 - Consult one tennis player info">
+      <failure message="unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)" type="WebDriverError"><![CDATA[WebDriverError: unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)
+    at Object.throwDecodedError (node_modules\selenium-webdriver\lib\error.js:523:15)
+    at parseHttpResponse (node_modules\selenium-webdriver\lib\http.js:524:13)
+    at Executor.execute (node_modules\selenium-webdriver\lib\http.js:456:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Driver.execute (node_modules\selenium-webdriver\lib\webdriver.js:745:17)
+    at async runTest7_2 (7._2_ConsultOneTennisPlayerInformation.js:10:5)
+    at async Context.<anonymous> (S1.js:95:9)]]></failure>
+    </testcase>
+    <testcase name="S1 should run Test 47 - Classik user logout" time="0.082" classname="should run Test 47 - Classik user logout">
+      <failure message="unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)" type="WebDriverError"><![CDATA[WebDriverError: unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=140.0.7339.128)
+    at Object.throwDecodedError (node_modules\selenium-webdriver\lib\error.js:523:15)
+    at parseHttpResponse (node_modules\selenium-webdriver\lib\http.js:524:13)
+    at Executor.execute (node_modules\selenium-webdriver\lib\http.js:456:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Driver.execute (node_modules\selenium-webdriver\lib\webdriver.js:745:17)
+    at async runTest47 (47.ClassikUserLogout.js:30:5)
+    at async Context.<anonymous> (S1.js:100:9)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>
