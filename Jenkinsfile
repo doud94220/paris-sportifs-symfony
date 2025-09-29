@@ -83,9 +83,6 @@ pipeline {
         }
 
         stage('Deploy to Heroku') {
-            when {
-                branch 'main'
-            }
             steps {
                 script {
                     echo "=== Début du déploiement sur Heroku ==="
