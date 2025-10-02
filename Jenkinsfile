@@ -89,29 +89,61 @@ pipeline {
                     try {
                         withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
                             
-                            // 1. Définir l'URL Heroku avec la clé API    
+                            // 0. Définir l'URL Heroku avec la clé API    
                             def herokuUrl = "https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
 
-                            // 2. Tester la connexion
-                            echo "Test de connexion à Heroku (timeout: 30s)..."
-                            bat returnStatus: true, script: "git ls-remote ${herokuUrl} --timeout=30"
-                            def gitExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
+                            // 1. Vérifiez la connexion Git
+                            echo "Test de connexion à Heroku..."
+                            def gitTest = bat(
+                                returnStatus: true,
+                                script: "git ls-remote ${herokuUrl} --timeout=30 --verbose"
+                            )
+                            def gitExitCode = bat(
+                                returnStatus: true,
+                                script: "echo %ERRORLEVEL%"
+                            ).trim()
+
+                            echo "Code de retour de 'git ls-remote' : ${gitExitCode}"
                             if (gitExitCode != '0') {
-                                error("Échec de la connexion à Heroku (timeout ou erreur d'authentification).")
+                                error("Échec de la connexion à Heroku. Vérifiez la clé API et l'URL.")
                             }
 
-                            // 3. Déploiement avec timeout de 2 minutes
-                            echo "Déploiement en cours (timeout: 2min)..."
-                            bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
-                            def pushExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
+                            // 2. Déploiement avec logs détaillés
+                            echo "Déploiement en cours..."
+                            def pushOutput = bat(
+                                returnStatus: true,
+                                script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
+                            )
+                            def pushExitCode = bat(
+                                returnStatus: true,
+                                script: "echo %ERRORLEVEL%"
+                            ).trim()
+
+                            echo "Sortie de 'git push' : ${pushOutput}"
+                            echo "Code de retour de 'git push' : ${pushExitCode}"
+
                             if (pushExitCode != '0') {
-                                error("Échec du déploiement (timeout ou erreur de push).")
+                                error("Échec du déploiement. Voir les logs ci-dessus.")
                             }
 
-                            // 4. Vérifier le statut de l'application
+                            // 3. Vérifiez le statut de l'application
                             echo "Vérification du statut de l'application Heroku..."
-                            bat "heroku ps:scale web=1 --app tests-symfony-bets"
+                            def herokuScaleOutput = bat(
+                                returnStatus: true,
+                                script: "heroku ps:scale web=1 --app tests-symfony-bets"
+                            )
+                            def herokuScaleExitCode = bat(
+                                returnStatus: true,
+                                script: "echo %ERRORLEVEL%"
+                            ).trim()
+
+                            echo "Sortie de 'heroku ps:scale' : ${herokuScaleOutput}"
+                            echo "Code de retour de 'heroku ps:scale' : ${herokuScaleExitCode}"
+                            
+                            if (herokuScaleExitCode != '0') {
+                                error("Échec de la commande 'heroku ps:scale'. Voir les logs ci-dessus.")
                             }
+                        }
                     }
                     catch (Exception e) {
                         echo "❌ ERREUR : ${e.getMessage()}"
