@@ -108,11 +108,19 @@ pipeline {
                             }
 
                             // 3. Vérification du statut de l'application
-                            echo "Vérification du statut de l'application Heroku..."
-                            def herokuScaleExitCode = bat returnStatus: true, script: "heroku ps:scale web=1 --app tests-symfony-bets"
-                            echo "Code de retour de 'heroku ps:scale' : ${herokuScaleExitCode}"
-                            if (herokuScaleExitCode != 0) {
-                                error("Échec de la commande 'heroku ps:scale'. Voir les logs ci-dessus.")
+                            // echo "Vérification du statut de l'application Heroku..."
+                            // def herokuScaleExitCode = bat returnStatus: true, script: "heroku ps:scale web=1 --app tests-symfony-bets"
+                            // echo "Code de retour de 'heroku ps:scale' : ${herokuScaleExitCode}"
+                            // if (herokuScaleExitCode != 0) {
+                            //     error("Échec de la commande 'heroku ps:scale'. Voir les logs ci-dessus.")
+                            // }
+
+                            // 3. Redémarrer l'application (si le CLI Heroku n'est pas disponible)
+                            echo "Redémarrage de l'application Heroku..."
+                            def restartExitCode = bat(returnStatus: true, script: "git commit --allow-empty -m 'Restart Heroku app' && git push ${herokuUrl} HEAD:refs/heads/main")
+                            echo "Code de retour du redémarrage : ${restartExitCode}"
+                            if (restartExitCode != 0) {
+                                echo "Attention : Impossible de redémarrer l'application automatiquement. Veuillez le faire manuellement via le dashboard Heroku."
                             }
                         }
                     }
