@@ -101,7 +101,7 @@ pipeline {
                             def gitExitCode = bat(
                                 returnStatus: true,
                                 script: "echo %ERRORLEVEL%"
-                            ).trim()
+                            ).trim().toInteger()
 
                             echo "Code de retour de 'git ls-remote' : ${gitExitCode}"
                             if (gitExitCode != '0') {
@@ -117,7 +117,7 @@ pipeline {
                             def pushExitCode = bat(
                                 returnStatus: true,
                                 script: "echo %ERRORLEVEL%"
-                            ).trim()
+                            ).trim().toInteger()
 
                             echo "Sortie de 'git push' : ${pushOutput}"
                             echo "Code de retour de 'git push' : ${pushExitCode}"
@@ -135,11 +135,11 @@ pipeline {
                             def herokuScaleExitCode = bat(
                                 returnStatus: true,
                                 script: "echo %ERRORLEVEL%"
-                            ).trim()
+                            ).trim().toInteger()
 
                             echo "Sortie de 'heroku ps:scale' : ${herokuScaleOutput}"
                             echo "Code de retour de 'heroku ps:scale' : ${herokuScaleExitCode}"
-                            
+
                             if (herokuScaleExitCode != '0') {
                                 error("Échec de la commande 'heroku ps:scale'. Voir les logs ci-dessus.")
                             }
