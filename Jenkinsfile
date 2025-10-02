@@ -93,16 +93,26 @@ pipeline {
 
                             // 1. Tester la connexion
                             echo "Test de connexion à Heroku..."
-                            def gitExitCode = bat returnStatus: true, script: "git ls-remote ${herokuUrl} --timeout=30 --verbose"
+
+                            def gitLsRemoteOutput = bat(returnStdout: true, script: "git ls-remote ${herokuUrl} --verbose")
+                            echo "Sortie de 'git ls-remote' : ${gitLsRemoteOutput}"
+
+                            def gitExitCode = bat(returnStatus: true, script: "git ls-remote ${herokuUrl} --verbose")
                             echo "Code de retour de 'git ls-remote' : ${gitExitCode}"
+
                             if (gitExitCode != 0) {
                                 error("Échec de la connexion à Heroku. Vérifiez la clé API et l'URL.")
                             }
 
                             // 2. Déploiement
                             echo "Déploiement en cours..."
-                            def pushExitCode = bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose"
+
+                            def gitPushOutput = bat(returnStdout: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose")
+                            echo "Sortie de 'git push' : ${gitPushOutput}"
+
+                            def pushExitCode = bat(returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose")
                             echo "Code de retour de 'git push' : ${pushExitCode}"
+
                             if (pushExitCode != 0) {
                                 error("Échec du déploiement. Voir les logs ci-dessus.")
                             }
@@ -117,10 +127,23 @@ pipeline {
 
                             // 3. Redémarrer l'application (si le CLI Heroku n'est pas disponible)
                             echo "Redémarrage de l'application Heroku..."
-                            def restartExitCode = bat(returnStatus: true, script: "git commit --allow-empty -m 'Restart Heroku app' && git push ${herokuUrl} HEAD:refs/heads/main")
-                            echo "Code de retour du redémarrage : ${restartExitCode}"
-                            if (restartExitCode != 0) {
+
+                            def restartCommitOutput = bat(returnStdout: true, script: "git commit --allow-empty -m 'Restart Heroku app'")
+                            echo "Sortie de 'git commit' : ${restartCommitOutput}"
+
+                            def restartCommitExitCode = bat(returnStatus: true, script: "git commit --allow-empty -m 'Restart Heroku app'")
+                            echo "Code de retour de 'git commit' : ${restartCommitExitCode}"
+
+                            def restartPushOutput = bat(returnStdout: true, script: "git push ${herokuUrl} HEAD:refs/heads/main")
+                            echo "Sortie de 'git push' pour redémarrage : ${restartPushOutput}"
+                            
+                            def restartPushExitCode = bat(returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main")
+                            echo "Code de retour de 'git push' pour redémarrage : ${restartPushExitCode}"
+
+                            if (restartPushExitCode != 0) {
                                 echo "Attention : Impossible de redémarrer l'application automatiquement. Veuillez le faire manuellement via le dashboard Heroku."
+                            } else {
+                                echo "Redémarrage réussi !"
                             }
                         }
                     }
