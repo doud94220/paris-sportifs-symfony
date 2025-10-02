@@ -101,7 +101,7 @@ pipeline {
 
                             // 2. Déploiement
                             echo "Déploiement en cours..."
-                            def pushExitCode = bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
+                            def pushExitCode = bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose"
                             echo "Code de retour de 'git push' : ${pushExitCode}"
                             if (pushExitCode != 0) {
                                 error("Échec du déploiement. Voir les logs ci-dessus.")
