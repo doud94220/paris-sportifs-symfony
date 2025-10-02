@@ -87,36 +87,30 @@ pipeline {
                 script {
                     echo "=== Début du déploiement sur Heroku ==="
                     try {
-                        withCredentials([usernamePassword(
-                            credentialsId: 'herok_api_key_and_login',
-                            passwordVariable: 'HEROKU_API_KEY',
-                            usernameVariable: 'HEROKU_LOGIN'
-                        )]) {
-                                echo "Heroku Login : ${HEROKU_LOGIN}"
-                                echo "Heroku API Key : ${HEROKU_API_KEY}"
-                                echo "Heroku API Key And Login : ${herok_api_key_and_login}" 
-                                
-                                def herokuUrl = "https://${HEROKU_LOGIN}:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
+                        withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
+                            
+                            // 1. Définir l'URL Heroku avec la clé API    
+                            def herokuUrl = "https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
 
-                                // 1. Tester la connexion avec un timeout de 30 secondes
-                                echo "Test de connexion à Heroku (timeout: 30s)..."
-                                bat returnStatus: true, script: "git ls-remote ${herokuUrl} --timeout=30"
-                                def gitExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
-                                if (gitExitCode != '0') {
-                                    error("Échec de la connexion à Heroku (timeout ou erreur d'authentification).")
-                                }
+                            // 2. Tester la connexion
+                            echo "Test de connexion à Heroku (timeout: 30s)..."
+                            bat returnStatus: true, script: "git ls-remote ${herokuUrl} --timeout=30"
+                            def gitExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
+                            if (gitExitCode != '0') {
+                                error("Échec de la connexion à Heroku (timeout ou erreur d'authentification).")
+                            }
 
-                                // 2. Déploiement avec timeout de 2 minutes
-                                echo "Déploiement en cours (timeout: 2min)..."
-                                bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
-                                def pushExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
-                                if (pushExitCode != '0') {
-                                    error("Échec du déploiement (timeout ou erreur de push).")
-                                }
+                            // 3. Déploiement avec timeout de 2 minutes
+                            echo "Déploiement en cours (timeout: 2min)..."
+                            bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
+                            def pushExitCode = bat returnStatus: true, script: "echo %ERRORLEVEL%"
+                            if (pushExitCode != '0') {
+                                error("Échec du déploiement (timeout ou erreur de push).")
+                            }
 
-                                // 3. Vérifier le statut de l'application
-                                echo "Vérification du statut de l'application Heroku..."
-                                bat "heroku ps:scale web=1 --app tests-symfony-bets"
+                            // 4. Vérifier le statut de l'application
+                            echo "Vérification du statut de l'application Heroku..."
+                            bat "heroku ps:scale web=1 --app tests-symfony-bets"
                             }
                     }
                     catch (Exception e) {
