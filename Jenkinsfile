@@ -86,61 +86,32 @@ pipeline {
             steps {
                 script {
                     echo "=== Début du déploiement sur Heroku ==="
+
                     try {
                         withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) {
-                            
-                            // 0. Définir l'URL Heroku avec la clé API    
                             def herokuUrl = "https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
 
-                            // 1. Vérifiez la connexion Git
+                            // 1. Tester la connexion
                             echo "Test de connexion à Heroku..."
-                            def gitTest = bat(
-                                returnStatus: true,
-                                script: "git ls-remote ${herokuUrl} --timeout=30 --verbose"
-                            )
-                            def gitExitCode = bat(
-                                returnStatus: true,
-                                script: "echo %ERRORLEVEL%"
-                            ).trim().toInteger()
-
+                            def gitExitCode = bat returnStatus: true, script: "git ls-remote ${herokuUrl} --timeout=30 --verbose"
                             echo "Code de retour de 'git ls-remote' : ${gitExitCode}"
-                            if (gitExitCode != '0') {
+                            if (gitExitCode != 0) {
                                 error("Échec de la connexion à Heroku. Vérifiez la clé API et l'URL.")
                             }
 
-                            // 2. Déploiement avec logs détaillés
+                            // 2. Déploiement
                             echo "Déploiement en cours..."
-                            def pushOutput = bat(
-                                returnStatus: true,
-                                script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
-                            )
-                            def pushExitCode = bat(
-                                returnStatus: true,
-                                script: "echo %ERRORLEVEL%"
-                            ).trim().toInteger()
-
-                            echo "Sortie de 'git push' : ${pushOutput}"
+                            def pushExitCode = bat returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose --timeout=120"
                             echo "Code de retour de 'git push' : ${pushExitCode}"
-
-                            if (pushExitCode != '0') {
+                            if (pushExitCode != 0) {
                                 error("Échec du déploiement. Voir les logs ci-dessus.")
                             }
 
-                            // 3. Vérifiez le statut de l'application
+                            // 3. Vérification du statut de l'application
                             echo "Vérification du statut de l'application Heroku..."
-                            def herokuScaleOutput = bat(
-                                returnStatus: true,
-                                script: "heroku ps:scale web=1 --app tests-symfony-bets"
-                            )
-                            def herokuScaleExitCode = bat(
-                                returnStatus: true,
-                                script: "echo %ERRORLEVEL%"
-                            ).trim().toInteger()
-
-                            echo "Sortie de 'heroku ps:scale' : ${herokuScaleOutput}"
+                            def herokuScaleExitCode = bat returnStatus: true, script: "heroku ps:scale web=1 --app tests-symfony-bets"
                             echo "Code de retour de 'heroku ps:scale' : ${herokuScaleExitCode}"
-
-                            if (herokuScaleExitCode != '0') {
+                            if (herokuScaleExitCode != 0) {
                                 error("Échec de la commande 'heroku ps:scale'. Voir les logs ci-dessus.")
                             }
                         }
