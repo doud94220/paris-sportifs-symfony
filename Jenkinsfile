@@ -99,6 +99,7 @@ pipeline {
 
                         // Pousser la branche actuelle en forçant la mise à jour
                         def pushExitCode = bat(returnStatus: true, script: "git push heroku HEAD:main -f")
+
                         if (pushExitCode != 0) {
                             error("❌ Échec du git push vers Heroku (code ${pushExitCode})")
                         }
@@ -106,11 +107,16 @@ pipeline {
                         echo "✅ Déploiement réussi sur Heroku"
 
                         // Redémarrage via API (optionnel)
+                        // def restartExitCode = bat(returnStatus: true, script: """
+                        //     curl -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos ^
+                        //         -H "Accept: application/vnd.heroku+json; version=3" ^
+                        //         -H "Authorization: Bearer ${HEROKU_API_KEY}"
+                        // """)
+
                         def restartExitCode = bat(returnStatus: true, script: """
-                            curl -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos ^
-                                -H "Accept: application/vnd.heroku+json; version=3" ^
-                                -H "Authorization: Bearer ${HEROKU_API_KEY}"
+                            curl -n -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos -H "Accept: application/vnd.heroku+json; version=3" -H "Authorization: Bearer ${HEROKU_API_KEY}"
                         """)
+
                         if (restartExitCode == 0) {
                             echo "♻️ Redémarrage Heroku réussi"
                         } else {
