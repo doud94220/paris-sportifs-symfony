@@ -126,24 +126,28 @@ pipeline {
                             // }
 
                             // 3. Redémarrer l'application (si le CLI Heroku n'est pas disponible)
-                            echo "Redémarrage de l'application Heroku..."
+                            echo "Redémarrage de l'application Heroku via l'API..."
 
-                            def restartCommitOutput = bat(returnStdout: true, script: "git commit --allow-empty -m 'Restart Heroku app'")
-                            echo "Sortie de 'git commit' : ${restartCommitOutput}"
+                            // def restartCommitOutput = bat(returnStdout: true, script: "git commit --allow-empty -m 'Restart Heroku app'")
+                            // echo "Sortie de 'git commit' : ${restartCommitOutput}"
+                            def restartOutput = bat(returnStdout: true, script: "curl -n -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos -H 'Accept: application/vnd.heroku+json; version=3' -H 'Authorization: Bearer ${HEROKU_API_KEY}'")
+                            echo "Sortie de redémarrage via l'API : ${restartOutput}"
 
-                            def restartCommitExitCode = bat(returnStatus: true, script: "git commit --allow-empty -m 'Restart Heroku app'")
-                            echo "Code de retour de 'git commit' : ${restartCommitExitCode}"
+                            // def restartCommitExitCode = bat(returnStatus: true, script: "git commit --allow-empty -m 'Restart Heroku app'")
+                            // echo "Code de retour de 'git commit' : ${restartCommitExitCode}"
 
-                            def restartPushOutput = bat(returnStdout: true, script: "git push ${herokuUrl} HEAD:refs/heads/main")
-                            echo "Sortie de 'git push' pour redémarrage : ${restartPushOutput}"
+                            // def restartPushOutput = bat(returnStdout: true, script: "git push ${herokuUrl} HEAD:refs/heads/main")
+                            // echo "Sortie de 'git push' pour redémarrage : ${restartPushOutput}"
                             
-                            def restartPushExitCode = bat(returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main")
-                            echo "Code de retour de 'git push' pour redémarrage : ${restartPushExitCode}"
+                            // def restartPushExitCode = bat(returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main")
+                            // echo "Code de retour de 'git push' pour redémarrage : ${restartPushExitCode}"
+                            def restartExitCode = bat(returnStatus: true, script: "curl -n -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos -H 'Accept: application/vnd.heroku+json; version=3' -H 'Authorization: Bearer ${HEROKU_API_KEY}'")
+                            echo "Code de retour de redémarrage via l'API : ${restartExitCode}"                            
 
-                            if (restartPushExitCode != 0) {
-                                echo "Attention : Impossible de redémarrer l'application automatiquement. Veuillez le faire manuellement via le dashboard Heroku."
+                           if (restartExitCode != 0) {
+                                echo "Attention : Impossible de redémarrer l'application automatiquement via l'API. Veuillez le faire manuellement via le dashboard Heroku."
                             } else {
-                                echo "Redémarrage réussi !"
+                                echo "Redémarrage réussi via l'API !"
                             }
                         }
                     }
