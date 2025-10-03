@@ -158,6 +158,54 @@ pipeline {
                         //     }
                         // """)                  
 
+                        // def restartExitCode = powershell(returnStatus: true, script: """
+                        //     \$headers = @{
+                        //         Accept = "application/vnd.heroku+json; version=3"
+                        //         Authorization = "Bearer ${HEROKU_API_KEY}"
+                        //     }
+
+                        //     try {
+                        //         # Redémarrage des dynos
+                        //         Invoke-RestMethod -Method Delete `
+                        //             -Uri "https://api.heroku.com/apps/tests-symfony-bets/dynos" `
+                        //             -Headers \$headers
+
+                        //         # Attente que l'app soit de nouveau UP
+                        //         \$maxRetries = 12   # 12 essais
+                        //         \$delaySec = 5      # 5 secondes entre chaque essai
+
+                        //         for (\$i = 0; \$i -lt \$maxRetries; \$i++) {
+                        //             Start-Sleep -Seconds \$delaySec
+                        //             try {
+                        //                 \$response = Invoke-RestMethod -Method Get `
+                        //                     -Uri "https://tests-symfony-bets-1eef0349793f.herokuapp.com/" `
+                        //                     -UseBasicParsing
+                        //                 if (\$response) {
+                        //                     Write-Output "App Heroku UP après \$((\$i+1)*\$delaySec) secondes"
+                        //                     exit 0
+                        //                 }
+                        //             } catch {
+                        //                 Write-Output "App non encore disponible, retry \$((\$i+1))..."
+                        //             }
+                        //         }
+
+                        //         Write-Output "⚠️ Timeout, l'app Heroku n'a pas redémarré à temps"
+                        //         exit 1
+
+                        //     } catch {
+                        //         Write-Output "Erreur lors du redémarrage Heroku : \$\$($_.Exception.Message)"
+                        //         exit 1
+                        //     }
+                        // """)      
+
+                        // if (restartExitCode == 0) {
+                        //     echo "♻️ Redémarrage Heroku réussi"
+                        // } else {
+                        //     echo "⚠️ Impossible de redémarrer via API, fais-le manuellement si besoin"
+                        // }
+
+                        echo "🔄 Redémarrage de l'app Heroku..."
+
                         def restartExitCode = powershell(returnStatus: true, script: """
                             \$headers = @{
                                 Accept = "application/vnd.heroku+json; version=3"
@@ -169,43 +217,40 @@ pipeline {
                                 Invoke-RestMethod -Method Delete `
                                     -Uri "https://api.heroku.com/apps/tests-symfony-bets/dynos" `
                                     -Headers \$headers
-
-                                # Attente que l'app soit de nouveau UP
-                                \$maxRetries = 12   # 12 essais
-                                \$delaySec = 5      # 5 secondes entre chaque essai
-
-                                for (\$i = 0; \$i -lt \$maxRetries; \$i++) {
-                                    Start-Sleep -Seconds \$delaySec
-                                    try {
-                                        \$response = Invoke-RestMethod -Method Get `
-                                            -Uri "https://tests-symfony-bets-1eef0349793f.herokuapp.com/" `
-                                            -UseBasicParsing
-                                        if (\$response) {
-                                            Write-Output "App Heroku UP après \$((\$i+1)*\$delaySec) secondes"
-                                            exit 0
-                                        }
-                                    } catch {
-                                        Write-Output "App non encore disponible, retry \$((\$i+1))..."
-                                    }
-                                }
-
-                                Write-Output "⚠️ Timeout, l'app Heroku n'a pas redémarré à temps"
-                                exit 1
-
+                                exit 0
                             } catch {
-                                Write-Output "Erreur lors du redémarrage Heroku : \$\$($_.Exception.Message)"
+                                Write-Output 'Erreur lors du redémarrage Heroku : ' + \$_.Exception.Message
                                 exit 1
                             }
-                        """)      
+                        """)
 
                         if (restartExitCode == 0) {
-                            echo "♻️ Redémarrage Heroku réussi"
-                        } else {
-                            echo "⚠️ Impossible de redémarrer via API, fais-le manuellement si besoin"
+                            echo "♻️ Redémarrage Heroku demandé, attente de disponibilité..."
+
+                            // Attendre que l'app Heroku réponde sur HTTP
+                            timeout(time: 3, unit: 'MINUTES') {
+                                waitUntil {
+                                    def responseCode = powershell(returnStdout: true, script: """
+                                        try {
+                                            \$resp = Invoke-WebRequest -Uri 'https://tests-symfony-bets-1eef0349793f.herokuapp.com/' -UseBasicParsing -TimeoutSec 5
+                                            Write-Output \$resp.StatusCode
+                                        } catch {
+                                            Write-Output 0
+                                        }
+                                    """).trim()
+                                    echo "Code HTTP reçu : ${responseCode}"
+                                    return responseCode == "200"
+                                }
+                            }
+
+                            echo "✅ Application Heroku disponible !"
+                        }
+                        else {
+                                error "⚠️ Impossible de redémarrer via API, fais-le manuellement si besoin."
                         }
                     }
                 }
-            }
+             }
         }
 
     } //Fin des stages
