@@ -107,7 +107,7 @@ pipeline {
 
                         // Redémarrage via API (optionnel)
                         def restartExitCode = bat(returnStatus: true, script: """
-                            curl -n -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos ^
+                            curl -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos ^
                                 -H "Accept: application/vnd.heroku+json; version=3" ^
                                 -H "Authorization: Bearer ${HEROKU_API_KEY}"
                         """)
