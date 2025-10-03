@@ -91,15 +91,32 @@ pipeline {
                         def herokuUrl = "https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
 
                         // On s'assure que le remote existe
-                        bat "git remote remove heroku || echo 'Remote heroku absent'"
-                        bat "git remote add heroku ${herokuUrl}"
+                        // bat "git remote remove heroku || echo 'Remote heroku absent'"
+                        // bat "git remote add heroku ${herokuUrl}"
 
                         // Récupérer l'historique Heroku (important pour éviter les divergences)
-                        bat "git fetch heroku main || echo 'Pas encore de branche main sur Heroku'"
+                        // bat "git fetch heroku main || echo 'Pas encore de branche main sur Heroku'"
 
                         // Pousser la branche actuelle en forçant la mise à jour
-                        def pushExitCode = bat(returnStatus: true, script: "git push heroku HEAD:main -f")
+                        // def pushExitCode = bat(returnStatus: true, script: "git push heroku HEAD:main -f")
 
+                        // bat """
+                        //     git remote remove heroku || echo Remote heroku absent
+                        //     git remote add heroku https://heroku:%HEROKU_API_KEY%@git.heroku.com/tests-symfony-bets.git
+                        //     git fetch heroku main || echo Pas encore de branche main sur Heroku
+                        //     git push heroku HEAD:main -f
+                        // """
+
+                        // if (pushExitCode != 0) {
+                        //     error("❌ Échec du git push vers Heroku (code ${pushExitCode})")
+                        // }
+                        
+                        bat 'git remote remove heroku || echo Remote heroku absent'
+                        bat "git remote add heroku https://heroku:%HEROKU_API_KEY%@git.heroku.com/tests-symfony-bets.git"
+                        bat 'git fetch heroku main || echo Pas encore de branche main sur Heroku'
+
+                        def pushExitCode = bat(returnStatus: true, script: 'git push heroku HEAD:main -f')
+                        
                         if (pushExitCode != 0) {
                             error("❌ Échec du git push vers Heroku (code ${pushExitCode})")
                         }
@@ -123,7 +140,7 @@ pipeline {
                         //          -H "Authorization: Bearer ${HEROKU_API_KEY}" `
                         //          --fail --silent --show-error
                         // """)
-                        
+
                         def restartExitCode = powershell(returnStatus: true, script: """
                             \$headers = @{
                                 Accept = "application/vnd.heroku+json; version=3"
