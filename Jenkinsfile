@@ -116,7 +116,7 @@ pipeline {
                         bat 'git fetch heroku main || echo Pas encore de branche main sur Heroku'
 
                         def pushExitCode = bat(returnStatus: true, script: 'git push heroku HEAD:main -f')
-                        
+
                         if (pushExitCode != 0) {
                             error("❌ Échec du git push vers Heroku (code ${pushExitCode})")
                         }
@@ -141,6 +141,23 @@ pipeline {
                         //          --fail --silent --show-error
                         // """)
 
+                        // def restartExitCode = powershell(returnStatus: true, script: """
+                        //     \$headers = @{
+                        //         Accept = "application/vnd.heroku+json; version=3"
+                        //         Authorization = "Bearer ${HEROKU_API_KEY}"
+                        //     }
+
+                        //     try {
+                        //         Invoke-RestMethod -Method Delete `
+                        //             -Uri "https://api.heroku.com/apps/tests-symfony-bets/dynos" `
+                        //             -Headers \$headers
+                        //         exit 0
+                        //     } catch {
+                        //         Write-Output "Erreur lors du redémarrage Heroku : \$\$($_.Exception.Message)"
+                        //         exit 1
+                        //     }
+                        // """)                  
+
                         def restartExitCode = powershell(returnStatus: true, script: """
                             \$headers = @{
                                 Accept = "application/vnd.heroku+json; version=3"
@@ -148,15 +165,38 @@ pipeline {
                             }
 
                             try {
+                                # Redémarrage des dynos
                                 Invoke-RestMethod -Method Delete `
                                     -Uri "https://api.heroku.com/apps/tests-symfony-bets/dynos" `
                                     -Headers \$headers
-                                exit 0
+
+                                # Attente que l'app soit de nouveau UP
+                                \$maxRetries = 12   # 12 essais
+                                \$delaySec = 5      # 5 secondes entre chaque essai
+
+                                for (\$i = 0; \$i -lt \$maxRetries; \$i++) {
+                                    Start-Sleep -Seconds \$delaySec
+                                    try {
+                                        \$response = Invoke-RestMethod -Method Get `
+                                            -Uri "https://tests-symfony-bets-1eef0349793f.herokuapp.com/" `
+                                            -UseBasicParsing
+                                        if (\$response) {
+                                            Write-Output "App Heroku UP après \$((\$i+1)*\$delaySec) secondes"
+                                            exit 0
+                                        }
+                                    } catch {
+                                        Write-Output "App non encore disponible, retry \$((\$i+1))..."
+                                    }
+                                }
+
+                                Write-Output "⚠️ Timeout, l'app Heroku n'a pas redémarré à temps"
+                                exit 1
+
                             } catch {
-                                Write-Output "Erreur lors du redémarrage Heroku : \$($_.Exception.Message)"
+                                Write-Output "Erreur lors du redémarrage Heroku : \$\$($_.Exception.Message)"
                                 exit 1
                             }
-                        """)                        
+                        """)      
 
                         if (restartExitCode == 0) {
                             echo "♻️ Redémarrage Heroku réussi"
