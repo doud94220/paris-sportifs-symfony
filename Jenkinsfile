@@ -107,10 +107,10 @@ pipeline {
                             // 2. Déploiement
                             echo "Déploiement en cours..."
 
-                            def gitPushOutput = bat(returnStdout: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose")
+                            def gitPushOutput = bat(returnStdout: true, script: "git push ${herokuUrl} HEAD:refs/heads/main -f --verbose")
                             echo "Sortie de 'git push' : ${gitPushOutput}"
 
-                            def pushExitCode = bat(returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main --verbose")
+                            def pushExitCode = bat(returnStatus: true, script: "git push ${herokuUrl} HEAD:refs/heads/main -f --verbose")
                             echo "Code de retour de 'git push' : ${pushExitCode}"
 
                             if (pushExitCode != 0) {
