@@ -117,12 +117,29 @@ pipeline {
                         //     curl -n -X DELETE https://api.heroku.com/apps/tests-symfony-bets/dynos -H "Accept: application/vnd.heroku+json; version=3" -H "Authorization: Bearer ${HEROKU_API_KEY}"
                         // """)
 
+                        // def restartExitCode = powershell(returnStatus: true, script: """
+                        //     curl -n -X DELETE "https://api.heroku.com/apps/tests-symfony-bets/dynos" `
+                        //          -H "Accept: application/vnd.heroku+json; version=3" `
+                        //          -H "Authorization: Bearer ${HEROKU_API_KEY}" `
+                        //          --fail --silent --show-error
+                        // """)
+                        
                         def restartExitCode = powershell(returnStatus: true, script: """
-                            curl -n -X DELETE "https://api.heroku.com/apps/tests-symfony-bets/dynos" `
-                                 -H "Accept: application/vnd.heroku+json; version=3" `
-                                 -H "Authorization: Bearer ${HEROKU_API_KEY}" `
-                                 --fail --silent --show-error
-                        """)
+                            \$headers = @{
+                                Accept = "application/vnd.heroku+json; version=3"
+                                Authorization = "Bearer ${HEROKU_API_KEY}"
+                            }
+
+                            try {
+                                Invoke-RestMethod -Method Delete `
+                                    -Uri "https://api.heroku.com/apps/tests-symfony-bets/dynos" `
+                                    -Headers \$headers
+                                exit 0
+                            } catch {
+                                Write-Output "Erreur lors du redémarrage Heroku : \$($_.Exception.Message)"
+                                exit 1
+                            }
+                        """)                        
 
                         if (restartExitCode == 0) {
                             echo "♻️ Redémarrage Heroku réussi"
