@@ -235,9 +235,8 @@ pipeline {
                                             \$resp = Invoke-WebRequest -Uri 'https://tests-symfony-bets-1eef0349793f.herokuapp.com/' -UseBasicParsing -TimeoutSec 5
                                             Write-Output \$resp.StatusCode
                                         } catch {
-                                            Write-Output $_.Exception.Message
+                                            Write-Output "0"
                                         }
-                                    exit 0
                                                                                               """
                                                                 ).trim()
                                     echo "Code HTTP reçu : ${responseCode}"
