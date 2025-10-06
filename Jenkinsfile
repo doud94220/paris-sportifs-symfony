@@ -243,6 +243,11 @@ pipeline {
                                                                                               """
                                                                 ).trim().readLines().last()
                                     echo "[waitUntil] Tentative #${attempt} - code reçu : ${responseCode}"
+                                    
+                                    echo ">>> DEBUG responseCode brut <<<"
+                                    echo "[$responseCode]"
+                                    echo ">>> FIN DEBUG <<<"
+
                                     return responseCode == "200"
                                 }
                             }
