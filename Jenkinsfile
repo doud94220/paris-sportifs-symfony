@@ -228,19 +228,21 @@ pipeline {
                             echo "♻️ Redémarrage Heroku demandé, attente de disponibilité..."
 
                             // Attendre que l'app Heroku réponde sur HTTP
+                            def attempt = 0
                             timeout(time: 3, unit: 'MINUTES') {
                                 waitUntil {
+                                    attempt++
                                     def responseCode = powershell(returnStdout: true, script: """
                                         try {
                                             \$resp = Invoke-WebRequest -Uri 'https://tests-symfony-bets-1eef0349793f.herokuapp.com/' -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
                                             Write-Output \$resp.StatusCode
                                         } catch {
                                             Write-Output "0"
-                                            Start-Sleep -Seconds 5
                                         }
+                                        Start-Sleep -Seconds 5
                                                                                               """
                                                                 ).trim().readLines().last()
-                                    echo "[waitUntil] Tentative HTTP, code reçu : ${responseCode}"
+                                    echo "[waitUntil] Tentative #${attempt} - code reçu : ${responseCode}"
                                     return responseCode == "200"
                                 }
                             }
