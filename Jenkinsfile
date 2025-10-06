@@ -11,12 +11,15 @@ pipeline {
         stage('Setup') {
             steps {
                 echo 'Installation des dÃ©pendances Composer...'
-                bat 'composer install --no-interaction --prefer-dist --no-progress'
+                // bat 'composer install --no-interaction --prefer-dist --no-progress'
+                bat 'composer install --no-interaction --prefer-dist --no-progress > composer.log 2>&1'
+                bat 'type composer.log'
                 
                 echo 'Installation des dÃ©pendances npm...'
                 dir('tests/LOCAL-PourJenkis') {
-                    bat 'npm install'
-                    bat 'npm audit fix'
+                    bat 'npm install > npm.log 2>&1'
+                    bat 'npm audit fix >> npm.log 2>&1'
+                    bat 'type npm.log'
                 }
             }
         }
