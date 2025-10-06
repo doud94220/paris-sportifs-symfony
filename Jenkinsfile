@@ -237,7 +237,9 @@ pipeline {
                                         } catch {
                                             Write-Output $_.Exception.Message
                                         }
-                                    """).trim()
+                                    exit 0
+                                                                                              """
+                                                                ).trim()
                                     echo "Code HTTP reçu : ${responseCode}"
                                     return responseCode == "200"
                                 }
