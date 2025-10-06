@@ -232,7 +232,7 @@ pipeline {
                                 waitUntil {
                                     def responseCode = powershell(returnStdout: true, script: """
                                         try {
-                                            \$resp = Invoke-WebRequest -Uri 'https://tests-symfony-bets-1eef0349793f.herokuapp.com/' -UseBasicParsing -TimeoutSec 5
+                                            \$resp = Invoke-WebRequest -Uri 'https://tests-symfony-bets-1eef0349793f.herokuapp.com/' -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
                                             Write-Output \$resp.StatusCode
                                         } catch {
                                             Write-Output "0"
