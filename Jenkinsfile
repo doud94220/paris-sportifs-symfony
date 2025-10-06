@@ -236,14 +236,15 @@ pipeline {
                                             Write-Output \$resp.StatusCode
                                         } catch {
                                             Write-Output "0"
+                                            Start-Sleep -Seconds 5
                                         }
                                                                                               """
-                                                                ).trim()
-                                    echo "Code HTTP reçu : ${responseCode}"
+                                                                ).trim().readLines().last()
+                                    echo "[waitUntil] Tentative HTTP, code reçu : ${responseCode}"
                                     return responseCode == "200"
                                 }
                             }
-
+                            echo "[Pipeline] Sorti du waitUntil, le pipeline continue ici..."
                             echo "✅ Application Heroku disponible !"
                         }
                         else {
