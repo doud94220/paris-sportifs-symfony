@@ -11,7 +11,7 @@ pipeline {
         stage('Setup') {
             steps {
                 echo 'Installation des dÃ©pendances Composer...'
-                bat 'composer install --no-interaction --prefer-dist'
+                bat 'composer install --no-interaction --prefer-dist --no-progress'
                 
                 echo 'Installation des dÃ©pendances npm...'
                 dir('tests/LOCAL-PourJenkis') {
@@ -243,7 +243,7 @@ pipeline {
                                                                                               """
                                                                 ).trim().readLines().last()
                                     echo "[waitUntil] Tentative #${attempt} - code reçu : ${responseCode}"
-                                    
+
                                     echo ">>> DEBUG responseCode brut <<<"
                                     echo "[$responseCode]"
                                     echo ">>> FIN DEBUG <<<"
