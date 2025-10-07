@@ -268,32 +268,25 @@ pipeline {
     } //Fin des stages
 
     post {
-       always {
-            echo 'ArrÃªt de tous les serveurs en arriÃ¨re-plan...'
-            script {
-                try {
-                    // Tenter d'arrêter les processus Java (Selenium)
-                    bat "taskkill /F /IM java.exe"
-                } catch (e) {
-                    echo "Erreur lors de l'arrÃªt des processus java.exe : ${e.getMessage()}"
-                }
-                try {
-                    // Tenter d'arrêter les processus PHP (Symfony)
-                    bat "taskkill /F /IM php.exe"
-                } catch (e) {
-                    echo "Erreur lors de l'arrÃªt des processus php.exe : ${e.getMessage()}"
-                }
-                echo 'ArrÃªt des serveurs terminÃ©.'
-            }
-            // Publication des rÃ©sultats des tests
-            echo 'Publication des rÃ©sultats des tests...'
+        always {
+            echo 'Arrêt de tous les serveurs en arrière-plan...'
+
+            // Tuer java.exe (Selenium) sans faire échouer le job si déjà arrêté
+            bat(returnStatus: true, script: 'taskkill /F /IM java.exe /T')
+
+            // Tuer php.exe (serveur Symfony) sans faire échouer le job si déjà arrêté
+            bat(returnStatus: true, script: 'taskkill /F /IM php.exe /T')
+
+            echo 'Arrêt des serveurs terminé.'
+
+            echo 'Publication des résultats des tests...'
             junit testResults: 'reports/junit.xml', skipPublishingChecks: true
         }
         success {
-            echo 'Build rÃ©ussi !'
+            echo 'Build réussi !'
         }
         failure {
-            echo 'Build en Ã©chec.'
+            echo 'Build en échec.'
         }
     }
 
