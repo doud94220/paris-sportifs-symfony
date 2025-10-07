@@ -237,6 +237,7 @@ pipeline {
                                     attempt++
                                     def responseCode = powershell(returnStdout: true, script: """
                                         try {
+                                            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                                             \$resp = Invoke-WebRequest -Uri 'https://tests-symfony-bets-1eef0349793f.herokuapp.com/' -UseBasicParsing -TimeoutSec 5 -ErrorAction Stop
                                             Write-Output \$resp.StatusCode
                                         } catch {
@@ -247,9 +248,9 @@ pipeline {
                                                                 ).trim().readLines().last()
                                     echo "[waitUntil] Tentative #${attempt} - code reçu : ${responseCode}"
 
-                                    echo ">>> DEBUG responseCode brut <<<"
-                                    echo "[$responseCode]"
-                                    echo ">>> FIN DEBUG <<<"
+                                    // echo ">>> DEBUG responseCode brut <<<"
+                                    // echo "[$responseCode]"
+                                    // echo ">>> FIN DEBUG <<<"
 
                                     return responseCode == "200"
                                 }
