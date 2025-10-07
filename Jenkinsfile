@@ -271,13 +271,37 @@ pipeline {
     post {
         always {
             echo 'Arrêt de tous les serveurs en arrière-plan...'
+            powershell '''
+                try {
+                    # Stop uniquement les processus Selenium (java) sans tuer Jenkins
+                    $procs = Get-Process -Name java -ErrorAction SilentlyContinue
+                    foreach ($p in $procs) {
+                        try {
+                            if ($p.Path -like "*selenium-server*" -or $p.Path -like "*SeleniumServerGrid*") {
+                                Stop-Process -Id $p.Id -Force
+                                Write-Output "✅ Processus Selenium arrêté (PID: $($p.Id))"
+                            } else {
+                                Write-Output "⏩ Ignoré : autre process Java (PID: $($p.Id))"
+                            }
+                        } catch {
+                            Write-Output "⚠️ Impossible d'arrêter java.exe (PID: $($p.Id))"
+                        }
+                    }
 
-            // Tuer java.exe (Selenium) sans faire échouer le job si déjà arrêté
-            bat(returnStatus: true, script: 'taskkill /F /IM java.exe /T')
-
-            // Tuer php.exe (serveur Symfony) sans faire échouer le job si déjà arrêté
-            bat(returnStatus: true, script: 'taskkill /F /IM php.exe /T')
-
+                    # Stop PHP si présent
+                    Get-Process -Name php -ErrorAction SilentlyContinue | ForEach-Object {
+                        try {
+                            Stop-Process -Id $_.Id -Force
+                            Write-Output "✅ Processus PHP arrêté (PID: $($_.Id))"
+                        } catch {
+                            Write-Output "⚠️ Impossible d'arrêter PHP (peut-être déjà arrêté)"
+                        }
+                    }
+                } catch {
+                    Write-Output "⚠️ Erreur dans l'arrêt des serveurs : $_"
+                }
+            '''
+            
             echo 'Arrêt des serveurs terminé.'
 
             echo 'Publication des résultats des tests...'
