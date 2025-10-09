@@ -288,7 +288,8 @@ pipeline {
 
                 dir('tests/LOCAL-PourJenkis') {
                     // Même tests que pour le local, mais sur l’app HEROKU déployée
-                    bat 'set BASE_URL=https://tests-symfony-bets-1eef0349793f.herokuapp.com && npm test -- --reporter-options mochaFile=../../reports/junit_heroku.xml'
+                    // bat 'set BASE_URL=https://tests-symfony-bets-1eef0349793f.herokuapp.com && npm test -- --reporter-options mochaFile=../../reports/junit_heroku.xml'
+                    bat 'set USE_CI=true && set BASE_URL=https://tests-symfony-bets-1eef0349793f.herokuapp.com && set SELENIUM_URL=http://localhost:4444 && npm test -- --reporter-options mochaFile=../../reports/junit_heroku.xml'
                 }
             }
         }
