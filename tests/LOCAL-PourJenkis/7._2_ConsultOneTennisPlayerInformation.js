@@ -7,7 +7,7 @@ async function runTest7_2(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Accéder à la page du joueur Federer
-    await driver.get('${BASE_URL}/tennis-players');
+    await driver.get(`${BASE_URL}/tennis-players`);
     const playerRogerFederer = await driver.findElement(By.css('.color-players:nth-child(5) > b'));
     await playerRogerFederer.click();
     console.log("0");
