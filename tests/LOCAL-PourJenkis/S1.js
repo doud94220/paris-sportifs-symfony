@@ -51,8 +51,17 @@ describe('S1', function () {
         let retries = 5;
         while (retries > 0) {
             try {
+                let options = new chrome.Options();
+                options.addArguments('--dns-prefetch-disable');
+                options.addArguments('--disable-gpu');
+                options.addArguments('--disable-dev-shm-usage');
+                options.addArguments('--no-sandbox');
+                options.addArguments('--ignore-certificate-errors');
+                options.addArguments('--disable-features=NetworkService');
+
                 driver = await new Builder().forBrowser('chrome')
                     .usingServer('http://localhost:4444')
+                    .setChromeOptions(options)
                     .build();
                 console.log("Driver successfully initialized!");
                 return; // Exit the loop on success
