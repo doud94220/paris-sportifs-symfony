@@ -2,10 +2,10 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 
 // require('chromedriver');
 
-async function runTest2(driver) {
+async function runTest2(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
-    await driver.get('http://127.0.0.1:8000/');
+    await driver.get(`${BASE_URL}`);
     console.log("1");
 
     const InscriptionLink = await driver.wait(until.elementLocated(By.css('ul > li:nth-child(2) > a.nav-link')), 3000);

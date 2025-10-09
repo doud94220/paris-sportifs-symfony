@@ -12,6 +12,10 @@ const { runTest47 } = require('./47.ClassikUserLogout.js');
 
 let driver;
 
+// 🌍 Base URL dynamique : Jenkins définit BASE_URL en variable d’environnement pour Heroku
+const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:8000';
+console.log(`🌍 Tests exécutés sur : ${BASE_URL}`);
+
 // Function to add a timeout to a promise
 async function withTimeout(promise, ms) {
     let timeoutId;
@@ -82,22 +86,22 @@ describe('S1', function () {
     });
 
     it('should run Test 2 - Register a new user', async function () {
-        await runTest2(driver);
+        await runTest2(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 4 - Connect as a new user', async function () {
-        await runTest4(driver);
+        await runTest4(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 7.2 - Consult one tennis player info', async function () {
-        await runTest7_2(driver);
+        await runTest7_2(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
     it('should run Test 47 - Classik user logout', async function () {
-        await runTest47(driver);
+        await runTest47(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 });

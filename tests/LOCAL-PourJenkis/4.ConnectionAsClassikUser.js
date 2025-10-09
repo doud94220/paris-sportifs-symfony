@@ -2,10 +2,10 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 
 // require('chromedriver');
 
-async function runTest4(driver) {
+async function runTest4(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
-    await driver.get('http://127.0.0.1:8000/');
+    await driver.get(`${BASE_URL}`);
     console.log("1");
 
     const connectionButton = await driver.wait(until.elementLocated(By.css('ul > li:nth-child(3) > a')), 3000);

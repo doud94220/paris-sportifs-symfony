@@ -3,7 +3,7 @@ const { strictEqual } = require('assert');
 
 // require('chromedriver');
 
-async function runTest47(driver) {
+async function runTest47(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     // -------------------------------------------- Connection as CLASSIK USER -------------------------------------
@@ -27,7 +27,7 @@ async function runTest47(driver) {
     // -------------------------------------------------------------------------------------------------------------
 
     // ----------------------------------------------- DISconnect as CLASSIK USER ----------------------------------
-    await driver.get('http://127.0.0.1:8000/');
+    await driver.get(`${BASE_URL}`);
     console.log("7");
 
     //Verify that admin is loggued

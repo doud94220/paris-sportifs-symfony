@@ -57,7 +57,7 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Run LOCAL Tests') {
             steps {
                 echo 'Démarrage du serveur Symfony |><|'
 
@@ -282,6 +282,17 @@ pipeline {
              }
         }
 
+        stage('Run HEROKU Tests') {
+            steps {
+                echo '🧪 Lancement des tests fonctionnels sur l’application Heroku |><|'
+
+                dir('tests/LOCAL-PourJenkis') {
+                    // Même tests que pour le local, mais sur l’app HEROKU déployée
+                    bat 'set BASE_URL=https://tests-symfony-bets-1eef0349793f.herokuapp.com && npm test -- --reporter-options mochaFile=../../reports/junit_heroku.xml'
+                }
+            }
+        }
+
     } //Fin des stages
 
     post {
@@ -326,18 +337,18 @@ pipeline {
             echo 'Publication des résultats des tests |><|'
 
             /*
-                Lis le fichier reports/junit.xml, interprète-le comme un rapport de tests JUnit, et affiche les résultats dans l’interface Jenkins :
+            Lis le fichier reports/junit.xml, interprète-le comme un rapport de tests JUnit, et affiche les résultats dans l’interface Jenkins :
                 junit	                            C’est une étape intégrée de Jenkins Pipeline pour lire des rapports de tests au format JUnit XML
                 testResults: 'reports/junit.xml'	Indique le chemin du fichier XML contenant les résultats de test (celui généré par mocha-junit-reporter)
                 skipPublishingChecks: true	        (Option facultative) Désactive l’intégration “GitHub Checks API”
                                                     👉 En gros, ça évite à Jenkins de publier un statut “Test passed/failed” sur GitHub
                                                     Utile si tu n’as pas besoin d’envoyer les résultats sur GitHub
             */
-            junit testResults: 'reports/junit.xml', skipPublishingChecks: true
+            junit testResults: 'reports/junit_local.xml, reports/junit_heroku.xml', skipPublishingChecks: true
         }
         success {
             echo 'Build réussi !!!'
-        }
+        }   
         failure {
             echo 'Build en échec...'
         }
