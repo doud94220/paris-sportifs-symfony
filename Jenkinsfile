@@ -284,7 +284,7 @@ pipeline {
 
         stage('Run HEROKU Tests') {
             steps {
-                echo '🧪 Lancement des tests fonctionnels sur l’application Heroku |><|'
+                echo '🧪 Lancement des tests sur l’application Heroku (La PROD) |><|'
 
                 dir('tests/LOCAL-PourJenkis') {
                     // Même tests que pour le local, mais sur l’app HEROKU déployée
