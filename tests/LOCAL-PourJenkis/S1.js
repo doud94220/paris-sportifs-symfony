@@ -2,7 +2,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
 // require('chromedriver');
-// const chrome = require('selenium-webdriver/chrome');
+const chrome = require('selenium-webdriver/chrome');
 // const serverUrl = 'http://localhost:4444/wd/hub';
 
 const { runTest2 } = require('./2.RegisterAsClassikUser.js');
@@ -48,27 +48,37 @@ describe('S1', function () {
         // let options = new chrome.Options();
         // options.headless = false; // Désactive le mode headless
 
+        const useCi = process.env.USE_CI === 'true'; // 🏭 true = Jenkins
+        const gridUrl = process.env.SELENIUM_URL || 'http://localhost:4444';
+
         let retries = 5;
         while (retries > 0) {
             try {
-                let options = new chrome.Options();
-                options.addArguments('--dns-prefetch-disable');
-                options.addArguments('--disable-gpu');
-                options.addArguments('--disable-dev-shm-usage');
-                options.addArguments('--no-sandbox');
-                options.addArguments('--ignore-certificate-errors');
-                options.addArguments('--disable-features=NetworkService');
+                const options = new chrome.Options();
 
-                driver = await new Builder().forBrowser('chrome')
-                    .usingServer('http://localhost:4444')
+                if (useCi) {
+                    options.addArguments(
+                        '--headless',
+                        '--disable-gpu',
+                        '--no-sandbox',
+                        '--disable-dev-shm-usage',
+                        '--ignore-certificate-errors',
+                        '--dns-prefetch-disable',
+                        '--disable-features=NetworkService'
+                    );
+                }
+
+                driver = await new Builder()
+                    .forBrowser('chrome')
+                    .usingServer(gridUrl)
                     .setChromeOptions(options)
                     .build();
-                console.log("Driver successfully initialized!");
-                return; // Exit the loop on success
-                // driver = await new Builder().forBrowser('chrome')
-                // .usingServer(serverUrl)
-                // .setChromeOptions(options) // Applique les options
-                // .build();
+
+                console.log(
+                    `✅ Driver initialized via Selenium Grid (${gridUrl}) [Mode: ${useCi ? 'CI' : 'Local'}]`
+                );
+
+                return;
             }
             catch (e) {
                 console.error(`Failed to connect to Selenium server. Retries left: ${retries}`);
