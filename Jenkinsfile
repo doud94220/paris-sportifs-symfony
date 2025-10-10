@@ -115,7 +115,8 @@ pipeline {
                     -ArgumentList '-jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone'
                                             Arguments passés à Java : ici, il lance le fichier .jar de Selenium Server en mode standalone
                 */
-                bat 'start /B powershell "Start-Process -NoNewWindow -FilePath \'java.exe\' -ArgumentList \'-jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone\'"'
+                // bat 'start /B powershell "Start-Process -NoNewWindow -FilePath \'java.exe\' -ArgumentList \'-jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone\'"'
+                bat 'start /B java -jar C:\\SeleniumServerGrid\\selenium-server-4.35.0.jar standalone'
                 
                 echo 'Vérification du démarrage de Selenium |><|'
 
@@ -286,8 +287,8 @@ pipeline {
             steps {
                 echo '🧪 Lancement des tests sur l’application Heroku (La PROD) |><|'
 
-                echo '🌐 Vérification de la connectivité réseau vers Heroku depuis Jenkins |><|'
-                bat 'curl -I https://tests-symfony-bets-1eef0349793f.herokuapp.com'
+                // echo '🌐 Vérification de la connectivité réseau vers Heroku depuis Jenkins |><|'
+                // bat 'curl -I https://tests-symfony-bets-1eef0349793f.herokuapp.com'
 
                 dir('tests/LOCAL-PourJenkis') {
                     // Même tests que pour le local, mais sur l’app HEROKU déployée
