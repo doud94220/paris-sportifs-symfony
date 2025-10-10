@@ -16,9 +16,11 @@ let driver;
 const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:8000';
 console.log(`🌍 Tests exécutés sur : ${BASE_URL}`);
 
-// Function to add a timeout to a promise
+//Exécute une promise, mais si elle ne se termine pas avant ms millisecondes, considère que c’est un échec et lève une erreur.”
 async function withTimeout(promise, ms) {
     let timeoutId;
+
+    //Création d'une promesse de délai (timeoutPromise) qui échoue au bout de ms millisecondes
     const timeoutPromise = new Promise((_, reject) => {
         timeoutId = setTimeout(() => {
             reject(new Error(`Timeout after ${ms}ms`));
@@ -26,14 +28,24 @@ async function withTimeout(promise, ms) {
     });
 
     try {
+        /*
+            Lancement de 2 promesses en même temps :
+            - Si promise finit avant le délai → ✅ OK
+            - Si le délai (timeoutPromise) arrive avant → ❌ Timeout error
+        */
         await Promise.race([promise, timeoutPromise]);
     } finally {
         clearTimeout(timeoutId);
     }
 }
 
+//Fonction qui crée une pause de ms millisecondes ⏱️ avant de reprendre le code. Elle retourne cette promesse, qu'on peut "await"
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    //Enveloppe ce timer dans une promesse et la retourne
+    return new Promise(
+        //Lance un timer qui attend ms millisecondes, puis appelle resolve()
+        resolve => setTimeout(resolve, ms)
+    );
 }
 
 describe('S1', function () {
