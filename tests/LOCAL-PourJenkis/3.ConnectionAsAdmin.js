@@ -23,5 +23,3 @@ async function runTest3(driver, BASE_URL) {
 }
 
 module.exports = { runTest3 };
-
-// runTest3();
