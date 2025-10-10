@@ -64,7 +64,11 @@ describe('S1', function () {
                         '--disable-dev-shm-usage',
                         '--ignore-certificate-errors',
                         '--dns-prefetch-disable',
-                        '--disable-features=NetworkService'
+                        '--disable-features=NetworkService',
+                        '--disable-web-security',
+                        '--allow-running-insecure-content',
+                        '--no-proxy-server',
+                        '--proxy-server="direct://"'
                     );
                 }
 
