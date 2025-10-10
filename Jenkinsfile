@@ -286,6 +286,9 @@ pipeline {
             steps {
                 echo '🧪 Lancement des tests sur l’application Heroku (La PROD) |><|'
 
+                echo '🌐 Vérification de la connectivité réseau vers Heroku depuis Jenkins |><|'
+                bat 'curl -I https://tests-symfony-bets-1eef0349793f.herokuapp.com'
+
                 dir('tests/LOCAL-PourJenkis') {
                     // Même tests que pour le local, mais sur l’app HEROKU déployée
                     // bat 'set BASE_URL=https://tests-symfony-bets-1eef0349793f.herokuapp.com && npm test -- --reporter-options mochaFile=../../reports/junit_heroku.xml'
