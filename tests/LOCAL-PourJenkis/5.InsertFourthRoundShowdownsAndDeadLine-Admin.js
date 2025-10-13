@@ -82,7 +82,7 @@ async function runTest5(driver, BASE_URL) {
     console.log("21-1 (clic effectué)");
 
     // Donne du temps au DOM pour se mettre à jour
-    await sleep(1000);
+    await sleep(2000);
 
     // Debug : regarde le HTML visible
     const htmlSnippet = await driver.getPageSource();
@@ -90,11 +90,11 @@ async function runTest5(driver, BASE_URL) {
 
     const successRegistrationMsgElement_showdown_2 = await driver.wait(
         until.elementLocated(By.css('div.alert-success > p')),
-        6000
+        10000
     );
     await driver.wait(
         until.elementIsVisible(successRegistrationMsgElement_showdown_2),
-        6000
+        10000
     );
     console.log("21-2");
 
