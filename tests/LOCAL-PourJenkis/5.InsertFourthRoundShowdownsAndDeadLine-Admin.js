@@ -72,12 +72,16 @@ async function runTest5(driver, BASE_URL) {
     await successButton_showdown_2.click();
     console.log("21-1");
     const successRegistrationMsgElement_showdown_2 = await driver.wait(
-        until.elementIsVisible(driver.findElement(By.css('div.alert-success > p'))),
+        until.elementLocated(By.css('div.alert-success > p')),
+        6000
+    );
+    await driver.wait(
+        until.elementIsVisible(successRegistrationMsgElement_showdown_2),
         6000
     );
     console.log("21-2");
     // Récupérer le texte directement, sans stocker l'élément dans une variable intermédiaire pour l'action getText()
-    const successMsg_showdown_2 = await driver.findElement(By.css('div.alert-success > p')).getText();
+    const successMsg_showdown_2 = await driver.findElement(successRegistrationMsgElement_showdown_2).getText();
     console.log("21-3");
     console.log(`Message succes : "${successMsg_showdown_2}"`);
     console.log("21-4");
