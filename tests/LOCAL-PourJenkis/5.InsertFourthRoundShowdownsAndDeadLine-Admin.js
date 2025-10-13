@@ -71,6 +71,7 @@ async function runTest5(driver, BASE_URL) {
 
     await successButton_showdown_2.click();
     console.log("21-1");
+
     const successRegistrationMsgElement_showdown_2 = await driver.wait(
         until.elementLocated(By.css('div.alert-success > p')),
         6000
@@ -80,9 +81,11 @@ async function runTest5(driver, BASE_URL) {
         6000
     );
     console.log("21-2");
+
     // Récupérer le texte directement, sans stocker l'élément dans une variable intermédiaire pour l'action getText()
-    const successMsg_showdown_2 = await driver.findElement(successRegistrationMsgElement_showdown_2).getText();
+    const successMsg_showdown_2 = successRegistrationMsgElement_showdown_2.getText();
     console.log("21-3");
+
     console.log(`Message succes : "${successMsg_showdown_2}"`);
     console.log("21-4");
     strictEqual(successMsg_showdown_2, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
