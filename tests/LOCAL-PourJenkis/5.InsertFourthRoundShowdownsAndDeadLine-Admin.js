@@ -13,51 +13,70 @@ async function runTest5(driver, BASE_URL) {
         );
     }
 
+    //Fonction qui factorise des étapes faites 8 fois (une par match)
+    async function waitForSuccessMessage(driver, expectedMessage = 'The showdown has been registered !', timeout = 8000) {
+        // Attendre que le div du message de succès apparaisse
+        const alertEl = await driver.wait(
+            until.elementLocated(By.css('div.alert-success')),
+            timeout
+        );
+
+        // Attendre qu’il devienne visible
+        await driver.wait(until.elementIsVisible(alertEl), timeout);
+
+        // Lire le texte
+        const text = await alertEl.getText();
+
+        // Vérification optionnelle (tu peux l’omettre si tu veux la faire ailleurs)
+        if (expectedMessage) {
+            strictEqual(text, expectedMessage, `Le message de succès ne correspond pas (trouvé : "${text}")`);
+        }
+
+        console.log(`✅ Message de succès détecté : "${text}"`);
+        return text;
+    }
+
     // ----------------------------- Renseigner affiche 8ème finale - PREMIER 8ème ---------------------------------
 
-    console.log("7");
+    console.log("1");
     //Clicker sur le lien Admin en haut de page
     const adminLink = await driver.wait(until.elementLocated(By.css('ul > li:nth-child(6) > a.nav-link')), 3000);
     await adminLink.click();
-    console.log("8");
+    console.log("2");
 
     const URL_ADMIN_FOURTHROUND = `${BASE_URL}/admin/fourthround`;
     await driver.get(URL_ADMIN_FOURTHROUND);
-    console.log("10 - Navigation forcée vers la page d'admin des 8èmes de finale");
+    console.log("3 - Navigation forcée vers la page d'admin des 8èmes de finale");
 
     //Renseigner affiche 8ème finale - Premier 8ème
     const URL_ADMIN_FOURTHROUND_SHOWDONNS = `${BASE_URL}/admin/fourthround-showdowns/1`;
     await driver.get(URL_ADMIN_FOURTHROUND_SHOWDONNS);
-    console.log("11 - Navigation forcée vers la page d'admin des confrontations des 8èmes de finale - Page 1");
+    console.log("4 - Navigation forcée vers la page d'admin des confrontations des 8èmes de finale - Page 1");
 
     const successButton_showdown_1 = await driver.wait(
         until.elementLocated((By.css('button.btn-success'))),
         3000 // Le temps d'attente maximum en millisecondes
     );
-    console.log("13 - L'élément button.btn-success est localisé enfin !!!!!");
+    console.log("5 - L'élément button.btn-success est localisé enfin !!!!!");
 
     await driver.wait(until.elementIsVisible(successButton_showdown_1), 3000);
-    console.log("14 - L'élément est visible");
+    console.log("6 - L'élément est visible");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    const listPlayerOne = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option = await listPlayerOne.findElement(By.xpath("./option[text()='Novak DJOKOVIC']"));
-    await option.click();
-    console.log("15 - L'option 'Novak DJOKOVIC' a été sélectionnée avec succès.");
+    const playerOne = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1 = await playerOne.findElement(By.xpath("./option[text()='Novak DJOKOVIC']"));
+    await option1.click();
+    console.log("7 - L'option 'Novak DJOKOVIC' a été sélectionnée avec succès.");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2 = await listPlayerTwo.findElement(By.xpath("./option[text()='Rafael NADAL']"));
+    const playerTwo = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2 = await playerTwo.findElement(By.xpath("./option[text()='Rafael NADAL']"));
     await option2.click();
-    console.log("16 - L'option 'Rafael NADAL' a été sélectionnée avec succès.");
+    console.log("8 - L'option 'Rafael NADAL' a été sélectionnée avec succès.");
 
     await successButton_showdown_1.click();
-    console.log("17 - Bouton showdown 1 cliqué");
-    const successRegistrationMsgElement_showdown_1 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    const successMsg_showdown_1 = await successRegistrationMsgElement_showdown_1.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log(`Message succes : "${successMsg_showdown_1}"`);
-    strictEqual(successMsg_showdown_1, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("18 - Match 1 des 8ème inséré !");
+    console.log("9 - Bouton showdown 1 cliqué");
+
+    await waitForSuccessMessage(driver);
+    console.log("10 - Match 1 des 8ème inséré !");
 
     // ----------------------------- Renseigner affiche 8ème finale - DEUXIEME 8ème ---------------------------------
 
@@ -66,47 +85,21 @@ async function runTest5(driver, BASE_URL) {
         3000 // Le temps d'attente maximum en millisecondes
     );
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    const listPlayerOne_showdown_2 = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option1_showdown_2 = await listPlayerOne_showdown_2.findElement(By.xpath("./option[text()='Roger FEDERER']"));
-    await option1_showdown_2.click();
-    console.log("19");
+    const playerOne_2 = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1_2 = await playerOne_2.findElement(By.xpath("./option[text()='Roger FEDERER']"));
+    await option1_2.click();
+    console.log("11 - L'option 'Roger FEDERER' a été sélectionnée avec succès.");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo_showdown_2 = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2_showdown_2 = await listPlayerTwo_showdown_2.findElement(By.xpath("./option[text()='Daniil MEDVEDEV']"));
-    await option2_showdown_2.click();
-    console.log("20");
+    const playerTwo_2 = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2_2 = await playerTwo_2.findElement(By.xpath("./option[text()='Daniil MEDVEDEV']"));
+    await option2_2.click();
+    console.log("12 - L'option 'Daniil MEDVEDEV' a été sélectionnée avec succès.");
 
     await successButton_showdown_2.click();
-    console.log("21-1 (clic effectué)");
+    console.log("13 - Clic effectué");
 
-    // Donne du temps au DOM pour se mettre à jour
-    await sleep(2000);
-
-    // Debug : regarde le HTML visible
-    // const htmlSnippet = await driver.getPageSource();
-    // console.log("🧩 Extrait du HTML :", htmlSnippet.slice(0, 800));
-
-    const successRegistrationMsgElement_showdown_2 = await driver.wait(
-        until.elementLocated(By.css('div.alert-success > p')),
-        10000
-    );
-    await driver.wait(
-        until.elementIsVisible(successRegistrationMsgElement_showdown_2),
-        10000
-    );
-    console.log("21-2");
-
-    await sleep(500);
-    // Récupérer le texte directement, sans stocker l'élément dans une variable intermédiaire pour l'action getText()
-    const successMsg_showdown_2 = await successRegistrationMsgElement_showdown_2.getText();
-    console.log("21-3");
-
-    console.log(`Message succes : "${successMsg_showdown_2}"`);
-    console.log("21-4");
-    strictEqual(successMsg_showdown_2, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("21-5 - Match 2 des 8ème inséré !");
+    await waitForSuccessMessage(driver);
+    console.log("14 - Match 2 des 8ème inséré !");
 
     // ----------------------------- Renseigner affiche 8ème finale - TROISIEME 8ème ---------------------------------
 
@@ -114,86 +107,51 @@ async function runTest5(driver, BASE_URL) {
         until.elementLocated((By.css('button.btn-success'))),
         3000 // Le temps d'attente maximum en millisecondes
     );
-    console.log("21-2 - Bouton localisé");
+    console.log("15 - Bouton localisé");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    console.log("21-3 - Select Player One localisé");
-    const listPlayerOne_showdown_3 = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option1_showdown_3 = await listPlayerOne_showdown_3.findElement(By.xpath("./option[text()='Stefanos TSITSIPAS']"));
-    await option1_showdown_3.click();
-    console.log("22");
+    const playerOne_3 = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1_3 = await playerOne_3.findElement(By.xpath("./option[text()='Stefanos TSITSIPAS']"));
+    await option1_3.click();
+    console.log("16 - L'option 'Stefanos TSITSIPAS' a été sélectionnée avec succès.");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo_showdown_3 = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2_showdown_3 = await listPlayerTwo_showdown_3.findElement(By.xpath("./option[text()='Alexander ZVEREV']"));
-    await option2_showdown_3.click();
-    console.log("23");
+    const playerTwo_3 = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2_3 = await playerTwo_3.findElement(By.xpath("./option[text()='Alexander ZVEREV']"));
+    await option2_3.click();
+    console.log("17 - L'option 'Alexander ZVEREV' a été sélectionnée avec succès.");
 
     await successButton_showdown_3.click();
-    console.log("23-1");
+    console.log("18");
 
-    const successAlert_3 = await driver.wait(
-        until.elementLocated(By.css('div.alert-success')),
-        8000
-    );
-    console.log("23-2");
-
-    await driver.wait(
-        until.elementIsVisible(successAlert_3),
-        8000
-    );
-    console.log("23-3");
-
-    const successMsg_showdown_3 = await successAlert_3.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log("23-4");
-    console.log(`Message succes : "${successMsg_showdown_3}"`);
-
-    strictEqual(successMsg_showdown_3, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("24 - Match 3 des 8ème inséré !");
+    await waitForSuccessMessage(driver);
+    console.log("19 - Match 3 des 8ème inséré !");
 
     // ----------------------------- Renseigner affiche 8ème finale - QUATRIEME 8ème ---------------------------------
+
+    // Donne du temps au DOM pour se mettre à jour
+    await sleep(2000);
+    console.log("20");
 
     const successButton_showdown_4 = await driver.wait(
         until.elementLocated((By.css('button.btn-success'))),
         3000 // Le temps d'attente maximum en millisecondes
     );
+    console.log("21");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    const listPlayerOne_showdown_4 = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option1_showdown_4 = await listPlayerOne_showdown_4.findElement(By.xpath("./option[text()='Dominic THIEM']"));
-    await option1_showdown_4.click();
+    const playerOne_4 = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1_4 = await playerOne_4.findElement(By.xpath("./option[text()='Dominic THIEM']"));
+    await option1_4.click();
+    console.log("22 - L'option 'Dominic THIEM' a été sélectionnée avec succès.");
 
-    // Donne du temps au DOM pour se mettre à jour
-    await sleep(2000);
-    console.log("25");
-
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo_showdown_4 = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2_showdown_4 = await listPlayerTwo_showdown_4.findElement(By.xpath("./option[text()='Andrey RUBLEV']"));
-    await option2_showdown_4.click();
-    console.log("26-1");
+    const playerTwo_4 = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2_4 = await playerTwo_4.findElement(By.xpath("./option[text()='Andrey RUBLEV']"));
+    await option2_4.click();
+    console.log("23 - L'option 'Andrey RUBLEV' a été sélectionnée avec succès.");
 
     await successButton_showdown_4.click();
-    console.log("26-2");
+    console.log("24");
 
-    const successAlert_4 = await driver.wait(
-        until.elementLocated(By.css('div.alert-success')),
-        8000
-    );
-    console.log("26-3");
-
-    await driver.wait(
-        until.elementIsVisible(successAlert_4),
-        8000
-    );
-    console.log("26-4");
-
-    const successMsg_showdown_4 = await successAlert_4.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log("26-5");
-    console.log(`Message succes : "${successMsg_showdown_4}"`);
-
-    strictEqual(successMsg_showdown_4, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("27 - Match 4 des 8ème inséré !");
+    await waitForSuccessMessage(driver);
+    console.log("25 - Match 4 des 8ème inséré !");
 
     // ----------------------------- Renseigner affiche 8ème finale - CINQUIEME 8ème ---------------------------------
 
@@ -201,40 +159,23 @@ async function runTest5(driver, BASE_URL) {
         until.elementLocated((By.css('button.btn-success'))),
         3000 // Le temps d'attente maximum en millisecondes
     );
+    console.log("26");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    const listPlayerOne_showdown_5 = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option1_showdown_5 = await listPlayerOne_showdown_5.findElement(By.xpath("./option[text()='Matteo BERRETTINI']"));
-    await option1_showdown_5.click();
-    console.log("28");
+    const playerOne_5 = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1_5 = await playerOne_5.findElement(By.xpath("./option[text()='Matteo BERRETTINI']"));
+    await option1_5.click();
+    console.log("27 - L'option 'Matteo BERRETTINI' a été sélectionnée avec succès.");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo_showdown_5 = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2_showdown_5 = await listPlayerTwo_showdown_5.findElement(By.xpath("./option[text()='Denis SHAPOVALOV']"));
-    await option2_showdown_5.click();
-    console.log("29");
+    const playerTwo_5 = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2_5 = await playerTwo_5.findElement(By.xpath("./option[text()='Denis SHAPOVALOV']"));
+    await option2_5.click();
+    console.log("28 - L'option 'Denis SHAPOVALOV' a été sélectionnée avec succès.");
 
     await successButton_showdown_5.click();
-    console.log("30");
+    console.log("29");
 
-    const successAlert_5 = await driver.wait(
-        until.elementLocated(By.css('div.alert-success')),
-        8000
-    );
-    console.log("31");
-
-    await driver.wait(
-        until.elementIsVisible(successAlert_5),
-        8000
-    );
-    console.log("32");
-
-    const successMsg_showdown_5 = await successAlert_5.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log("33");
-    console.log(`Message succes : "${successMsg_showdown_5}"`);
-
-    strictEqual(successMsg_showdown_5, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("34 - Match 5 des 8ème inséré !");
+    await waitForSuccessMessage(driver);
+    console.log("30 - Match 5 des 8ème inséré !");
 
     // ----------------------------- Renseigner affiche 8ème finale - SIXIEME 8ème ---------------------------------
 
@@ -243,39 +184,21 @@ async function runTest5(driver, BASE_URL) {
         3000 // Le temps d'attente maximum en millisecondes
     );
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    const listPlayerOne_showdown_6 = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option1_showdown_6 = await listPlayerOne_showdown_6.findElement(By.xpath("./option[text()='Casper RUUD']"));
-    await option1_showdown_6.click();
-    console.log("35");
+    const playerOne_6 = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1_6 = await playerOne_6.findElement(By.xpath("./option[text()='Casper RUUD']"));
+    await option1_6.click();
+    console.log("31 - L'option 'Casper RUUD' a été sélectionnée avec succès.");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo_showdown_6 = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2_showdown_6 = await listPlayerTwo_showdown_6.findElement(By.xpath("./option[text()='Pablo CARRENO BUSTA']"));
-    await option2_showdown_6.click();
-    console.log("36");
+    const playerTwo_6 = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2_6 = await playerTwo_6.findElement(By.xpath("./option[text()='Pablo CARRENO BUSTA']"));
+    await option2_6.click();
+    console.log("32 - L'option 'Pablo CARRENO BUSTA' a été sélectionnée avec succès.");
 
     await successButton_showdown_6.click();
-    console.log("37");
+    console.log("33");
 
-    const successAlert_6 = await driver.wait(
-        until.elementLocated(By.css('div.alert-success')),
-        8000
-    );
-    console.log("38");
-
-    await driver.wait(
-        until.elementIsVisible(successAlert_6),
-        8000
-    );
-    console.log("39");
-
-    const successMsg_showdown_6 = await successAlert_6.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log("40");
-    console.log(`Message succes : "${successMsg_showdown_6}"`);
-
-    strictEqual(successMsg_showdown_6, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("41 - Match 6 des 8ème inséré !");
+    await waitForSuccessMessage(driver);
+    console.log("34 - Match 6 des 8ème inséré !");
 
     // ----------------------------- Renseigner affiche 8ème finale - SEPTIEME 8ème ---------------------------------
 
@@ -284,39 +207,21 @@ async function runTest5(driver, BASE_URL) {
         3000 // Le temps d'attente maximum en millisecondes
     );
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    const listPlayerOne_showdown_7 = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option1_showdown_7 = await listPlayerOne_showdown_7.findElement(By.xpath("./option[text()='Hubert HURKACZ']"));
-    await option1_showdown_7.click();
-    console.log("42");
+    const playerOne_7 = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1_7 = await playerOne_7.findElement(By.xpath("./option[text()='Hubert HURKACZ']"));
+    await option1_7.click();
+    console.log("35 - L'option 'Hubert HURKACZ' a été sélectionnée avec succès.");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo_showdown_7 = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2_showdown_7 = await listPlayerTwo_showdown_7.findElement(By.xpath("./option[text()='Diego SCHWARTZMAN']"));
-    await option2_showdown_7.click();
-    console.log("43");
+    const playerTwo_7 = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2_7 = await playerTwo_7.findElement(By.xpath("./option[text()='Diego SCHWARTZMAN']"));
+    await option2_7.click();
+    console.log("36 - L'option 'Diego SCHWARTZMAN' a été sélectionnée avec succès.");
 
     await successButton_showdown_7.click();
-    console.log("44");
+    console.log("37");
 
-    const successAlert_7 = await driver.wait(
-        until.elementLocated(By.css('div.alert-success')),
-        8000
-    );
-    console.log("45");
-
-    await driver.wait(
-        until.elementIsVisible(successAlert_7),
-        8000
-    );
-    console.log("46");
-
-    const successMsg_showdown_7 = await successAlert_7.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log("47");
-    console.log(`Message succes : "${successMsg_showdown_7}"`);
-
-    strictEqual(successMsg_showdown_7, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("48 - Match 7 des 8ème inséré !");
+    await waitForSuccessMessage(driver);
+    console.log("38 - Match 7 des 8ème inséré !");
 
     // ----------------------------- Renseigner affiche 8ème finale - HUITIEME 8ème ---------------------------------
 
@@ -325,44 +230,26 @@ async function runTest5(driver, BASE_URL) {
         3000 // Le temps d'attente maximum en millisecondes
     );
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerOne')), 3000);
-    const listPlayerOne_showdown_8 = await driver.findElement(By.id('tennis_match_playerOne'));
-    const option1_showdown_8 = await listPlayerOne_showdown_8.findElement(By.xpath("./option[text()='Felix AUGER-ALIASSIME']"));
-    await option1_showdown_8.click();
-    console.log("49");
+    const playerOne_8 = await driver.findElement(By.id('tennis_match_playerOne'));
+    const option1_8 = await playerOne_8.findElement(By.xpath("./option[text()='Felix AUGER-ALIASSIME']"));
+    await option1_8.click();
+    console.log("39 - L'option 'Felix AUGER-ALIASSIME' a été sélectionnée avec succès.");
 
-    await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
-    const listPlayerTwo_showdown_8 = await driver.findElement(By.id('tennis_match_playerTwo'));
-    const option2_showdown_8 = await listPlayerTwo_showdown_8.findElement(By.xpath("./option[text()='Jannik SINNER']"));
-    await option2_showdown_8.click();
-    console.log("50");
+    const playerTwo_8 = await driver.findElement(By.id('tennis_match_playerTwo'));
+    const option2_8 = await playerTwo_8.findElement(By.xpath("./option[text()='Jannik SINNER']"));
+    await option2_8.click();
+    console.log("40 - L'option 'Jannik SINNER' a été sélectionnée avec succès.");
 
     await successButton_showdown_8.click();
-    console.log("51");
+    console.log("41");
 
-    const successAlert_8 = await driver.wait(
-        until.elementLocated(By.css('div.alert-success')),
-        8000
-    );
-    console.log("52");
-
-    await driver.wait(
-        until.elementIsVisible(successAlert_8),
-        8000
-    );
-    console.log("53");
-
-    const successMsg_showdown_8 = await successAlert_8.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log("54");
-    console.log(`Message succes : "${successMsg_showdown_8}"`);
-
-    strictEqual(successMsg_showdown_8, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
-    console.log("55 - Match 8 des 8ème inséré !");
+    await waitForSuccessMessage(driver);
+    console.log("42 - Match 8 des 8ème inséré !");
 
     // ----------------------------- Renseigner DEAD LINE des 8ème ---------------------------------
     const URL_ADMIN_FOURTHROUND_DEADLINE = `${BASE_URL}/admin/fourthround-deadline`;
     await driver.get(URL_ADMIN_FOURTHROUND_DEADLINE);
-    console.log("56 - Navigation forcée vers la page d'admin de la DEAD LINE des 8èmes de finale");
+    console.log("43 - Navigation forcée vers la page d'admin de la DEAD LINE des 8èmes de finale");
 
     const successButton_deadline = await driver.wait(
         until.elementLocated((By.css('button.btn-success'))),
@@ -383,7 +270,7 @@ async function runTest5(driver, BASE_URL) {
     // Trouver l'élément input et lui envoyer la valeur
     const dateInput = await driver.findElement(By.id('dead_line_deadLine'));
     await driver.executeScript("arguments[0].value = arguments[1];", dateInput, formattedDateTime);
-    console.log(`57 - La date et l'heure "${formattedDateTime}" ont été renseignées.`);
+    console.log(`44 - La date et l'heure "${formattedDateTime}" ont été renseignées.`);
 
     //Valider la dead line
     await successButton_deadline.click();
@@ -391,7 +278,7 @@ async function runTest5(driver, BASE_URL) {
     const successMsg_deadline = await successRegistrationDeadLine.getText(); //Sans Await, j'ai le Promise, et ca plante
     console.log(`Message succes : "${successMsg_deadline}"`);
     strictEqual(successMsg_deadline, 'The deadline has been registered !', 'Le message de succès ne correspond pas');
-    console.log("58 - Deadline des 8 des 8ème insérée !");
+    console.log("45 - Deadline des 8 des 8ème insérée !");
 }
 
 module.exports = { runTest5 };
