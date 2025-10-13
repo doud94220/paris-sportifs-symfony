@@ -130,12 +130,24 @@ async function runTest5(driver, BASE_URL) {
     console.log("23");
 
     await successButton_showdown_3.click();
-    console.log("là");
-    const successRegistrationMsgElement_showdown_3 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    console.log("ici");
-    const successMsg_showdown_3 = await successRegistrationMsgElement_showdown_3.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log("par là");
+    console.log("23-1");
+
+    const successAlert_3 = await driver.wait(
+        until.elementLocated(By.css('div.alert-success')),
+        8000
+    );
+    console.log("23-2");
+
+    await driver.wait(
+        until.elementIsVisible(successAlert_3),
+        8000
+    );
+    console.log("23-3");
+
+    const successMsg_showdown_3 = await successAlert_3.getText(); //Sans Await, j'ai le Promise, et ca plante
+    console.log("23-4");
     console.log(`Message succes : "${successMsg_showdown_3}"`);
+
     strictEqual(successMsg_showdown_3, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
     console.log("24 - Match 3 des 8ème inséré !");
 
