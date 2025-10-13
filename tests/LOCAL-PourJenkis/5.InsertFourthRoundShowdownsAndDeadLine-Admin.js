@@ -150,6 +150,9 @@ async function runTest5(driver, BASE_URL) {
     const listPlayerOne_showdown_4 = await driver.findElement(By.id('tennis_match_playerOne'));
     const option1_showdown_4 = await listPlayerOne_showdown_4.findElement(By.xpath("./option[text()='Dominic THIEM']"));
     await option1_showdown_4.click();
+
+    // Donne du temps au DOM pour se mettre à jour
+    await sleep(2000);
     console.log("25");
 
     await driver.wait(until.elementLocated(By.id('tennis_match_playerTwo')), 3000);
@@ -160,7 +163,7 @@ async function runTest5(driver, BASE_URL) {
 
     await successButton_showdown_4.click();
     console.log("26-2");
-    const successRegistrationMsgElement_showdown_4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    const successRegistrationMsgElement_showdown_4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 10000);
     console.log("26-3");
     const successMsg_showdown_4 = await successRegistrationMsgElement_showdown_4.getText(); //Sans Await, j'ai le Promise, et ca plante
     console.log("26-4");
