@@ -70,7 +70,14 @@ async function runTest5(driver, BASE_URL) {
     console.log("20");
 
     await successButton_showdown_2.click();
-    console.log("21-1");
+    console.log("21-1 (clic effectué)");
+
+    // Donne du temps au DOM pour se mettre à jour
+    await sleep(1000);
+
+    // Debug : regarde le HTML visible
+    const htmlSnippet = await driver.getPageSource();
+    console.log("🧩 Extrait du HTML :", htmlSnippet.slice(0, 800));
 
     const successRegistrationMsgElement_showdown_2 = await driver.wait(
         until.elementLocated(By.css('div.alert-success > p')),
