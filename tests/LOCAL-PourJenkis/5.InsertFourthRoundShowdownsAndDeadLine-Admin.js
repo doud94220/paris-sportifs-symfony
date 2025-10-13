@@ -4,6 +4,15 @@ const { strictEqual } = require('assert');
 async function runTest5(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
+    //Fonction qui crée une pause de ms millisecondes ⏱️ avant de reprendre le code. Elle retourne cette promesse, qu'on peut "await"
+    function sleep(ms) {
+        //Enveloppe ce timer dans une promesse et la retourne
+        return new Promise(
+            //Lance un timer qui attend ms millisecondes, puis appelle resolve()
+            resolve => setTimeout(resolve, ms)
+        );
+    }
+
     // ----------------------------- Renseigner affiche 8ème finale - PREMIER 8ème ---------------------------------
 
     console.log("7");
