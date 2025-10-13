@@ -85,8 +85,8 @@ async function runTest5(driver, BASE_URL) {
     await sleep(2000);
 
     // Debug : regarde le HTML visible
-    const htmlSnippet = await driver.getPageSource();
-    console.log("🧩 Extrait du HTML :", htmlSnippet.slice(0, 800));
+    // const htmlSnippet = await driver.getPageSource();
+    // console.log("🧩 Extrait du HTML :", htmlSnippet.slice(0, 800));
 
     const successRegistrationMsgElement_showdown_2 = await driver.wait(
         until.elementLocated(By.css('div.alert-success > p')),
@@ -156,12 +156,16 @@ async function runTest5(driver, BASE_URL) {
     const listPlayerTwo_showdown_4 = await driver.findElement(By.id('tennis_match_playerTwo'));
     const option2_showdown_4 = await listPlayerTwo_showdown_4.findElement(By.xpath("./option[text()='Andrey RUBLEV']"));
     await option2_showdown_4.click();
-    console.log("26");
+    console.log("26-1");
 
     await successButton_showdown_4.click();
+    console.log("26-2");
     const successRegistrationMsgElement_showdown_4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    console.log("26-3");
     const successMsg_showdown_4 = await successRegistrationMsgElement_showdown_4.getText(); //Sans Await, j'ai le Promise, et ca plante
+    console.log("26-4");
     console.log(`Message succes : "${successMsg_showdown_4}"`);
+    console.log("26-5");
     strictEqual(successMsg_showdown_4, 'The showdown has been registered !', 'Le message de succès ne correspond pas');
     console.log("27 - Match 4 des 8ème inséré !");
 
