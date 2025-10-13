@@ -98,8 +98,9 @@ async function runTest5(driver, BASE_URL) {
     );
     console.log("21-2");
 
+    await sleep(500);
     // Récupérer le texte directement, sans stocker l'élément dans une variable intermédiaire pour l'action getText()
-    const successMsg_showdown_2 = successRegistrationMsgElement_showdown_2.getText();
+    const successMsg_showdown_2 = await successRegistrationMsgElement_showdown_2.getText();
     console.log("21-3");
 
     console.log(`Message succes : "${successMsg_showdown_2}"`);
