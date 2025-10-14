@@ -99,7 +99,7 @@ async function runTest8(driver, BASE_URL) {
     await optionSetNumberElement_Match8.click();
     console.log("34 - Le nombre de sets a été  sélectionné");
 
-    async function elementToBeClickable(driver, locator, timeout = 3000) {
+    async function elementToBeClickable(driver, locator, timeout = 5000) {
         const element = await driver.wait(until.elementLocated(locator), timeout);
         await driver.wait(until.elementIsVisible(element), timeout);
         await driver.wait(until.elementIsEnabled(element), timeout);
@@ -109,17 +109,18 @@ async function runTest8(driver, BASE_URL) {
     }
     console.log("35-0");
 
-    const locator = By.css('button-text');
-    console.log("35-1");
+    // const locator = By.css('button-text');
+    // console.log("35-1");
 
-    await driver.wait(until.elementLocated(locator), 5000);
-    console.log("35-2");
+    // await driver.wait(until.elementLocated(locator), 5000);
+    // console.log("35-2");
 
-    await driver.wait(until.elementIsVisible(locator), 5000);
-    console.log("35-3");
+    // await driver.wait(until.elementIsVisible(locator), 5000);
+    // console.log("35-3");
 
-    const validateBetsButton = await driver.wait(until.elementToBeClickable(locator), 5000);
-    //const validateBetsButton = await elementToBeClickable(driver, By.id('button-text'));
+    // const validateBetsButton = await driver.wait(until.elementToBeClickable(locator), 5000);
+
+    const validateBetsButton = await elementToBeClickable(driver, By.id('button-text'));
     console.log("35-4");
 
     console.log("36");
