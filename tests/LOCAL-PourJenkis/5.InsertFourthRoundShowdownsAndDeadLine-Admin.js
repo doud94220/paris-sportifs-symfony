@@ -14,26 +14,38 @@ async function runTest5(driver, BASE_URL) {
     }
 
     //Fonction qui factorise des étapes faites 8 fois (une par match)
-    async function waitForSuccessMessage(driver, expectedMessage = 'The showdown has been registered !', timeout = 8000) {
-        // Attendre que le div du message de succès apparaisse
-        const alertEl = await driver.wait(
-            until.elementLocated(By.css('div.alert-success')),
-            timeout
-        );
+    async function waitForSuccessMessage(
+        driver,
+        expectedMessage = 'The showdown has been registered !',
+        timeout = 8000
+    ) {
+        const locator = By.css('div.alert-success');
 
-        // Attendre qu’il devienne visible
-        await driver.wait(until.elementIsVisible(alertEl), timeout);
+        // 1) Attendre qu'un alert-success apparaisse quelque part
+        await driver.wait(until.elementLocated(locator), timeout);
 
-        // Lire le texte
-        const text = await alertEl.getText();
+        // 2) Polling: à chaque essai on RE-trouve l'élément, on vérifie visible + texte
+        await driver.wait(async () => {
+            try {
+                const el = await driver.findElement(locator);  // re-find à chaque poll
+                const visible = await el.isDisplayed();
+                if (!visible) return false;
 
-        // Vérification optionnelle (tu peux l’omettre si tu veux la faire ailleurs)
-        if (expectedMessage) {
-            strictEqual(text, expectedMessage, `Le message de succès ne correspond pas (trouvé : "${text}")`);
-        }
+                const text = (await el.getText()).trim();
+                return expectedMessage ? text === expectedMessage : text.length > 0;
+            } catch (e) {
+                // Si le DOM s'est rerendu → handle stale → on réessaie
+                if (e.name === 'StaleElementReferenceError' || /stale element/i.test(e.message)) {
+                    return false;
+                }
+                throw e; // autre erreur → on arrête l'attente
+            }
+        }, timeout, 'Success message not visible with expected text');
 
-        console.log(`✅ Message de succès détecté : "${text}"`);
-        return text;
+        // 3) Une dernière lecture propre du texte (ré-loc encore une fois)
+        const finalText = (await (await driver.findElement(locator)).getText()).trim();
+        console.log(`✅ Message de succès détecté : "${finalText}"`);
+        return finalText;
     }
 
     // ----------------------------- Renseigner affiche 8ème finale - PREMIER 8ème ---------------------------------
