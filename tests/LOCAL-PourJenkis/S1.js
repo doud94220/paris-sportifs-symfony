@@ -120,12 +120,12 @@ describe('S1', function () {
         }
     });
 
-    it('should run Test 2 - Register a new user', async function () {
+    it('should run Test 2 - Register as classik user', async function () {
         await runTest2(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
-    it('should run Test 4 - Connect as a new user', async function () {
+    it('should run Test 4 - Connect as classik user', async function () {
         await runTest4(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });

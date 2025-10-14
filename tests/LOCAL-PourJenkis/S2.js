@@ -114,12 +114,12 @@ describe('S2', function () {
         }
     });
 
-    it('should run Test 1 - Register a new user', async function () {
+    it('should run Test 1 - Register as ADMIN', async function () {
         await runTest1(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
-    it('should run Test 3 - Connect as a new user', async function () {
+    it('should run Test 3 - Connect as ADMIN', async function () {
         await runTest3(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
@@ -129,7 +129,7 @@ describe('S2', function () {
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
-    it('should run Test 46 - Classik user logout', async function () {
+    it('should run Test 46 - ADMIN logout', async function () {
         await runTest46(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });

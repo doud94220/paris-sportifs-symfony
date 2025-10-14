@@ -112,17 +112,17 @@ describe('S3', function () {
         }
     });
 
-    it('should run Test 3 - Register a new user', async function () {
+    it('should run Test 3 - Connect as Admin', async function () {
         await runTest3(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
-    it('should run Test 5 - Connect as a new user', async function () {
+    it('should run Test 5 - Insert Fourth Round Showdowns And DeadLine', async function () {
         await runTest5(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
-    it('should run Test 46 - Classik user logout', async function () {
+    it('should run Test 46 - Admin logout', async function () {
         await runTest46(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });

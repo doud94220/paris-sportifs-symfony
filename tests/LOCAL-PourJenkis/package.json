@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../../reports/junit_local.xml S3.js"
+    "test": "mocha --reporter mocha-junit-reporter --reporter-options mochaFile=../../reports/junit_local.xml S4.js"
   },
   "keywords": [],
   "author": "",
