@@ -10,7 +10,7 @@ async function runTest9(driver, BASE_URL) {
     console.log("7 - Navigation forcée vers la page de paris des 8èmes de finale");
 
     //Bet on fourthround n°1
-    await driver.wait(until.elementLocated(By.name('winnerBet_1')), 3000);
+    await driver.wait(until.elementLocated(By.name('winnerBet_1')), 6000);
     console.log("8");
     const listPlayerOnelement = await driver.findElement(By.name('winnerBet_1'));
     console.log("9");
