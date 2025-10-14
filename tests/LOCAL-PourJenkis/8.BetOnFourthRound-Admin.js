@@ -107,8 +107,21 @@ async function runTest8(driver, BASE_URL) {
         await driver.sleep(200);
         return element;
     }
-    console.log("35");
-    const validateBetsButton = await elementToBeClickable(driver, By.id('button-text'));
+    console.log("35-0");
+
+    const locator = By.css('button-text');
+    console.log("35-1");
+
+    await driver.wait(until.elementLocated(locator), 5000);
+    console.log("35-2");
+
+    await driver.wait(until.elementIsVisible(locator), 5000);
+    console.log("35-3");
+
+    const validateBetsButton = await driver.wait(until.elementToBeClickable(locator), 5000);
+    //const validateBetsButton = await elementToBeClickable(driver, By.id('button-text'));
+    console.log("35-4");
+
     console.log("36");
     await validateBetsButton.click();
     console.log("37");

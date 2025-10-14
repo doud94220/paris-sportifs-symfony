@@ -4,28 +4,6 @@ const { strictEqual } = require('assert');
 // require('chromedriver');
 
 async function runTest47(driver, BASE_URL) {
-    // let driver = await new Builder().forBrowser('chrome').build();
-
-    // -------------------------------------------- Connection as CLASSIK USER -------------------------------------
-    // await driver.get('http://127.0.0.1:8000/');
-    // console.log("1");
-
-    // const connectionButton = await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(3) > a')), 3000);
-    // console.log("2");
-
-    // await connectionButton.click();
-    // console.log("3");
-
-    // await driver.findElement(By.id('login_email')).sendKeys('eric.dujnou@gmx.fr', Key.RETURN);
-    // console.log("4");
-
-    // await driver.findElement(By.id('login_password')).sendKeys('Ricou', Key.RETURN);
-    // console.log("5");
-
-    // await driver.wait(until.elementLocated(By.css('nav > ul > li:nth-child(6) > a.btn')), 3000);
-    // console.log("6 - On est loggué en CLASSIK USER !");
-    // -------------------------------------------------------------------------------------------------------------
-
     // ----------------------------------------------- DISconnect as CLASSIK USER ----------------------------------
     await driver.get(`${BASE_URL}`);
     console.log("7");
