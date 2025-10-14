@@ -118,8 +118,9 @@ async function runTest9(driver, BASE_URL) {
     const successBetsRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
     const successMsg_registration = await successBetsRegistration.getText();
     console.log(`38 - Message succes : "${successMsg_registration}"`);
+
     strictEqual(successMsg_registration, 'Vos paris ont bien été enregistrés', 'Le message de succès ne correspond pas...');
-    console.log("39 - Admin fourth round bets registered !");
+    console.log("39 - Classik user fourth round bets registered !");
 }
 
 module.exports = { runTest9 };

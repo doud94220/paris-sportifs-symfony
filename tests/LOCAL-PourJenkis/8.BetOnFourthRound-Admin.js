@@ -107,28 +107,21 @@ async function runTest8(driver, BASE_URL) {
         await driver.sleep(200);
         return element;
     }
-    console.log("35-0");
+    console.log("35");
 
-    // const locator = By.css('button-text');
-    // console.log("35-1");
-
-    // await driver.wait(until.elementLocated(locator), 5000);
-    // console.log("35-2");
-
-    // await driver.wait(until.elementIsVisible(locator), 5000);
-    // console.log("35-3");
-
-    // const validateBetsButton = await driver.wait(until.elementToBeClickable(locator), 5000);
-
-    const validateBetsButton = await elementToBeClickable(driver, By.id('button-text'));
-    console.log("35-4");
-
+    // const validateBetsButton = await elementToBeClickable(driver, By.id('button-text'));
+    const element = await driver.findElement(By.id('button-text'));
     console.log("36");
-    await validateBetsButton.click();
+
+    // await validateBetsButton.click();
+    await driver.executeScript("arguments[0].click();", element);
     console.log("37");
+
+    //Verify success message
     const successBetsRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
     const successMsg_registration = await successBetsRegistration.getText();
     console.log(`38 - Message succes : "${successMsg_registration}"`);
+
     strictEqual(successMsg_registration, 'Vos paris ont bien été enregistrés', 'Le message de succès ne correspond pas...');
     console.log("39 - Admin fourth round bets registered !");
 }
