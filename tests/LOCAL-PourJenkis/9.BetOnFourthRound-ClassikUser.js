@@ -7,6 +7,7 @@ async function runTest9(driver, BASE_URL) {
     //Accéder à la page des paris des 8èmes
     const URL_BET_FOURTHROUND = `${BASE_URL}/lets_bet/fourthround`;
     await driver.get(URL_BET_FOURTHROUND);
+    console.log('6 - URL Pari Classik User 8ème : ' + URL_BET_FOURTHROUND);
     console.log("7 - Navigation forcée vers la page de paris des 8èmes de finale");
 
     //Bet on fourthround n°1
