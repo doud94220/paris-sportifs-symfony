@@ -124,7 +124,7 @@ describe('S2', function () {
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
 
-    it('should run Test 7.2 - Consult one tennis player info', async function () {
+    it('should run Test 7.2 - Consult one tennis player info As Admin', async function () {
         await runTest7_2(driver, BASE_URL);
         // await sleep(2000); // Ajoute un délai de 2 secondes
     });
