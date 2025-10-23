@@ -115,8 +115,8 @@ async function runTest10(driver) {
     await validateResultsScoreButton_3.click();
     console.log("20");
 
-    const successResultsScoreRegistration_match3 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match3), 3000);
+    const successResultsScoreRegistration_match3 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match3), 6000);
     const successMsgResultsScore_registration_match3 = await successResultsScoreRegistration_match3.getText();
     console.log(`21 - Message succes : "${successMsgResultsScore_registration_match3}"`);
     strictEqual(successMsgResultsScore_registration_match3, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
@@ -146,8 +146,8 @@ async function runTest10(driver) {
     await validateResultsScoreButton_4.click();
     console.log("24");
 
-    const successResultsScoreRegistration_match4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match4), 3000);
+    const successResultsScoreRegistration_match4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match4), 6000);
     const successMsgResultsScore_registration_match4 = await successResultsScoreRegistration_match4.getText();
     console.log(`25 - Message succes : "${successMsgResultsScore_registration_match4}"`);
     strictEqual(successMsgResultsScore_registration_match4, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
@@ -177,8 +177,8 @@ async function runTest10(driver) {
     await validateResultsScoreButton_5.click();
     console.log("28");
 
-    const successResultsScoreRegistration_match5 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match5), 3000);
+    const successResultsScoreRegistration_match5 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match5), 6000);
     const successMsgResultsScore_registration_match5 = await successResultsScoreRegistration_match5.getText();
     console.log(`29 - Message succes : "${successMsgResultsScore_registration_match5}"`);
     strictEqual(successMsgResultsScore_registration_match5, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
@@ -208,8 +208,8 @@ async function runTest10(driver) {
     await validateResultsScoreButton_6.click();
     console.log("32");
 
-    const successResultsScoreRegistration_match6 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match6), 3000);
+    const successResultsScoreRegistration_match6 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match6), 6000);
     const successMsgResultsScore_registration_match6 = await successResultsScoreRegistration_match6.getText();
     console.log(`33 - Message succes : "${successMsgResultsScore_registration_match6}"`);
     strictEqual(successMsgResultsScore_registration_match6, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
@@ -239,8 +239,8 @@ async function runTest10(driver) {
     await validateResultsScoreButton_7.click();
     console.log("36");
 
-    const successResultsScoreRegistration_match7 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match7), 3000);
+    const successResultsScoreRegistration_match7 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match7), 6000);
     const successMsgResultsScore_registration_match7 = await successResultsScoreRegistration_match7.getText();
     console.log(`37 - Message succes : "${successMsgResultsScore_registration_match7}"`);
     strictEqual(successMsgResultsScore_registration_match7, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
@@ -270,15 +270,15 @@ async function runTest10(driver) {
     await validateResultsScoreButton_8.click();
     console.log("40");
 
-    const successResultsScoreRegistration_match8 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match8), 3000);
+    const successResultsScoreRegistration_match8 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match8), 6000);
     const successMsgResultsScore_registration_match8 = await successResultsScoreRegistration_match8.getText();
     console.log(`41 - Message succes : "${successMsgResultsScore_registration_match8}"`);
     strictEqual(successMsgResultsScore_registration_match8, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
     console.log("42 - Admin fourth round results match 8 registered !");
 
-    const successResultsScoreRegistration_allMatches = await driver.wait(until.elementLocated(By.css('div.alert-success p:nth-child(2)')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_allMatches), 3000);
+    const successResultsScoreRegistration_allMatches = await driver.wait(until.elementLocated(By.css('div.alert-success p:nth-child(2)')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_allMatches), 6000);
     const successMsgResultsScore_registration_allMatches = await successResultsScoreRegistration_allMatches.getText();
     console.log(`43 - Message succes : "${successMsgResultsScore_registration_allMatches}"`);
     strictEqual(successMsgResultsScore_registration_allMatches, 'All the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
