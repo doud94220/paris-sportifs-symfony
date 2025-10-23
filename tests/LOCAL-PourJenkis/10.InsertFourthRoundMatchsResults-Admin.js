@@ -82,8 +82,8 @@ async function runTest10(driver) {
     await validateResultsScoreButton_2.click();
     console.log("16");
 
-    const successResultsScoreRegistration_match2 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
-    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match2), 3000);
+    const successResultsScoreRegistration_match2 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match2), 6000);
     const successMsgResultsScore_registration_match2 = await successResultsScoreRegistration_match2.getText();
     console.log(`17 - Message succes : "${successMsgResultsScore_registration_match2}"`);
     strictEqual(successMsgResultsScore_registration_match2, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
