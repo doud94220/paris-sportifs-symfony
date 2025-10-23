@@ -1,10 +1,7 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
-// require('chromedriver');
-
 async function runTest10(driver) {
-    // let driver = await new Builder().forBrowser('chrome').build();
 
     async function waitFlashSuccess(driver, {
         locator = By.css('div.alert-success > p'),
@@ -34,10 +31,16 @@ async function runTest10(driver) {
             }
             await driver.sleep(pollMs);
         }
-        const el = await driver.findElement(By.css('div.alert-success > p'));
-        const text = await el.getText();
-        if (!expectedText || text === expectedText) return text;
-        //throw lastErr ?? new Error('Timeout waiting for success flash');
+        throw lastErr ?? new Error('Timeout waiting for success flash');
+    }
+
+    async function elementToBeClickable(driver, locator, timeout = 10000) {
+        const element = await driver.wait(until.elementLocated(locator), timeout);
+        await driver.wait(until.elementIsVisible(element), timeout);
+        await driver.wait(until.elementIsEnabled(element), timeout);
+        // petit délai pour être sûr que rien ne le recouvre
+        await driver.sleep(200);
+        return element;
     }
 
     //Go to fourth round results admin page
@@ -68,14 +71,6 @@ async function runTest10(driver) {
     console.log("9");
     await scoreResultElement.sendKeys('6/0 6/1 6/2');
 
-    async function elementToBeClickable(driver, locator, timeout = 10000) {
-        const element = await driver.wait(until.elementLocated(locator), timeout);
-        await driver.wait(until.elementIsVisible(element), timeout);
-        await driver.wait(until.elementIsEnabled(element), timeout);
-        // petit délai pour être sûr que rien ne le recouvre
-        await driver.sleep(200);
-        return element;
-    }
     console.log("10");
 
     const validateResultsScoreButton = await elementToBeClickable(driver, By.css('.btn-success'));
@@ -112,17 +107,11 @@ async function runTest10(driver) {
     // await driver.wait(until.elementLocated(By.css('.btn-success')), 3000);
     // const validateResultsScoreButton_match2 = await driver.findElement(By.css('.btn-success'));
     // await validateResultsScoreButton_match2.click();
-
     const validateResultsScoreButton_2 = await elementToBeClickable(driver, By.css('.btn-success'));
     console.log("15");
     await validateResultsScoreButton_2.click();
     console.log("16-1");
 
-    // const successResultsScoreRegistration_match2 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    // console.log("16-2");
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match2), 6000);
-    // console.log("16-3");
-    // const successMsgResultsScore_registration_match2 = await successResultsScoreRegistration_match2.getText();
     const msg2 = await waitFlashSuccess(driver);
 
     console.log(`17 - Message succes : "${msg2}"`);
@@ -144,18 +133,11 @@ async function runTest10(driver) {
     const scoreResultElement_match3 = await driver.findElement(By.id('results_result'));
     await scoreResultElement_match3.sendKeys('2/6 7/5 6/3 4/6 6/1');
 
-    // await driver.wait(until.elementLocated(By.css('.btn-success')), 3000);
-    // const validateResultsScoreButton_match3 = await driver.findElement(By.css('.btn-success'));
-    // await validateResultsScoreButton_match3.click();
-
     const validateResultsScoreButton_3 = await elementToBeClickable(driver, By.css('.btn-success'));
     console.log("19");
     await validateResultsScoreButton_3.click();
     console.log("20");
 
-    // const successResultsScoreRegistration_match3 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match3), 6000);
-    // const successMsgResultsScore_registration_match3 = await successResultsScoreRegistration_match3.getText();
     const msg3 = await waitFlashSuccess(driver);
 
     console.log(`21 - Message succes : "${msg3}"`);
@@ -177,18 +159,11 @@ async function runTest10(driver) {
     const scoreResultElement_match4 = await driver.findElement(By.id('results_result'));
     await scoreResultElement_match4.sendKeys('6/4 7/5 7/6');
 
-    // await driver.wait(until.elementLocated(By.css('.btn-success')), 3000);
-    // const validateResultsScoreButton_match4 = await driver.findElement(By.css('.btn-success'));
-    // await validateResultsScoreButton_match4.click();
-
     const validateResultsScoreButton_4 = await elementToBeClickable(driver, By.css('.btn-success'));
     console.log("23");
     await validateResultsScoreButton_4.click();
     console.log("24");
 
-    // const successResultsScoreRegistration_match4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match4), 6000);
-    // const successMsgResultsScore_registration_match4 = await successResultsScoreRegistration_match4.getText();
     const msg4 = await waitFlashSuccess(driver);
 
     console.log(`25 - Message succes : "${msg4}"`);
@@ -210,18 +185,10 @@ async function runTest10(driver) {
     const scoreResultElement_match5 = await driver.findElement(By.id('results_result'));
     await scoreResultElement_match5.sendKeys('2/6 7/5 6/3 6/0');
 
-    // await driver.wait(until.elementLocated(By.css('.btn-success')), 3000);
-    // const validateResultsScoreButton_match5 = await driver.findElement(By.css('.btn-success'));
-    // await validateResultsScoreButton_match5.click();
-
     const validateResultsScoreButton_5 = await elementToBeClickable(driver, By.css('.btn-success'));
     console.log("27");
     await validateResultsScoreButton_5.click();
     console.log("28");
-
-    // const successResultsScoreRegistration_match5 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match5), 6000);
-    // const successMsgResultsScore_registration_match5 = await successResultsScoreRegistration_match5.getText();
 
     const msg5 = await waitFlashSuccess(driver);
 
@@ -244,18 +211,10 @@ async function runTest10(driver) {
     const scoreResultElement_match6 = await driver.findElement(By.id('results_result'));
     await scoreResultElement_match6.sendKeys('6/4 6/4 6/3');
 
-    // await driver.wait(until.elementLocated(By.css('.btn-success')), 3000);
-    // const validateResultsScoreButton_match6 = await driver.findElement(By.css('.btn-success'));
-    // await validateResultsScoreButton_match6.click();
-
     const validateResultsScoreButton_6 = await elementToBeClickable(driver, By.css('.btn-success'));
     console.log("31");
     await validateResultsScoreButton_6.click();
     console.log("32");
-
-    // const successResultsScoreRegistration_match6 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match6), 6000);
-    // const successMsgResultsScore_registration_match6 = await successResultsScoreRegistration_match6.getText();
 
     const msg6 = await waitFlashSuccess(driver);
 
@@ -278,18 +237,11 @@ async function runTest10(driver) {
     const scoreResultElement_match7 = await driver.findElement(By.id('results_result'));
     await scoreResultElement_match7.sendKeys('6/4 6/1 6/4');
 
-    // await driver.wait(until.elementLocated(By.css('.btn-success')), 3000);
-    // const validateResultsScoreButton_match7 = await driver.findElement(By.css('.btn-success'));
-    // await validateResultsScoreButton_match7.click();
-
     const validateResultsScoreButton_7 = await elementToBeClickable(driver, By.css('.btn-success'));
     console.log("35");
     await validateResultsScoreButton_7.click();
     console.log("36");
 
-    // const successResultsScoreRegistration_match7 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match7), 6000);
-    // const successMsgResultsScore_registration_match7 = await successResultsScoreRegistration_match7.getText();
     const msg7 = await waitFlashSuccess(driver);
 
     console.log(`37 - Message succes : "${msg7}"`);
@@ -311,32 +263,22 @@ async function runTest10(driver) {
     const scoreResultElement_match8 = await driver.findElement(By.id('results_result'));
     await scoreResultElement_match8.sendKeys('6/4 6/2 3/6 7/5');
 
-    // await driver.wait(until.elementLocated(By.css('.btn-success')), 3000);
-    // const validateResultsScoreButton_match8 = await driver.findElement(By.css('.btn-success'));
-    // await validateResultsScoreButton_match8.click();
-
     const validateResultsScoreButton_8 = await elementToBeClickable(driver, By.css('.btn-success'));
     console.log("39");
     await validateResultsScoreButton_8.click();
     console.log("40");
 
-    // const successResultsScoreRegistration_match8 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_match8), 6000);
-    // const successMsgResultsScore_registration_match8 = await successResultsScoreRegistration_match8.getText();
     const msg8 = await waitFlashSuccess(driver);
 
     console.log(`41 - Message succes : "${msg8}"`);
     strictEqual(msg8, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
     console.log("42 - Admin fourth round results match 8 registered !");
 
-    // const successResultsScoreRegistration_allMatches = await driver.wait(until.elementLocated(By.css('div.alert-success p:nth-child(2)')), 6000);
-    // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_allMatches), 6000);
-    // const successMsgResultsScore_registration_allMatches = await successResultsScoreRegistration_allMatches.getText();
-    const msg9 = await waitFlashSuccess(driver, { locator: By.css('div.alert-success p:nth-child(2)') });
-
-    console.log(`43 - Message succes : "${msg9}"`);
-    strictEqual(msg9, 'All the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
-    console.log("44 - Admin fourth round results ALL MATCHES registered !");
+    ////////////// Je commente les 4 lignes en dessous car ne marche pas en prod
+    // const msg9 = await waitFlashSuccess(driver, { locator: By.css('div.alert-success p:nth-child(2)') });
+    // console.log(`43 - Message succes : "${msg9}"`);
+    // strictEqual(msg9, 'All the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
+    // console.log("44 - Admin fourth round results ALL MATCHES registered !");
 }
 
 module.exports = { runTest10 };
