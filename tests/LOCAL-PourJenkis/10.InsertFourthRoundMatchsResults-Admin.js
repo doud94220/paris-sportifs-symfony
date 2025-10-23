@@ -34,7 +34,7 @@ async function runTest10(driver) {
             }
             await driver.sleep(pollMs);
         }
-        const el = await driver.findElement('div.alert-success > p');
+        const el = await driver.findElement(By.css('div.alert-success > p'));
         const text = await el.getText();
         if (!expectedText || text === expectedText) return text;
         //throw lastErr ?? new Error('Timeout waiting for success flash');
