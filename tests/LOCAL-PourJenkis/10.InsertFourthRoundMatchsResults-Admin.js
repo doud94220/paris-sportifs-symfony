@@ -329,7 +329,7 @@ async function runTest10(driver) {
     // const successResultsScoreRegistration_allMatches = await driver.wait(until.elementLocated(By.css('div.alert-success p:nth-child(2)')), 6000);
     // await driver.wait(until.elementIsVisible(successResultsScoreRegistration_allMatches), 6000);
     // const successMsgResultsScore_registration_allMatches = await successResultsScoreRegistration_allMatches.getText();
-    const msg9 = await waitFlashSuccess(driver, { locator = By.css('div.alert-success p:nth-child(2)') });
+    const msg9 = await waitFlashSuccess(driver, { locator: By.css('div.alert-success p:nth-child(2)') });
 
     console.log(`43 - Message succes : "${msg9}"`);
     strictEqual(msg9, 'All the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
