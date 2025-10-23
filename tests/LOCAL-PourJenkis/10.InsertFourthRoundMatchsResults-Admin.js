@@ -51,7 +51,7 @@ async function runTest10(driver) {
 
     const successResultsScoreRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
     console.log("12-2");
-    successResultsScoreRegistration = await driver.wait(until.elementIsVisible(successResultsScoreRegistration), 6000);
+    await driver.wait(until.elementIsVisible(successResultsScoreRegistration), 6000);
     console.log("12-3");
     const successMsgResultsScore_registration = await successResultsScoreRegistration.getText();
     console.log(`13 - Message succes : "${successMsgResultsScore_registration}"`);
