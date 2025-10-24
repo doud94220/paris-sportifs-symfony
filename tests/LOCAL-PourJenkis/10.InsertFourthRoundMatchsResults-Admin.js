@@ -4,7 +4,7 @@ const { strictEqual } = require('assert');
 async function runTest10(driver) {
 
     async function waitFlashSuccess(driver, {
-        locator = By.css('.alert, .alert-success, .alert-info, div.alert-success > p, div.alert > p'),
+        locator = By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
         // expectedText = 'The match result has been registered !',
         expectedText = null,
         timeout = 12000,
