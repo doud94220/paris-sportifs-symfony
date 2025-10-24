@@ -286,7 +286,7 @@ async function runTest10(driver) {
     const msg8 = await waitFlashSuccess(driver);
 
     console.log(`41 - Message succes : "${msg8}"`);
-    strictEqual(msg8, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
+    strictEqual(msg8, "The match result has been registered ! \nAll the fourthround results have been registered!", 'Le message de succès ne correspond pas...');
     console.log("42 - Admin fourth round results match 8 registered !");
 
     ////////////// Je commente les 4 lignes en dessous car ne marche pas en prod
