@@ -156,7 +156,7 @@ async function runTest10(driver, BASE_URL) {
 
     ///// Go to fourth round results admin page
     // const URL_BET_FOURTHROUND = 'http://127.0.0.1:8000/admin/fourthround-results/1';
-    const URL_BET_FOURTHROUND = `${BASE_URL}/lets_bet/fourthround`;
+    const URL_BET_FOURTHROUND = `${BASE_URL}/admin/fourthround-results/1`;
     await driver.get(URL_BET_FOURTHROUND);
     console.log("1 - Forced navigation to fourth round results admin page");
 
