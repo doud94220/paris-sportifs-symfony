@@ -6,7 +6,7 @@ async function runTest10(driver) {
     // Pour voir le CSS en prod
     async function debugAlerts(driver) {
         const candidates = await driver.findElements(
-            By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+            By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
         );
         console.log(`[debugAlerts] found ${candidates.length} candidates`);
         for (let i = 0; i < candidates.length; i++) {
@@ -22,7 +22,7 @@ async function runTest10(driver) {
     }
 
     async function waitFlashSuccess(driver, {
-        locator = By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
+        locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
         // expectedText = 'The match result has been registered !',
         expectedText = null,
         timeout = 12000,
