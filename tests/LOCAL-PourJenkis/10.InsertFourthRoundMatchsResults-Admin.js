@@ -26,7 +26,7 @@ async function runTest10(driver, BASE_URL) {
         try {
             const nodes = await driver.findElements(
                 // By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
-                By.css("div.alert-success > p");
+                By.css("div.alert-success > p")
             );
             console.log(`[dump] classic candidates count: ${nodes.length}`);
             let idx = 0;
@@ -81,7 +81,7 @@ async function runTest10(driver, BASE_URL) {
     async function debugAlerts(driver) {
         const candidates = await driver.findElements(
             // By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
-            By.css("div.alert-success > p");
+            By.css("div.alert-success > p")
         );
         console.log(`[debugAlerts] found ${candidates.length} candidates`);
         for (let i = 0; i < candidates.length; i++) {
@@ -99,7 +99,7 @@ async function runTest10(driver, BASE_URL) {
     //Attendre et récuperer les msgs Flash (msgs de confirmation en vert)
     async function waitFlashSuccess(driver, {
         // locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
-        locator = By.css("div.alert-success > p");
+        locator = By.css("div.alert-success > p"),
         // expectedText = 'The match result has been registered !',
         expectedText = null,
         timeout = 12000,
