@@ -6,7 +6,7 @@ async function runTest10(driver) {
     // Pour voir le CSS en prod
     async function debugAlerts(driver) {
         const candidates = await driver.findElements(
-            By.css('.alert, [role="alert"], .toast, .toast-body, .notification, .flash, .flash-message')
+            By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
         );
         console.log(`[debugAlerts] found ${candidates.length} candidates`);
         for (let i = 0; i < candidates.length; i++) {
