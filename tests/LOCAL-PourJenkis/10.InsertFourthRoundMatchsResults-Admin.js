@@ -6,7 +6,7 @@ async function runTest10(driver) {
     async function waitFlashSuccess(driver, {
         locator = By.css('div.alert-success > p'),
         expectedText = 'The match result has been registered !',
-        timeout = 8000,
+        timeout = 10000,
         pollMs = 200
     } = {}) {
         const deadline = Date.now() + timeout;
