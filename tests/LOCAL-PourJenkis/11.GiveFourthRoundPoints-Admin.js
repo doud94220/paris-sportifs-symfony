@@ -7,7 +7,7 @@ async function runTest11(driver) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Go to the fourth round admin page and launch the points attribution
-    const ADMIN_FOURTHROUND = 'http://127.0.0.1:8000/admin/fourthround';
+    const ADMIN_FOURTHROUND = `${BASE_URL}/admin/fourthround`;
     await driver.get(ADMIN_FOURTHROUND);
     console.log("1 - Navigation forcée vers la page d'admin des 8èmes de finale");
 

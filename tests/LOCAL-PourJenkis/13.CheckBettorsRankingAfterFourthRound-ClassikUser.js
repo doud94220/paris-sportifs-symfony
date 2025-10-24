@@ -7,7 +7,7 @@ async function runTest13(driver) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Go to bettors ranking page
-    const RANKING_PAGE = 'http://127.0.0.1:8000/ranking';
+    const RANKING_PAGE = `${BASE_URL}/ranking`;
     await driver.get(RANKING_PAGE);
     console.log("1 - Forced navigation toward ranking page");
 

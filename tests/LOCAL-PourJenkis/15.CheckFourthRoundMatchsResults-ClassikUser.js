@@ -7,7 +7,7 @@ async function runTest15(driver) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Go to the fourth round results page
-    const MATCHS_RESULT_PAGE = 'http://127.0.0.1:8000/matchs-results-show/fourthround';
+    const MATCHS_RESULT_PAGE = `${BASE_URL}/matchs-results-show/fourthround`;
     await driver.get(MATCHS_RESULT_PAGE);
     console.log("1 - Forced navigation toward matchs result page");
 
