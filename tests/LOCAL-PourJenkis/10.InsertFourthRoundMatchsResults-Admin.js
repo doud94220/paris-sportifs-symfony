@@ -3,6 +3,24 @@ const { strictEqual } = require('assert');
 
 async function runTest10(driver) {
 
+    // Pour voir le CSS en prod
+    async function debugAlerts(driver) {
+        const candidates = await driver.findElements(
+            By.css('.alert, [role="alert"], .toast, .toast-body, .notification, .flash, .flash-message')
+        );
+        console.log(`[debugAlerts] found ${candidates.length} candidates`);
+        for (let i = 0; i < candidates.length; i++) {
+            try {
+                const el = candidates[i];
+                const tag = await el.getTagName();
+                const cls = await el.getAttribute('class');
+                const role = await el.getAttribute('role');
+                const text = (await el.getText() || '').replace(/\s+/g, ' ').trim();
+                console.log(`[debugAlerts] #${i} <${tag} class="${cls}" role="${role}"> -> "${text}"`);
+            } catch { }
+        }
+    }
+
     async function waitFlashSuccess(driver, {
         locator = By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
         // expectedText = 'The match result has been registered !',
@@ -46,6 +64,7 @@ async function runTest10(driver) {
         }
 
         // Rien trouvé dans le temps imparti
+        await debugAlerts(driver);
         throw lastErr ?? new Error('Timeout waiting for success flash');
     }
 
