@@ -2,6 +2,79 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
 async function runTest10(driver) {
+    const fs = require('fs');
+    const path = require('path');
+
+    //Faire un capture d'écran du DOM
+    async function dumpAfterClick(driver, label = 'after-click') {
+        const url = await driver.getCurrentUrl();
+        const title = await driver.getTitle().catch(() => '');
+        console.log(`[dump] url=${url}`);
+        console.log(`[dump] title=${title}`);
+
+        // 1) Screenshot
+        try {
+            const img = await driver.takeScreenshot();
+            const file = path.join(process.cwd(), `dump-${label}.png`);
+            fs.writeFileSync(file, img, 'base64');
+            console.log(`[dump] screenshot saved: ${file}`);
+        } catch (e) {
+            console.log('[dump] screenshot failed:', e && e.message);
+        }
+
+        // 2) Quelques candidats classiques (sans préfixer par 'div')
+        try {
+            const nodes = await driver.findElements(
+                By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+            );
+            console.log(`[dump] classic candidates count: ${nodes.length}`);
+            let idx = 0;
+            for (const n of nodes) {
+                try {
+                    const tag = await n.getTagName();
+                    const cls = await n.getAttribute('class');
+                    const role = await n.getAttribute('role');
+                    const text = ((await n.getText()) || '').replace(/\s+/g, ' ').trim();
+                    console.log(`[dump] #${idx++} <${tag} class="${cls}" role="${role}"> -> "${text}"`);
+                } catch { }
+            }
+        } catch (e) {
+            console.log('[dump] classic selector scan error:', e && e.message);
+        }
+
+        // 3) Dernier recours : éléments contenant des mots-clés
+        try {
+            const keyNodes = await driver.findElements(
+                By.xpath("//*[contains(normalize-space(.), 'match result') or contains(normalize-space(.), 'fourthround') or contains(normalize-space(.), 'points are attributed')]")
+            );
+            console.log(`[dump] keyword candidates count: ${keyNodes.length}`);
+            let i = 0;
+            for (const el of keyNodes) {
+                try {
+                    const tag = await el.getTagName();
+                    const cls = await el.getAttribute('class');
+                    const text = ((await el.getText()) || '').replace(/\s+/g, ' ').trim();
+                    console.log(`[dump] KW#${i++} <${tag} class="${cls}"> -> "${text}"`);
+                } catch { }
+            }
+        } catch (e) {
+            console.log('[dump] keyword scan error:', e && e.message);
+        }
+
+        // 4) Petit échantillon du HTML (évite d’inonder la console)
+        try {
+            const html = await driver.getPageSource();
+            console.log(`[dump] pageSource length=${html.length}`);
+            const needleIdx = html.indexOf('match result');
+            if (needleIdx > -1) {
+                const start = Math.max(0, needleIdx - 400);
+                const end = Math.min(html.length, needleIdx + 400);
+                console.log('[dump] pageSource snippet around "match result":\n' + html.slice(start, end));
+            }
+        } catch (e) {
+            console.log('[dump] getPageSource failed:', e && e.message);
+        }
+    }
 
     // Pour voir le CSS en prod
     async function debugAlerts(driver) {
@@ -111,6 +184,11 @@ async function runTest10(driver) {
     console.log("11");
     await validateResultsScoreButton.click();
     console.log("12-1");
+
+    // Donne 200–400 ms au DOM pour peindre le flash éventuel
+    await driver.sleep(400);
+    // <<< Debug pour PROD
+    await dumpAfterClick(driver, 'aptureDomProd');
 
     // const successResultsScoreRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
     // console.log("12-2");
