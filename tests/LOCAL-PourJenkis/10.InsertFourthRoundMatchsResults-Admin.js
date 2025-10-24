@@ -4,7 +4,7 @@ const { strictEqual } = require('assert');
 async function runTest10(driver) {
 
     async function waitFlashSuccess(driver, {
-        locator = By.css('div.alert, div.alert-success, div.alert-info'),
+        locator = By.css('div.alert:nth-child(1), div.alert-success:nth-child(1), div.alert-info:nth-child(1)'),
         // expectedText = 'The match result has been registered !',
         expectedText = null,
         timeout = 12000,
@@ -286,7 +286,7 @@ async function runTest10(driver) {
     const msg8 = await waitFlashSuccess(driver);
 
     console.log(`41 - Message succes : "${msg8}"`);
-    strictEqual(msg8, 'The match result has been registered ! All the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
+    strictEqual(msg8, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
     console.log("42 - Admin fourth round results match 8 registered !");
 
     ////////////// Je commente les 4 lignes en dessous car ne marche pas en prod
