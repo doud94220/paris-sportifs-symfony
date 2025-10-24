@@ -1,7 +1,7 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
-async function runTest10(driver) {
+async function runTest10(driver, BASE_URL) {
     const fs = require('fs');
     const path = require('path');
 
@@ -25,7 +25,8 @@ async function runTest10(driver) {
         // 2) Quelques candidats classiques (sans préfixer par 'div')
         try {
             const nodes = await driver.findElements(
-                By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+                // By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+                By.css("div.alert-success > p");
             );
             console.log(`[dump] classic candidates count: ${nodes.length}`);
             let idx = 0;
@@ -43,43 +44,44 @@ async function runTest10(driver) {
         }
 
         // 3) Dernier recours : éléments contenant des mots-clés
-        try {
-            const keyNodes = await driver.findElements(
-                By.xpath("//*[contains(normalize-space(.), 'match result') or contains(normalize-space(.), 'fourthround') or contains(normalize-space(.), 'points are attributed')]")
-            );
-            console.log(`[dump] keyword candidates count: ${keyNodes.length}`);
-            let i = 0;
-            for (const el of keyNodes) {
-                try {
-                    const tag = await el.getTagName();
-                    const cls = await el.getAttribute('class');
-                    const text = ((await el.getText()) || '').replace(/\s+/g, ' ').trim();
-                    console.log(`[dump] KW#${i++} <${tag} class="${cls}"> -> "${text}"`);
-                } catch { }
-            }
-        } catch (e) {
-            console.log('[dump] keyword scan error:', e && e.message);
-        }
+        // try {
+        //     const keyNodes = await driver.findElements(
+        //         By.xpath("//*[contains(normalize-space(.), 'match result') or contains(normalize-space(.), 'fourthround') or contains(normalize-space(.), 'points are attributed')]")
+        //     );
+        //     console.log(`[dump] keyword candidates count: ${keyNodes.length}`);
+        //     let i = 0;
+        //     for (const el of keyNodes) {
+        //         try {
+        //             const tag = await el.getTagName();
+        //             const cls = await el.getAttribute('class');
+        //             const text = ((await el.getText()) || '').replace(/\s+/g, ' ').trim();
+        //             console.log(`[dump] KW#${i++} <${tag} class="${cls}"> -> "${text}"`);
+        //         } catch { }
+        //     }
+        // } catch (e) {
+        //     console.log('[dump] keyword scan error:', e && e.message);
+        // }
 
         // 4) Petit échantillon du HTML (évite d’inonder la console)
-        try {
-            const html = await driver.getPageSource();
-            console.log(`[dump] pageSource length=${html.length}`);
-            const needleIdx = html.indexOf('match result');
-            if (needleIdx > -1) {
-                const start = Math.max(0, needleIdx - 400);
-                const end = Math.min(html.length, needleIdx + 400);
-                console.log('[dump] pageSource snippet around "match result":\n' + html.slice(start, end));
-            }
-        } catch (e) {
-            console.log('[dump] getPageSource failed:', e && e.message);
-        }
+        // try {
+        //     const html = await driver.getPageSource();
+        //     console.log(`[dump] pageSource length=${html.length}`);
+        //     const needleIdx = html.indexOf('match result');
+        //     if (needleIdx > -1) {
+        //         const start = Math.max(0, needleIdx - 400);
+        //         const end = Math.min(html.length, needleIdx + 400);
+        //         console.log('[dump] pageSource snippet around "match result":\n' + html.slice(start, end));
+        //     }
+        // } catch (e) {
+        //     console.log('[dump] getPageSource failed:', e && e.message);
+        // }
     }
 
     // Pour voir le CSS en prod
     async function debugAlerts(driver) {
         const candidates = await driver.findElements(
-            By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+            // By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+            By.css("div.alert-success > p");
         );
         console.log(`[debugAlerts] found ${candidates.length} candidates`);
         for (let i = 0; i < candidates.length; i++) {
@@ -94,8 +96,10 @@ async function runTest10(driver) {
         }
     }
 
+    //Attendre et récuperer les msgs Flash (msgs de confirmation en vert)
     async function waitFlashSuccess(driver, {
-        locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
+        // locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
+        locator = By.css("div.alert-success > p");
         // expectedText = 'The match result has been registered !',
         expectedText = null,
         timeout = 12000,
@@ -150,8 +154,9 @@ async function runTest10(driver) {
         return element;
     }
 
-    //Go to fourth round results admin page
-    const URL_BET_FOURTHROUND = 'http://127.0.0.1:8000/admin/fourthround-results/1';
+    ///// Go to fourth round results admin page
+    // const URL_BET_FOURTHROUND = 'http://127.0.0.1:8000/admin/fourthround-results/1';
+    const URL_BET_FOURTHROUND = `${BASE_URL}/lets_bet/fourthround`;
     await driver.get(URL_BET_FOURTHROUND);
     console.log("1 - Forced navigation to fourth round results admin page");
 
@@ -188,7 +193,7 @@ async function runTest10(driver) {
     // Donne 200–400 ms au DOM pour peindre le flash éventuel
     await driver.sleep(400);
     // <<< Debug pour PROD
-    await dumpAfterClick(driver, 'aptureDomProd');
+    await dumpAfterClick(driver, 'CaptureDomProd');
 
     // const successResultsScoreRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
     // console.log("12-2");
