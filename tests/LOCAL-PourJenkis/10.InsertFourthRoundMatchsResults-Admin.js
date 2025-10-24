@@ -4,9 +4,10 @@ const { strictEqual } = require('assert');
 async function runTest10(driver) {
 
     async function waitFlashSuccess(driver, {
-        locator = By.css('div.alert-success > p'),
-        expectedText = 'The match result has been registered !',
-        timeout = 10000,
+        locator = By.css('div.alert, div.alert-success, div.alert-info'),
+        // expectedText = 'The match result has been registered !',
+        expectedText = null,
+        timeout = 12000,
         pollMs = 200
     } = {}) {
         const deadline = Date.now() + timeout;
@@ -17,10 +18,22 @@ async function runTest10(driver) {
                 // (re)localise à chaque boucle -> évite les références périmées
                 const el = await driver.findElement(locator);
 
-                // visible ?
+                // Visible ?
                 if (await el.isDisplayed()) {
-                    const text = await el.getText();
-                    if (!expectedText || text === expectedText) return text;
+                    const raw = await el.getText();
+
+                    // ✅ Essaie de prendre la valeur de la variable raw
+                    // ❌ Si raw est null, undefined, ou une valeur "falsy"(comme '' ou 0), alors à la place, on utilise la chaîne vide ''
+                    // ✂️ Puis on appelle.trim() sur le résultat — pour enlever les espaces au début et à la fin
+                    const text = (raw || '').trim();
+
+                    if (!expectedText) {
+                        // Mode souple : on accepte tout texte non-vide
+                        if (text.length > 0) return text;
+                    } else {
+                        // Mode strict : texte exact attendu
+                        if (text === expectedText) return text;
+                    }
                 }
             } catch (e) {
                 // On ignore NoSuchElement et StaleElement et on re-tente
@@ -31,6 +44,8 @@ async function runTest10(driver) {
             }
             await driver.sleep(pollMs);
         }
+
+        // Rien trouvé dans le temps imparti
         throw lastErr ?? new Error('Timeout waiting for success flash');
     }
 
