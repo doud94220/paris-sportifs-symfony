@@ -67,7 +67,8 @@ async function runTest16(driver, BASE_URL) {
     console.log("9 - Forced navigation toward quarter final admin page");
 
     // ----------------------------------- Enter quarter final showdown - FIRST Quarter -----------------------------
-    const URL_ADMIN_QUARTERFINAL_SHOWDONNS = 'http://127.0.0.1:8000/admin/quarterfinals-showdowns/1';
+    // const URL_ADMIN_QUARTERFINAL_SHOWDONNS = 'http://127.0.0.1:8000/admin/quarterfinals-showdowns/1';
+    const URL_ADMIN_QUARTERFINAL_SHOWDONNS = `${BASE_URL}/admin/quarterfinals-showdowns/1`;
     await driver.get(URL_ADMIN_QUARTERFINAL_SHOWDONNS);
     console.log("10 - Forced navigation toward quarter final showdown admin page 1");
 
@@ -94,10 +95,13 @@ async function runTest16(driver, BASE_URL) {
 
     await successButtonElement_showdown_1.click();
     console.log("15 - Bouton showdown 1 cliqué");
-    const successRegistrationMsgElement_showdown_1 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    const successMsg_showdown_1 = await successRegistrationMsgElement_showdown_1.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log(`Success message : "${successMsg_showdown_1}"`);
-    strictEqual(successMsg_showdown_1, 'The showdown has been registered !', 'LSuccess msg not ok...');
+
+    // const successRegistrationMsgElement_showdown_1 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    // const successMsg_showdown_1 = await successRegistrationMsgElement_showdown_1.getText(); //Sans Await, j'ai le Promise, et ca plante
+    const msg1 = await waitFlashSuccess(driver);
+
+    console.log(`Success message : "${msg1}"`);
+    strictEqual(msg1, 'The showdown has been registered !', 'LSuccess msg not ok...');
     console.log("16 - Quarterfinal match 1 inserted !");
 
     // ----------------------------------- Enter quarter final showdown - SECOND Quarter -----------------------------
@@ -124,10 +128,13 @@ async function runTest16(driver, BASE_URL) {
 
     await successButtonElement_showdown_2.click();
     console.log("21 - Bouton showdown 2 cliqué");
-    const successRegistrationMsgElement_showdown_2 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    const successMsg_showdown_2 = await successRegistrationMsgElement_showdown_2.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log(`Success message : "${successMsg_showdown_2}"`);
-    strictEqual(successMsg_showdown_2, 'The showdown has been registered !', 'Success msg not ok...');
+
+    // const successRegistrationMsgElement_showdown_2 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    // const successMsg_showdown_2 = await successRegistrationMsgElement_showdown_2.getText(); //Sans Await, j'ai le Promise, et ca plante
+    const msg2 = await waitFlashSuccess(driver);
+
+    console.log(`Success message : "${msg2}"`);
+    strictEqual(msg2, 'The showdown has been registered !', 'Success msg not ok...');
     console.log("22 - Quarterfinal match 2 inserted !");
 
     // ----------------------------------- Enter quarter final showdown - THIRD Quarter -----------------------------
@@ -154,10 +161,13 @@ async function runTest16(driver, BASE_URL) {
 
     await successButtonElement_showdown_3.click();
     console.log("27 - Bouton showdown 3 cliqué");
-    const successRegistrationMsgElement_showdown_3 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    const successMsg_showdown_3 = await successRegistrationMsgElement_showdown_3.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log(`Success message : "${successMsg_showdown_3}"`);
-    strictEqual(successMsg_showdown_3, 'The showdown has been registered !', 'Success msg not ok...');
+
+    // const successRegistrationMsgElement_showdown_3 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    // const successMsg_showdown_3 = await successRegistrationMsgElement_showdown_3.getText(); //Sans Await, j'ai le Promise, et ca plante
+    const msg3 = await waitFlashSuccess(driver);
+
+    console.log(`Success message : "${msg3}"`);
+    strictEqual(msg3, 'The showdown has been registered !', 'Success msg not ok...');
     console.log("28 - Quarterfinal match 3 inserted !");
 
     // ----------------------------------- Enter quarter final showdown - FOURTH Quarter -----------------------------
