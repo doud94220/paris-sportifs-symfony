@@ -188,7 +188,7 @@ async function runTest20(driver, BASE_URL) {
     //Validate quarterfinal matchs results
     // const successResultsScoreRegistration_allMatches = await driver.wait(until.elementLocated(By.css('div.alert-success p:nth-child(2)')), 7000);
     // const successMsgResultsScore_registration_allMatches = await successResultsScoreRegistration_allMatches.getText();
-    const msgSuccessAllQuarterFinalsResultsInserted = await waitFlashSuccess(driver);
+    const msgSuccessAllQuarterFinalsResultsInserted = await waitFlashSuccess(driver, { locator: By.css("div.alert-success > p:nth-child(2)") });
 
     console.log(`27 - Message succes : "${msgSuccessAllQuarterFinalsResultsInserted}"`);
     strictEqual(msgSuccessAllQuarterFinalsResultsInserted, 'All the quarterfinals results have been registered !', 'Le message de succès ne correspond pas...');
