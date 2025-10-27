@@ -1,7 +1,7 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
-async function runTest18(driver) {
+async function runTest18(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Accéder à la page des paris des 1/4

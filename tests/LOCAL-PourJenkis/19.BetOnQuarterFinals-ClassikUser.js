@@ -1,7 +1,7 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
-async function runTest19(driver) {
+async function runTest19(driver, BASE_URL) {
 
     //Accéder à la page des paris des 1/4
     // const URL_BET_QUARTERFINAL = 'http://127.0.0.1:8000/lets_bet/quarterfinals';
