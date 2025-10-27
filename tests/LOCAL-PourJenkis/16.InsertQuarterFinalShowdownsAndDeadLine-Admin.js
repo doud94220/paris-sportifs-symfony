@@ -4,7 +4,55 @@ const { strictEqual } = require('assert');
 // let driver = null;
 
 async function runTest16(driver, BASE_URL) {
-    // let driver = await new Builder().forBrowser('chrome').build();
+
+    //Attendre et récuperer les msgs Flash (msgs de confirmation en vert)
+    async function waitFlashSuccess(driver, {
+        // locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
+        locator = By.css("div.alert-success > p"),
+        // expectedText = 'The match result has been registered !',
+        expectedText = null,
+        timeout = 12000,
+        pollMs = 200
+    } = {}) {
+        const deadline = Date.now() + timeout;
+        let lastErr;
+
+        while (Date.now() < deadline) {
+            try {
+                // (re)localise à chaque boucle -> évite les références périmées
+                const el = await driver.findElement(locator);
+
+                // Visible ?
+                if (await el.isDisplayed()) {
+                    const raw = await el.getText();
+
+                    // ✅ Essaie de prendre la valeur de la variable raw
+                    // ❌ Si raw est null, undefined, ou une valeur "falsy"(comme '' ou 0), alors à la place, on utilise la chaîne vide ''
+                    // ✂️ Puis on appelle.trim() sur le résultat — pour enlever les espaces au début et à la fin
+                    const text = (raw || '').trim();
+
+                    if (!expectedText) {
+                        // Mode souple : on accepte tout texte non-vide
+                        if (text.length > 0) return text;
+                    } else {
+                        // Mode strict : texte exact attendu
+                        if (text === expectedText) return text;
+                    }
+                }
+            } catch (e) {
+                // On ignore NoSuchElement et StaleElement et on re-tente
+                if (e.name !== 'NoSuchElementError' && e.name !== 'StaleElementReferenceError') {
+                    throw e;
+                }
+                lastErr = e;
+            }
+            await driver.sleep(pollMs);
+        }
+
+        // Rien trouvé dans le temps imparti
+        await debugAlerts(driver);
+        throw lastErr ?? new Error('Timeout waiting for success flash');
+    }
 
     // ------------------------------------------ ENTER QUARTER FINAL SHOWDOWNS ------------------------------------
     console.log("7");
@@ -136,10 +184,13 @@ async function runTest16(driver, BASE_URL) {
 
     await successButtonElement_showdown_4.click();
     console.log("33 - Bouton showdown 4 cliqué");
-    const successRegistrationMsgElement_showdown_4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
-    const successMsg_showdown_4 = await successRegistrationMsgElement_showdown_4.getText(); //Sans Await, j'ai le Promise, et ca plante
-    console.log(`Success message : "${successMsg_showdown_4}"`);
-    strictEqual(successMsg_showdown_4, 'The showdown has been registered !', 'Success msg not ok...');
+
+    // const successRegistrationMsgElement_showdown_4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
+    // const successMsg_showdown_4 = await successRegistrationMsgElement_showdown_4.getText(); //Sans Await, j'ai le Promise, et ca plante
+    const msg4 = await waitFlashSuccess(driver);
+
+    console.log(`Success message : "${msg4}"`);
+    strictEqual(msg4, 'The showdown has been registered !', 'Success msg not ok...');
     console.log("34 - Quarterfinal match 4 inserted !");
 
     // ----------------------------- ENTER QUARTERFINALS BET DEAD LINE ---------------------------------
