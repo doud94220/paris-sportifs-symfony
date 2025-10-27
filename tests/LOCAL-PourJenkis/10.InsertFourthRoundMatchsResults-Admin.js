@@ -42,39 +42,6 @@ async function runTest10(driver, BASE_URL) {
         } catch (e) {
             console.log('[dump] classic selector scan error:', e && e.message);
         }
-
-        // 3) Dernier recours : éléments contenant des mots-clés
-        // try {
-        //     const keyNodes = await driver.findElements(
-        //         By.xpath("//*[contains(normalize-space(.), 'match result') or contains(normalize-space(.), 'fourthround') or contains(normalize-space(.), 'points are attributed')]")
-        //     );
-        //     console.log(`[dump] keyword candidates count: ${keyNodes.length}`);
-        //     let i = 0;
-        //     for (const el of keyNodes) {
-        //         try {
-        //             const tag = await el.getTagName();
-        //             const cls = await el.getAttribute('class');
-        //             const text = ((await el.getText()) || '').replace(/\s+/g, ' ').trim();
-        //             console.log(`[dump] KW#${i++} <${tag} class="${cls}"> -> "${text}"`);
-        //         } catch { }
-        //     }
-        // } catch (e) {
-        //     console.log('[dump] keyword scan error:', e && e.message);
-        // }
-
-        // 4) Petit échantillon du HTML (évite d’inonder la console)
-        // try {
-        //     const html = await driver.getPageSource();
-        //     console.log(`[dump] pageSource length=${html.length}`);
-        //     const needleIdx = html.indexOf('match result');
-        //     if (needleIdx > -1) {
-        //         const start = Math.max(0, needleIdx - 400);
-        //         const end = Math.min(html.length, needleIdx + 400);
-        //         console.log('[dump] pageSource snippet around "match result":\n' + html.slice(start, end));
-        //     }
-        // } catch (e) {
-        //     console.log('[dump] getPageSource failed:', e && e.message);
-        // }
     }
 
     // Pour voir le CSS en prod
@@ -190,9 +157,10 @@ async function runTest10(driver, BASE_URL) {
     await validateResultsScoreButton.click();
     console.log("12-1");
 
+    ////////// Tempo Debug
     // Donne 200–400 ms au DOM pour peindre le flash éventuel
     await driver.sleep(400);
-    // <<< Debug pour PROD
+    // Faire capture d'écran pour voi ce qui se passe en prod
     await dumpAfterClick(driver, 'CaptureDomProd');
 
     // const successResultsScoreRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
@@ -388,14 +356,13 @@ async function runTest10(driver, BASE_URL) {
     const msg8 = await waitFlashSuccess(driver);
 
     console.log(`41 - Message succes : "${msg8}"`);
-    strictEqual(msg8, 'The match result has been registered !\nAll the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
+    strictEqual(msg8, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
     console.log("42 - Admin fourth round results match 8 registered !");
 
-    ////////////// Je commente les 4 lignes en dessous car ne marche pas en prod
-    // const msg9 = await waitFlashSuccess(driver, { locator: By.css('div.alert-success p:nth-child(2)') });
-    // console.log(`43 - Message succes : "${msg9}"`);
-    // strictEqual(msg9, 'All the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
-    // console.log("44 - Admin fourth round results ALL MATCHES registered !");
+    const msg9 = await waitFlashSuccess(driver, { locator: By.css('div.alert-success p:nth-child(2)') });
+    console.log(`43 - Message succes : "${msg9}"`);
+    strictEqual(msg9, 'All the fourthround results have been registered !', 'Le message de succès ne correspond pas...');
+    console.log("44 - Admin fourth round results ALL MATCHES registered !");
 }
 
 module.exports = { runTest10 };

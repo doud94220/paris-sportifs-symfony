@@ -222,7 +222,6 @@ async function runTest15(driver) {
     console.log("33");
 
     console.log("34 - ALL THE MATCHS RESULT ARE FINE !!!");
-
 }
 
 module.exports = { runTest15 };
