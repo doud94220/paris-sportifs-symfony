@@ -3,7 +3,7 @@ const { strictEqual } = require('assert');
 
 // require('chromedriver');
 
-async function runTest12(driver) {
+async function runTest12(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Go to bettors ranking page

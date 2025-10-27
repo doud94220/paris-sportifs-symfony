@@ -3,7 +3,7 @@ const { strictEqual } = require('assert');
 
 // require('chromedriver');
 
-async function runTest14(driver) {
+async function runTest14(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Go to the fourth round results page
