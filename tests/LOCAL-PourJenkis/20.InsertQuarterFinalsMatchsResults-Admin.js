@@ -3,6 +3,55 @@ const { strictEqual } = require('assert');
 
 async function runTest20(driver, BASE_URL) {
 
+    //Attendre et récuperer les msgs Flash (msgs de confirmation en vert)
+    async function waitFlashSuccess(driver, {
+        // locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
+        locator = By.css("div.alert-success > p"),
+        // expectedText = 'The match result has been registered !',
+        expectedText = null,
+        timeout = 12000,
+        pollMs = 200
+    } = {}) {
+        const deadline = Date.now() + timeout;
+        let lastErr;
+
+        while (Date.now() < deadline) {
+            try {
+                // (re)localise à chaque boucle -> évite les références périmées
+                const el = await driver.findElement(locator);
+
+                // Visible ?
+                if (await el.isDisplayed()) {
+                    const raw = await el.getText();
+
+                    // ✅ Essaie de prendre la valeur de la variable raw
+                    // ❌ Si raw est null, undefined, ou une valeur "falsy"(comme '' ou 0), alors à la place, on utilise la chaîne vide ''
+                    // ✂️ Puis on appelle.trim() sur le résultat — pour enlever les espaces au début et à la fin
+                    const text = (raw || '').trim();
+
+                    if (!expectedText) {
+                        // Mode souple : on accepte tout texte non-vide
+                        if (text.length > 0) return text;
+                    } else {
+                        // Mode strict : texte exact attendu
+                        if (text === expectedText) return text;
+                    }
+                }
+            } catch (e) {
+                // On ignore NoSuchElement et StaleElement et on re-tente
+                if (e.name !== 'NoSuchElementError' && e.name !== 'StaleElementReferenceError') {
+                    throw e;
+                }
+                lastErr = e;
+            }
+            await driver.sleep(pollMs);
+        }
+
+        // Rien trouvé dans le temps imparti
+        await debugAlerts(driver);
+        throw lastErr ?? new Error('Timeout waiting for success flash');
+    }
+
     //Go to quarterfinal results admin page
     // const URL_BET_QUARTERFINAL = 'http://127.0.0.1:8000/admin/quarterfinals-results/1';
     const URL_BET_QUARTERFINAL = `${BASE_URL}/admin/quarterfinals-results/1`;
@@ -121,17 +170,21 @@ async function runTest20(driver, BASE_URL) {
     const validateResultsScoreButton_match4 = await driver.findElement(By.css('.btn-success'));
     await validateResultsScoreButton_match4.click();
 
-    const successResultsScoreRegistration_match4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 7000);
-    const successMsgResultsScore_registration_match4 = await successResultsScoreRegistration_match4.getText();
-    console.log(`25 - Message succes : "${successMsgResultsScore_registration_match4}"`);
-    strictEqual(successMsgResultsScore_registration_match4, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
+    // const successResultsScoreRegistration_match4 = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 7000);
+    // const successMsgResultsScore_registration_match4 = await successResultsScoreRegistration_match4.getText();
+    const msgSuccess1 = await waitFlashSuccess(driver);
+
+    console.log(`25 - Message succes : "${msgSuccess1}"`);
+    strictEqual(msgSuccess1, 'The match result has been registered !', 'Le message de succès ne correspond pas...');
     console.log("26 - Admin quarterfinal results match 4 registered !");
 
     //Validate quarterfinal matchs results
-    const successResultsScoreRegistration_allMatches = await driver.wait(until.elementLocated(By.css('div.alert-success p:nth-child(2)')), 7000);
-    const successMsgResultsScore_registration_allMatches = await successResultsScoreRegistration_allMatches.getText();
-    console.log(`27 - Message succes : "${successMsgResultsScore_registration_allMatches}"`);
-    strictEqual(successMsgResultsScore_registration_allMatches, 'All the quarterfinals results have been registered !', 'Le message de succès ne correspond pas...');
+    // const successResultsScoreRegistration_allMatches = await driver.wait(until.elementLocated(By.css('div.alert-success p:nth-child(2)')), 7000);
+    // const successMsgResultsScore_registration_allMatches = await successResultsScoreRegistration_allMatches.getText();
+    const msgSuccess2 = await waitFlashSuccess(driver);
+
+    console.log(`27 - Message succes : "${msgSuccess2}"`);
+    strictEqual(msgSuccess2, 'All the quarterfinals results have been registered !', 'Le message de succès ne correspond pas...');
     console.log("28 - Admin quarterfinal results ALL MATCHES registered !");
 }
 
