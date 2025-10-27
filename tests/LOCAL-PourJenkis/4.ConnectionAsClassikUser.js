@@ -1,9 +1,6 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-// require('chromedriver');
-
 async function runTest4(driver, BASE_URL) {
-    // let driver = await new Builder().forBrowser('chrome').build();
 
     await driver.get(`${BASE_URL}`);
     console.log("1");
