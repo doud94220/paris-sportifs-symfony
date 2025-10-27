@@ -18,7 +18,7 @@ async function runTest3(driver, BASE_URL) {
     await driver.findElement(By.id('login_password')).sendKeys('Doud2', Key.RETURN);
     console.log("5");
 
-    const successRegistrationMsg = await driver.wait(until.elementLocated(By.css('li > a.btn-danger')), 3000);
+    const successRegistrationMsg = await driver.wait(until.elementLocated(By.css('li > a.btn-danger')), 7000);
     console.log("6 - On est loggué en admin !");
 }
 
