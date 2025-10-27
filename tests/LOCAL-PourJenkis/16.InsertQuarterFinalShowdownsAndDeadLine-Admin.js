@@ -204,7 +204,8 @@ async function runTest16(driver, BASE_URL) {
     console.log("34 - Quarterfinal match 4 inserted !");
 
     // ----------------------------- ENTER QUARTERFINALS BET DEAD LINE ---------------------------------
-    const URL_ADMIN_QUARTERFINAL_DEADLINE = 'http://127.0.0.1:8000/admin/quarterfinals-deadline';
+    // const URL_ADMIN_QUARTERFINAL_DEADLINE = 'http://127.0.0.1:8000/admin/quarterfinals-deadline';
+    const URL_ADMIN_QUARTERFINAL_DEADLINE = `${BASE_URL}/admin/quarterfinals-deadline`;
     await driver.get(URL_ADMIN_QUARTERFINAL_DEADLINE);
     console.log("35 - Forced navigation toward quarter finals bet dead line administration");
 
