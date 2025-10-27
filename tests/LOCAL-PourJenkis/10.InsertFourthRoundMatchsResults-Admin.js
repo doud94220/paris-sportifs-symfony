@@ -159,9 +159,9 @@ async function runTest10(driver, BASE_URL) {
 
     ////////// Tempo Debug
     // Donne 200–400 ms au DOM pour peindre le flash éventuel
-    await driver.sleep(400);
+    // await driver.sleep(400);
     // Faire capture d'écran pour voi ce qui se passe en prod
-    await dumpAfterClick(driver, 'CaptureDomProd');
+    // await dumpAfterClick(driver, 'CaptureDomProd');
 
     // const successResultsScoreRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 6000);
     // console.log("12-2");

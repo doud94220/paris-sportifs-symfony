@@ -3,7 +3,7 @@ const { strictEqual } = require('assert');
 
 // require('chromedriver');
 
-async function runTest11(driver) {
+async function runTest11(driver, BASE_URL) {
     // let driver = await new Builder().forBrowser('chrome').build();
 
     //Go to the fourth round admin page and launch the points attribution
