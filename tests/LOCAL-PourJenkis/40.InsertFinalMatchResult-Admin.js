@@ -1,7 +1,7 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
-async function runTest40(driver) {
+async function runTest40(driver, BASE_URL) {
 
     //Go to final result admin page
     // const URL_BET_FINAL = 'http://127.0.0.1:8000/admin/final-result';
