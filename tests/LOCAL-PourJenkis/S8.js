@@ -142,7 +142,7 @@ describe('S8', function () {
         await runTest22(driver, BASE_URL);
     });
 
-    it('should run Test 24 - Check Bettors Ranking After Quarter Finals as Admin', async function () {
+    it('should run Test 24 - Check Quater Finals Matchs Results as Admin', async function () {
         await runTest24(driver, BASE_URL);
     });
 
