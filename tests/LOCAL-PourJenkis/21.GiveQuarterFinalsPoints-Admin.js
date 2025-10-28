@@ -3,6 +3,25 @@ const { strictEqual } = require('assert');
 
 async function runTest21(driver, BASE_URL) {
 
+    // Pour voir le CSS en prod
+    async function debugAlerts(driver) {
+        const candidates = await driver.findElements(
+            // By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+            By.css("div.alert-success > p")
+        );
+        console.log(`[debugAlerts] found ${candidates.length} candidates`);
+        for (let i = 0; i < candidates.length; i++) {
+            try {
+                const el = candidates[i];
+                const tag = await el.getTagName();
+                const cls = await el.getAttribute('class');
+                const role = await el.getAttribute('role');
+                const text = (await el.getText() || '').replace(/\s+/g, ' ').trim();
+                console.log(`[debugAlerts] #${i} <${tag} class="${cls}" role="${role}"> -> "${text}"`);
+            } catch { }
+        }
+    }
+
     //Attendre et récuperer les msgs Flash (msgs de confirmation en vert)
     async function waitFlashSuccess(driver, {
         // locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
