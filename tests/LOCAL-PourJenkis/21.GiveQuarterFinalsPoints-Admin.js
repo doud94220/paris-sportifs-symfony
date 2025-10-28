@@ -22,6 +22,45 @@ async function runTest21(driver, BASE_URL) {
         }
     }
 
+    //Faire un capture d'écran du DOM
+    async function dumpAfterClick(driver, label = 'after-click') {
+        const url = await driver.getCurrentUrl();
+        const title = await driver.getTitle().catch(() => '');
+        console.log(`[dump] url=${url}`);
+        console.log(`[dump] title=${title}`);
+
+        // 1) Screenshot
+        try {
+            const img = await driver.takeScreenshot();
+            const file = path.join(process.cwd(), `dump-${label}.png`);
+            fs.writeFileSync(file, img, 'base64');
+            console.log(`[dump] screenshot saved: ${file}`);
+        } catch (e) {
+            console.log('[dump] screenshot failed:', e && e.message);
+        }
+
+        // 2) Quelques candidats classiques (sans préfixer par 'div')
+        try {
+            const nodes = await driver.findElements(
+                // By.css(".alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message")
+                By.css("div.alert-success > p")
+            );
+            console.log(`[dump] classic candidates count: ${nodes.length}`);
+            let idx = 0;
+            for (const n of nodes) {
+                try {
+                    const tag = await n.getTagName();
+                    const cls = await n.getAttribute('class');
+                    const role = await n.getAttribute('role');
+                    const text = ((await n.getText()) || '').replace(/\s+/g, ' ').trim();
+                    console.log(`[dump] #${idx++} <${tag} class="${cls}" role="${role}"> -> "${text}"`);
+                } catch { }
+            }
+        } catch (e) {
+            console.log('[dump] classic selector scan error:', e && e.message);
+        }
+    }
+
     //Attendre et récuperer les msgs Flash (msgs de confirmation en vert)
     async function waitFlashSuccess(driver, {
         // locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
