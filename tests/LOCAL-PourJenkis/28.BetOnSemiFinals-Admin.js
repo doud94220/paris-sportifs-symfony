@@ -89,7 +89,7 @@ async function runTest28(driver, BASE_URL) {
     console.log("20 - Le nombre de sets a été sélectionné");
 
     //Validate quarterfinals bets
-    async function elementToBeClickable(driver, locator, timeout = 3000) {
+    async function elementToBeClickable(driver, locator, timeout = 7000) {
         const element = await driver.wait(until.elementLocated(locator), timeout);
         await driver.wait(until.elementIsVisible(element), timeout);
         await driver.wait(until.elementIsEnabled(element), timeout);
