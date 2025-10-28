@@ -68,6 +68,13 @@ async function runTest21(driver, BASE_URL) {
 
         // Rien trouvé dans le temps imparti
         await debugAlerts(driver);
+
+        ////////// Tempo Debug
+        // Donne 200–400 ms au DOM pour peindre le flash éventuel
+        await driver.sleep(400);
+        // Faire capture d'écran pour voi ce qui se passe en prod
+        await dumpAfterClick(driver, 'CaptureDom');
+
         throw lastErr ?? new Error('Timeout waiting for success flash');
     }
 
