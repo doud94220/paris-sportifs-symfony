@@ -3,6 +3,84 @@ const { strictEqual } = require('assert');
 
 async function runTest28(driver, BASE_URL) {
 
+    async function scrollIntoViewCentered(driver, el) {
+        await driver.executeScript(
+            "arguments[0].scrollIntoView({block:'center', inline:'center'});", el
+        );
+        // petite pause pour laisser finir un éventuel sticky header/animation
+        await driver.sleep(150);
+    }
+
+    async function isCovered(driver, el) {
+        // vérifie si l’élément est le top-most au centre de sa bbox
+        const rect = await el.getRect();
+        const centerX = Math.floor(rect.x + rect.width / 2);
+        const centerY = Math.floor(rect.y + rect.height / 2);
+        return await driver.executeScript(function (x, y, el) {
+            const e = document.elementFromPoint(x, y);
+            return e && e !== el && !el.contains(e);
+        }, centerX, centerY, el);
+    }
+
+    //Validate Semifinal bets
+    async function elementToBeClickable(driver, locator, timeout = 10000) {
+        const el = await driver.wait(until.elementLocated(locator), timeout);
+        await driver.wait(until.elementIsVisible(el), timeout);
+        await driver.wait(until.elementIsEnabled(el), timeout);
+        await scrollIntoViewCentered(driver, el);
+        return el;
+    }
+
+    //Essaie de cliquer proprement, avec retries et fallback JS si intercepté.
+    async function clickSafely(driver, locator, {
+        retries = 3,
+        retryDelayMs = 250,
+        waitAfterMs = 100
+    } = {}) {
+        let lastErr;
+        for (let i = 0; i < retries; i++) {
+            try {
+                const el = await elementToBeClickable(driver, locator, 10000);
+                await scrollIntoViewCentered(driver, el);
+
+                // si recouvert, on patiente un peu et on recheck
+                if (await isCovered(driver, el)) {
+                    await driver.sleep(retryDelayMs);
+                    if (await isCovered(driver, el)) throw new Error('Element covered');
+                }
+
+                // tentative de clic natif
+                await el.click();
+                await driver.sleep(waitAfterMs);
+                return;
+            } catch (e) {
+                lastErr = e;
+                // fallback: JS click si c’est juste un intercept
+                if (e.name === 'ElementClickInterceptedError' || /covered/i.test(String(e))) {
+                    try {
+                        const el = await driver.findElement(locator);
+                        await scrollIntoViewCentered(driver, el);
+                        await driver.executeScript("arguments[0].click();", el);
+                        await driver.sleep(waitAfterMs);
+                        return;
+                    } catch (e2) {
+                        lastErr = e2;
+                    }
+                }
+                await driver.sleep(retryDelayMs);
+            }
+        }
+        throw lastErr;
+    }
+
+    async function getClickableButtonFromLabel(driver, labelLocator) {
+        const labelEl = await driver.findElement(labelLocator);
+        const tag = await labelEl.getTagName();
+        if (tag.toLowerCase() === 'button') return labelEl;
+        // remonter au bouton parent si c’est un span/div
+        return await labelEl.findElement(By.xpath('ancestor::button[1]'));
+    }
+
     //Attendre et récuperer les msgs Flash (msgs de confirmation en vert)
     async function waitFlashSuccess(driver, {
         // locator = By.css("div.alert-success > p, .alert, .alert-success, .alert-info, [role='alert'], .toast, .toast-body, .notification, .flash, .flash-message"),
@@ -98,9 +176,9 @@ async function runTest28(driver, BASE_URL) {
         return element;
     }
     console.log("21");
-    const validateBetsButton = await elementToBeClickable(driver, By.id('button-text'));
+    const submitBtn = await getClickableButtonFromLabel(driver, By.id('button-text'));
     console.log("22");
-    await validateBetsButton.click();
+    await clickSafely(driver, By.xpath("//button[descendant-or-self::*[@id='button-text']]"));
     console.log("23");
 
     // const successBetsRegistration = await driver.wait(until.elementLocated(By.css('div.alert-success > p')), 3000);
