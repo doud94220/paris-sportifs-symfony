@@ -2,6 +2,9 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
 async function runTest21(driver, BASE_URL) {
+    //Variables pour la fonction dumpAfterClick()
+    const fs = require('fs');
+    const path = require('path');
 
     // Pour voir le CSS en prod
     async function debugAlerts(driver) {

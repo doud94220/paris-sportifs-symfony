@@ -2,6 +2,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 const { strictEqual } = require('assert');
 
 async function runTest10(driver, BASE_URL) {
+    //Variables pour la fonction dumpAfterClick()
     const fs = require('fs');
     const path = require('path');
 
