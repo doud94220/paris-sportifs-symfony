@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         /*
-            Récupérer mon code source depuis mon dépôt Git (GitHub) dans le workspace de Jenkins :
+            Récupérer mon code source depuis mon dépôt Git (https://github.com/doud94220/paris-sportifs-symfony) dans le workspace de Jenkins :
             => Pour ça, Jenkins va trouver l'URL de mon dépôt GitHub dans la configuration du pipeline du job sur l'URL
                 http://localhost:8080/job/TestsAndDeploySymfonyBetsOnSpecificHerokuServerJob/configure
         */
@@ -171,7 +171,7 @@ pipeline {
 
                     withCredentials([string(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_API_KEY')]) { //charge une clé ou un secret stocké dans Jenkins.
                         //Construit l’URL Git authentifiée pour pousser le code vers Heroku
-                        //A noter que ce nouvrau dépôt n'est pas dans GitHub
+                        //A noter que ce nouveau dépôt n'est pas dans GitHub
                         def herokuUrl = "https://heroku:${HEROKU_API_KEY}@git.heroku.com/tests-symfony-bets.git"
 
                         /* Supprime le remote si jamais il existe déjà (pour éviter les doublons).
@@ -207,7 +207,7 @@ pipeline {
                         echo "🔄 Redémarrage de l'app Heroku..."
 
                         /*
-                            Redémarrage automatique de ton application Heroku via son API REST :
+                            Redémarrage automatique de mon application Heroku via son API REST :
                             = Exécution d'un script PowerShell qui appelle l’API officielle de Heroku pour forcer le redémarrage des dynos (processus Heroku) 
                             = On fait à la main, en PowerShell, ce que ferait un heroku restart en ligne de commande.
 
@@ -216,7 +216,6 @@ pipeline {
                             - Authorization	Ajoute ton token Heroku (HEROKU_API_KEY) pour authentification (type Bearer Token)
 
                             2/ Envoie d'une requête DELETE vers l’API pour redémarrer tous les dynos (les processus applicatifs Heroku).
-
                         */
                         def restartExitCode = powershell(returnStatus: true, script: """
                             \$headers = @{
