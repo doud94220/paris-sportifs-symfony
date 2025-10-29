@@ -31,6 +31,7 @@ const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:8000';
 console.log(`🌍 Tests exécutés sur : ${BASE_URL}`);
 
 //Exécute une promise, mais si elle ne se termine pas avant ms millisecondes, considère que c’est un échec et lève une erreur.”
+// Pas de catch...
 async function withTimeout(promise, ms) {
     let timeoutId;
 
